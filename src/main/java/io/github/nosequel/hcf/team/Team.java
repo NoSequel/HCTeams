@@ -2,7 +2,6 @@ package io.github.nosequel.hcf.team;
 
 import io.github.nosequel.hcf.data.Data;
 import io.github.nosequel.hcf.team.data.TeamData;
-import io.github.nosequel.hcf.team.data.impl.general.GeneralTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
 import jdk.internal.jline.internal.Nullable;
@@ -56,8 +55,10 @@ public class Team {
         this.addData(new PlayerTeamData(this, leaderUuid));
     }
 
+    /**
+     * Sets up all data objects for the team
+     */
     private void setupData() {
-        this.addData(new GeneralTeamData(this));
     }
 
     /**
