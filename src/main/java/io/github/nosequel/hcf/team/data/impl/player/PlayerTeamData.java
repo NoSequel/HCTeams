@@ -1,5 +1,6 @@
 package io.github.nosequel.hcf.team.data.impl.player;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.data.impl.SaveableTeamData;
@@ -41,10 +42,16 @@ public class PlayerTeamData implements SaveableTeamData {
         this.team = team;
         this.leader = UUID.fromString(object.get("leader").getAsString());
 
-        JsonUtils.getParser().parse(object.get("members").getAsString()).getAsJsonArray().forEach(element -> members.add(UUID.fromString(element.getAsString())));
-        JsonUtils.getParser().parse(object.get("captains").getAsString()).getAsJsonArray().forEach(element -> captains.add(UUID.fromString(element.getAsString())));
-        JsonUtils.getParser().parse(object.get("coLeaders").getAsString()).getAsJsonArray().forEach(element -> coLeaders.add(UUID.fromString(element.getAsString())));
+        ImmutableMap.of(
+                "members", this.members,
+                "captains", this.captains,
+                "coLeaders", this.coLeaders
+        ).forEach((key, value) -> JsonUtils.getParser()
+                .parse(object.get(key).getAsString()).getAsJsonArray()
+                .forEach(element -> value.add(UUID.fromString(element.getAsString()))));
+
     }
+
 
     /**
      * Promote a player to a higher role
