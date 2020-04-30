@@ -30,6 +30,12 @@ public class PlayerTeamData implements SaveableTeamData {
         this.leader = leaderUuid;
     }
 
+    public PlayerTeamData(Team team, JsonObject object) {
+        this.team = team;
+
+        this.leader = UUID.fromString(object.get("leader").getAsString());
+    }
+
     /**
      * Promote a player to a higher role
      *

@@ -1,4 +1,4 @@
-package io.github.nosequel.hcf.handler;
+package io.github.nosequel.hcf.controller;
 
 public interface Controller {
 
