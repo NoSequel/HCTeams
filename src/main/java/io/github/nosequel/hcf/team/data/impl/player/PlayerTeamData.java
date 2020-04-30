@@ -3,6 +3,8 @@ package io.github.nosequel.hcf.team.data.impl.player;
 import com.google.gson.JsonObject;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.data.impl.SaveableTeamData;
+import io.github.nosequel.hcf.util.JsonBuilder;
+import io.github.nosequel.hcf.util.StringUtils;
 import lombok.Getter;
 
 import java.util.*;
@@ -85,6 +87,11 @@ public class PlayerTeamData implements SaveableTeamData {
 
     @Override
     public JsonObject toJson() {
-        return null;
+        return new JsonBuilder()
+                .addProperty("members", StringUtils.fromList((List<?>) members))
+                .addProperty("captains", StringUtils.fromList((List<?>) captains))
+                .addProperty("coLeaders", StringUtils.fromList((List<?>) coLeaders))
+                .addProperty("leader", leader.toString())
+                .get();
     }
 }
