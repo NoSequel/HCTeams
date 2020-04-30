@@ -13,10 +13,11 @@ public class ControllerHandler {
      * @param controllers the controllers
      */
     public ControllerHandler(Controller... controllers) {
-        Arrays.stream(controllers).forEach(controller -> {
-            this.controllers.add(controller);
-            controller.enable();
-        });
+        Arrays.stream(controllers)
+                .forEach(controller -> {
+                    this.controllers.add(controller);
+                    controller.enable();
+                });
     }
 
     /**

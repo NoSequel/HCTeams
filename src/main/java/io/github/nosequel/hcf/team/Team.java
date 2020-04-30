@@ -9,6 +9,7 @@ import jdk.internal.jline.internal.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,31 +91,7 @@ public class Team {
      *
      * @return the display name
      */
-    public String getDisplayName() {
-        final String formattedName = this.name.replace("_", "");
-
-        switch (type) {
-            case PLAYER_TEAM: { // todo: check if player is ally or in the team.
-                return ChatColor.RED + formattedName;
-            }
-
-            case KOTH_TEAM: {
-                return (color == null ? ChatColor.AQUA : color) + formattedName + ChatColor.GOLD + " KOTH";
-            }
-
-            case ROAD_TEAM: {
-                return (color == null ? ChatColor.GOLD : color) + formattedName.replace("Road", " Road");
-            }
-
-            case SYSTEM_TEAM: {
-                return (color == null ? ChatColor.WHITE : color) + formattedName;
-            }
-
-            case SAFEZONE_TEAM: {
-                return (color == null ? ChatColor.GREEN : color) + formattedName;
-            }
-        }
-
-        return "None";
+    public String getDisplayName(Player player) {
+        return this.type.formatName(this, player);
     }
 }
