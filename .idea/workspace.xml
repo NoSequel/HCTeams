@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c9794bd8-a79a-4b78-a6c5-bc3ea623b1c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/JsonUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/StringUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/handler/Controller.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/handler/ControllerHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/PlayerTeamData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/PlayerTeamData.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
