@@ -94,4 +94,14 @@ public class Team {
     public String getDisplayName(Player player) {
         return this.type.formatName(this, player);
     }
+
+    /**
+     * Get the formatted name of the team
+     *
+     * @return the formatted name
+     */
+    public String getFormattedName() {
+        return this.name.replace("_", " ");
+    }
+
 }

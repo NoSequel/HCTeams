@@ -9,9 +9,7 @@ public enum TeamType {
     PLAYER_TEAM {
         @Override
         public String formatName(Team team, Player player) {
-            final String formattedName = team.getName().replace("_", "");
-
-            return ChatColor.RED + formattedName;
+            return ChatColor.RED + team.getFormattedName();
         }
 
     },
@@ -19,9 +17,7 @@ public enum TeamType {
     SAFEZONE_TEAM {
         @Override
         public String formatName(Team team, Player player) {
-            final String formattedName = team.getName().replace("_", "");
-
-            return (team.getColor() == null ? ChatColor.GREEN : team.getColor()) + formattedName;
+            return (team.getColor() == null ? ChatColor.GREEN : team.getColor()) + team.getFormattedName();
         }
 
     },
@@ -29,9 +25,7 @@ public enum TeamType {
     KOTH_TEAM {
         @Override
         public String formatName(Team team, Player player) {
-            final String formattedName = team.getName().replace("_", "");
-
-            return (team.getColor() == null ? ChatColor.AQUA : team.getColor()) + formattedName + ChatColor.GOLD + " KOTH";
+            return (team.getColor() == null ? ChatColor.AQUA : team.getColor()) + team.getFormattedName() + ChatColor.GOLD + " KOTH";
         }
 
     },
@@ -39,9 +33,7 @@ public enum TeamType {
     ROAD_TEAM {
         @Override
         public String formatName(Team team, Player player) {
-            final String formattedName = team.getName().replace("_", "");
-
-            return (team.getColor() == null ? ChatColor.GOLD : team.getColor()) + formattedName.replace("Road", " Road");
+            return (team.getColor() == null ? ChatColor.GOLD : team.getColor()) + team.getFormattedName().replace("Road", " Road");
         }
 
     },
@@ -49,9 +41,8 @@ public enum TeamType {
     SYSTEM_TEAM {
         @Override
         public String formatName(Team team, Player player) {
-            final String formattedName = team.getName().replace("_", "");
 
-            return (team.getColor() == null ? ChatColor.WHITE : team.getColor()) + formattedName;
+            return (team.getColor() == null ? ChatColor.WHITE : team.getColor()) + team.getFormattedName();
         }
 
     };
