@@ -15,7 +15,7 @@ import java.util.UUID;
 public class TeamController implements Controller, Datable<TeamData> {
 
     private final List<Team> teams = new ArrayList<>();
-    private final List<TeamData> data = new ArrayList<>();
+    private final List<Class<TeamData>> registeredData = new ArrayList<>();
 
     /**
      * Find a team by a UUID
@@ -37,8 +37,8 @@ public class TeamController implements Controller, Datable<TeamData> {
      * @return the found data | or null
      */
     public <T extends TeamData> T findData(Class<T> data) {
-        return data.cast(this.data.stream()
-                .filter($data -> $data.getClass().equals(data))
+        return data.cast(this.registeredData.stream()
+                .filter($data -> $data.equals(data))
                 .findFirst().orElse(null));
     }
 }
