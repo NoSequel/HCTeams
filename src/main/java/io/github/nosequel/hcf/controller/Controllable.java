@@ -9,15 +9,9 @@ public interface Controllable<T extends Controller> {
      *
      * @return the controller
      */
+    @SuppressWarnings("unchecked")
     default T getController() {
-        return HCTeams.getInstance().getHandler().findController(this.getType());
+        final Class<T> genericTypeClass = (Class<T>) this.getClass().getTypeParameters()[0].getGenericDeclaration();
+        return HCTeams.getInstance().getHandler().findController(genericTypeClass);
     }
-
-    /**
-     * Get the type of the controller
-     *
-     * @return the type
-     */
-    Class<T> getType();
-
 }
