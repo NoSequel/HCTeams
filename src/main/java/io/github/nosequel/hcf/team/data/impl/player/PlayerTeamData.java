@@ -1,6 +1,7 @@
 package io.github.nosequel.hcf.team.data.impl.player;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.data.impl.SaveableTeamData;
@@ -46,9 +47,12 @@ public class PlayerTeamData implements SaveableTeamData {
                 "members", this.members,
                 "captains", this.captains,
                 "coLeaders", this.coLeaders
-        ).forEach((key, value) -> JsonUtils.getParser()
-                .parse(object.get(key).getAsString()).getAsJsonArray()
-                .forEach(element -> value.add(UUID.fromString(element.getAsString()))));
+        ).forEach((key, value) -> {
+            final String $key = object.get("key").getAsString();
+            final JsonArray jsonArray = JsonUtils.getParser().parse($key).getAsJsonArray();
+
+            jsonArray.forEach(element -> value.add(UUID.fromString(element.getAsString())));
+        });
 
     }
 

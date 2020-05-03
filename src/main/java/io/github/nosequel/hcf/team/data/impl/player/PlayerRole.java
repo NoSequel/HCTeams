@@ -5,6 +5,6 @@ public enum PlayerRole {
     MEMBER,
     CAPTAIN,
     CO_LEADER,
-    LEADER;
+    LEADER
 
 }

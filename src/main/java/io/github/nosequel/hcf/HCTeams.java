@@ -15,7 +15,5 @@ public class HCTeams extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-
     }
-
 }
