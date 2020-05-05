@@ -109,7 +109,7 @@ public class PlayerTeamData implements SaveableTeamData {
 
     @Override
     public String getSavePath() {
-        return "player";
+        return "player_data";
     }
 
     @Override

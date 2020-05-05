@@ -1,7 +1,9 @@
 package io.github.nosequel.hcf.team;
 
 import io.github.nosequel.hcf.data.Data;
+import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.data.TeamData;
+import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
 import jdk.internal.jline.internal.Nullable;
@@ -38,8 +40,6 @@ public class Team {
         this.uuid = uuid == null ? UUID.randomUUID() : uuid;
         this.name = name;
         this.type = type;
-
-        this.setupData();
     }
 
     /**
@@ -52,13 +52,23 @@ public class Team {
      */
     public Team(@Nullable UUID uuid, String name, UUID leaderUuid) {
         this(uuid, name, TeamType.PLAYER_TEAM);
+
         this.addData(new PlayerTeamData(this, leaderUuid));
     }
 
     /**
-     * Sets up all data objects for the team
+     * Constructor for creating a new Team object
+     * This constructor automatically adds a ClaimTeamData to the data list
+     *
+     * @param uuid  the uuid of the team
+     * @param name  the name of the team
+     * @param type  the type of the claim
+     * @param claim the allocated region of the team
      */
-    private void setupData() {
+    public Team(@Nullable UUID uuid, String name, TeamType type, Claim claim) {
+        this(uuid, name, type);
+
+        this.addData(new ClaimTeamData(this, claim));
     }
 
     /**
@@ -104,5 +114,4 @@ public class Team {
     public String getFormattedName() {
         return this.name.replace("_", " ");
     }
-
 }
