@@ -1,5 +1,6 @@
 package io.github.nosequel.hcf.util;
 
+import com.google.gson.JsonObject;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -35,15 +36,31 @@ public class Cuboid {
     }
 
     /**
-     * Load a cuboid from a Map<String,Object>
+     * Load a cuboid from a JsonObject
      *
-     * @param map the map
+     * @param object the {@link JsonObject}
      */
-    public Cuboid(Map<String, Object> map) {
+    public Cuboid(JsonObject object) {
         this(
-                new Location(Bukkit.getWorld((String) map.get("worldName")), (int) map.get("x1"), (int) map.get("y1"), (int) map.get("z1")),
-                new Location(Bukkit.getWorld((String) map.get("worldName")), (int) map.get("x2"), (int) map.get("y2"), (int) map.get("z2"))
+                new Location(Bukkit.getWorld(object.get("worldName").getAsString()), object.get("x1").getAsInt(), object.get("y1").getAsInt(), object.get("z1").getAsInt()),
+                new Location(Bukkit.getWorld(object.get("worldName").getAsString()), object.get("x2").getAsInt(), object.get("y2").getAsInt(), object.get("z2").getAsInt())
         );
+    }
+
+    /**
+     * Get a JsonObject from a Cuboid JsonObject
+     *
+     * @return the {@link JsonObject}
+     */
+    public JsonObject toJson() {
+        return new JsonBuilder()
+                .addProperty("worldName", this.worldName)
+                .addProperty("x1", this.minX)
+                .addProperty("x2", this.maxX)
+                .addProperty("y1", this.minY)
+                .addProperty("y2", this.maxY)
+                .addProperty("z1", this.minZ)
+                .addProperty("z2", this.maxZ).get();
     }
 
     /**
