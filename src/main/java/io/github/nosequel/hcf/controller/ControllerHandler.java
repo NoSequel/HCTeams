@@ -1,7 +1,10 @@
 package io.github.nosequel.hcf.controller;
 
+import lombok.Getter;
+
 import java.util.*;
 
+@Getter
 public class ControllerHandler {
 
     private final Set<Controller> controllers = new HashSet<>();

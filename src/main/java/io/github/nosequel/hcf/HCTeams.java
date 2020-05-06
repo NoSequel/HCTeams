@@ -1,5 +1,6 @@
 package io.github.nosequel.hcf;
 
+import io.github.nosequel.hcf.controller.Controller;
 import io.github.nosequel.hcf.controller.ControllerHandler;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,5 +16,10 @@ public class HCTeams extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+    }
+
+    @Override
+    public void onDisable() {
+        handler.getControllers().forEach(Controller::disable);
     }
 }
