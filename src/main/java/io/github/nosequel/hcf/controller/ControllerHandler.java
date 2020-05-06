@@ -7,20 +7,6 @@ public class ControllerHandler {
     private final Set<Controller> controllers = new HashSet<>();
 
     /**
-     * Constructor for registering a new ControllerHandler object
-     * The paramaterized controllers will be automatically registered & loaded.
-     *
-     * @param controllers the controllers
-     */
-    public ControllerHandler(Controller... controllers) {
-        Arrays.stream(controllers)
-                .forEach(controller -> {
-                    this.controllers.add(controller);
-                    controller.enable();
-                });
-    }
-
-    /**
      * Find a {@link Controller} by a {@link Class}
      *
      * @param clazz the class
@@ -43,6 +29,7 @@ public class ControllerHandler {
     @SuppressWarnings("unchecked")
     public <T extends Controller> T registerController(Controller controller) {
         if (this.controllers.add(controller)) {
+            controller.enable();
             return (T) controller;
         }
 
