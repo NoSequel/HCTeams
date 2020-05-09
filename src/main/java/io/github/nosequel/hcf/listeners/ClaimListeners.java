@@ -1,6 +1,7 @@
 package io.github.nosequel.hcf.listeners;
 
 import io.github.nosequel.hcf.HCTeams;
+import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -17,8 +18,10 @@ public class ClaimListeners implements Listener {
 
         final Location to = event.getTo();
         final Location from = event.getFrom();
+        final Team teamTo = controller.findTeam(to);
+        final Team teamFrom = controller.findTeam(from);
 
-        if (controller.findTeam(to) != null && controller.findTeam(from) != null) {
+        if (teamTo != null && teamFrom != null && !teamTo.equals(teamFrom)) {
             player.sendMessage("from: " + controller.findTeam(from).getDisplayName(player) + " to: " + controller.findTeam(to).getDisplayName(player));
         }
     }
