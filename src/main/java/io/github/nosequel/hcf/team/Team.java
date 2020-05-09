@@ -1,5 +1,6 @@
 package io.github.nosequel.hcf.team;
 
+import io.github.nosequel.hcf.controller.Controllable;
 import io.github.nosequel.hcf.data.Data;
 import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.data.TeamData;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class Team {
+public class Team implements Controllable<TeamController> {
 
     private final TeamType type;
     private final List<Data> data = new ArrayList<>();
@@ -40,6 +41,8 @@ public class Team {
         this.uuid = uuid == null ? UUID.randomUUID() : uuid;
         this.name = name;
         this.type = type;
+
+        this.getController().getTeams().add(this);
     }
 
     /**

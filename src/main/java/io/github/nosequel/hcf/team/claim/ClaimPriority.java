@@ -8,6 +8,11 @@ public enum ClaimPriority {
 
     private final int priority;
 
+    /**
+     * Constructor for creating a new ClaimPriority enumeration with a priority.
+     *
+     * @param priority
+     */
     ClaimPriority(int priority) {
         this.priority = priority;
     }

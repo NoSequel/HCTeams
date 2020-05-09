@@ -2,6 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c9794bd8-a79a-4b78-a6c5-bc3ea623b1c8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/listeners/ClaimListeners.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/HCTeams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/HCTeams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/controller/Controllable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/controller/Controllable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/TeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/TeamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/claim/ClaimPriority.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/claim/ClaimPriority.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/Cuboid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/Cuboid.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,7 +46,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="terminal" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -50,6 +59,34 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="HCTeams [clean,install]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+                <option value="install" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SvnConfiguration">
     <configuration />

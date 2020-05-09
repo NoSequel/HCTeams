@@ -1,0 +1,4 @@
+name: HCTeams
+version: '1.0-SNAPSHOT'
+author: 'NoSQL, NV6, pcrunn'
+main: io.github.nosequel.hcf.HCTeams

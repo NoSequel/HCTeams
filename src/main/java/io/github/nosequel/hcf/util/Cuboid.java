@@ -5,8 +5,6 @@ import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import java.util.Map;
-
 @Data
 public class Cuboid {
 
