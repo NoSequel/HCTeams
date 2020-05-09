@@ -68,6 +68,6 @@ public class Cuboid {
      * @return whether the location is in the cuboid
      */
     public boolean isLocationInCuboid(Location location) {
-        return (minX <= location.getBlockX() && minY <= location.getBlockY() && minZ <= location.getBlockZ()) && (maxX >= location.getBlockX() && maxY >= location.getBlockY() && maxZ >= location.getBlockZ());
+        return (minX <= location.getBlockX() && minZ <= location.getBlockZ()) && (maxX >= location.getBlockX() && maxZ >= location.getBlockZ());
     }
 }
