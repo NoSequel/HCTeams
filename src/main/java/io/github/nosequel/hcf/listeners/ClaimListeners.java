@@ -3,6 +3,7 @@ package io.github.nosequel.hcf.listeners;
 import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +23,10 @@ public class ClaimListeners implements Listener {
         final Team teamFrom = controller.findTeam(from);
 
         if (teamTo != null && teamFrom != null && !teamTo.equals(teamFrom)) {
-            player.sendMessage("from: " + controller.findTeam(from).getDisplayName(player) + " to: " + controller.findTeam(to).getDisplayName(player));
+            player.sendMessage(new String[]{
+                    ChatColor.WHITE + "from: " + teamFrom.getDisplayName(player) + ChatColor.GRAY + "[" + teamFrom.getType().name() + "]",
+                    ChatColor.WHITE + "to: " + teamTo.getDisplayName(player) + ChatColor.GRAY + "[" + teamTo.getType().name() + "]"
+            });
         }
     }
 }

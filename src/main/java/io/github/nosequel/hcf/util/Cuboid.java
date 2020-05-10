@@ -8,8 +8,8 @@ import org.bukkit.Location;
 @Data
 public class Cuboid {
 
-    private String worldName;
-    private int maxX, maxY, maxZ, minX, minY, minZ;
+    private final String worldName;
+    private final int maxX, maxY, maxZ, minX, minY, minZ;
 
     /**
      * the main constructor for a Cuboid
