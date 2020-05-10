@@ -11,6 +11,7 @@ import jdk.internal.jline.internal.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -98,6 +99,24 @@ public class Team implements Controllable<TeamController> {
         return data.cast(this.data.stream()
                 .filter($data -> $data.getClass().equals(data))
                 .findFirst().orElse(null));
+    }
+
+    /**
+     * Check whether a player can interact with the team's claim
+     *
+     * @param player the player
+     * @return whether he can interact
+     */
+    public boolean canInteract(Player player) {
+        if (player.hasPermission("hcteams.bypass.interact")) {
+            return player.getGameMode().equals(GameMode.CREATIVE);
+        }
+
+        if (this.getType().equals(TeamType.PLAYER_TEAM)) {
+            return this.findData(PlayerTeamData.class).contains(player);
+        }
+
+        return this.type.canInteract;
     }
 
     /**

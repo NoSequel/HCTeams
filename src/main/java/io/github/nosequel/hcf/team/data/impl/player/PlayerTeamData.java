@@ -9,6 +9,7 @@ import io.github.nosequel.hcf.util.JsonBuilder;
 import io.github.nosequel.hcf.util.JsonUtils;
 import io.github.nosequel.hcf.util.StringUtils;
 import lombok.Getter;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -120,5 +121,15 @@ public class PlayerTeamData implements SaveableTeamData {
                 .addProperty("coLeaders", StringUtils.fromList((List<?>) coLeaders))
                 .addProperty("leader", leader.toString())
                 .get();
+    }
+
+    /**
+     * Check whether a player is in the team
+     *
+     * @param player the player
+     * @return whether he's in the team
+     */
+    public boolean contains(Player player) {
+        return this.members.contains(player.getUniqueId()) || this.captains.contains(player.getUniqueId()) || this.coLeaders.contains(player.getUniqueId()) || this.leader.equals(player.getUniqueId());
     }
 }
