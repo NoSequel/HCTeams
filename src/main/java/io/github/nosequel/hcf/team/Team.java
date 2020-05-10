@@ -109,7 +109,7 @@ public class Team implements Controllable<TeamController> {
      */
     public boolean canInteract(Player player) {
         if (player.hasPermission("hcteams.bypass.interact")) {
-            return player.getGameMode().equals(GameMode.CREATIVE);
+            return player.getGameMode().equals(GameMode.CREATIVE) || this.type.canInteract;
         }
 
         if (this.getType().equals(TeamType.PLAYER_TEAM)) {

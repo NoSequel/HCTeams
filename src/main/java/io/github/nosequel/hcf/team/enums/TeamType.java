@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public enum TeamType {
 
-    PLAYER_TEAM(true) {
+    PLAYER_TEAM(false) {
         @Override
         public String formatName(Team team, Player player) {
             return ChatColor.RED + team.getFormattedName();
