@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c9794bd8-a79a-4b78-a6c5-bc3ea623b1c8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/commands/TeamCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/Cleanable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/HCTeams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/HCTeams.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/Team.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/TeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/TeamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/PlayerTeamData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/PlayerTeamData.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,9 +21,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>

@@ -22,6 +22,7 @@ import java.util.UUID;
 @Setter
 public class Team implements Controllable<TeamController> {
 
+    private final TeamController teamController = this.getController();
     private final TeamType type;
     private final List<Data> data = new ArrayList<>();
 
@@ -43,7 +44,7 @@ public class Team implements Controllable<TeamController> {
         this.name = name;
         this.type = type;
 
-        this.getController().getTeams().add(this);
+        teamController.getTeams().add(this);
     }
 
     /**
@@ -117,6 +118,18 @@ public class Team implements Controllable<TeamController> {
         }
 
         return this.type.canInteract;
+    }
+
+    /**
+     * Disband the current team
+     */
+    public void disband() {
+        if(this.type.equals(TeamType.PLAYER_TEAM)) {
+            final PlayerTeamData playerTeamData = this.findData(PlayerTeamData.class);
+            playerTeamData.broadcast(ChatColor.RED + "Your current team has been disbanded.");
+        }
+
+        teamController.getTeams().remove(this);
     }
 
     /**

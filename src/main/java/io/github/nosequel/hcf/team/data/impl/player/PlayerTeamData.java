@@ -9,14 +9,18 @@ import io.github.nosequel.hcf.util.JsonBuilder;
 import io.github.nosequel.hcf.util.JsonUtils;
 import io.github.nosequel.hcf.util.StringUtils;
 import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
+@Setter
 public class PlayerTeamData implements SaveableTeamData {
 
-    private final UUID leader;
+    private UUID leader;
 
     private final Set<UUID> members = new HashSet<>();
     private final Set<UUID> captains = new HashSet<>();
@@ -106,6 +110,33 @@ public class PlayerTeamData implements SaveableTeamData {
                 PlayerRole.MEMBER : this.captains.contains(uuid) ?
                 PlayerRole.CAPTAIN : this.coLeaders.contains(uuid) ?
                 PlayerRole.CO_LEADER : null;
+    }
+
+
+    /**
+     * Get all online members
+     *
+     * @return the online members
+     */
+    public List<Player> getOnlineMembers() {
+        final List<UUID> members = new ArrayList<>(this.captains);
+        members.addAll(this.members);
+        members.addAll(this.coLeaders);
+        members.add(this.leader);
+
+        return members.stream()
+                .map(Bukkit::getPlayer)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Broadcast a message to all the members
+     *
+     * @param message the message
+     */
+    public void broadcast(String message) {
+        this.getOnlineMembers().forEach(player -> player.sendMessage(StringUtils.translate(message)));
     }
 
     @Override
