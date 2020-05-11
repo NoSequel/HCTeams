@@ -22,9 +22,10 @@ public class TeamCommand implements Controllable<TeamController> {
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
 
                 ChatColor.BLUE + "General Commands",
-                
+
                 ChatColor.YELLOW + "/t create <name>" + ChatColor.GRAY + " - Create a new team",
                 ChatColor.YELLOW + "/t disband" + ChatColor.GRAY + " - Disband your current team",
+                ChatColor.YELLOW + "/t rename" + ChatColor.GRAY + " - Rename your team's name",
 
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56)
         });
@@ -60,19 +61,53 @@ public class TeamCommand implements Controllable<TeamController> {
 
     @Command(aliases = {"disband"}, desc = "Command for disbanding a team")
     public void disband(@Sender Player player) {
+        if (!this.shouldProceed(player, PlayerRole.LEADER)) {
+            return;
+        }
+
+        final Team team = controller.findTeam(player);
+
+        team.disband();
+        player.sendMessage(ChatColor.YELLOW + "You have disbanded the team " + ChatColor.WHITE + team.getName());
+    }
+
+    @Command(aliases = "rename", desc = "Command for renaming a team")
+    public void rename(@Sender Player player, String name) {
+        if (!this.shouldProceed(player, PlayerRole.CO_LEADER)) {
+            return;
+        }
+
+        final Team team = controller.findTeam(player);
+
+        team.setName(name);
+        team.findData(PlayerTeamData.class).broadcast(ChatColor.YELLOW + "Your current team has been renamed to " + ChatColor.WHITE + name);
+    }
+
+    /**
+     * Check whether the command should proceed the execution
+     *
+     * @param player       the player
+     * @param requiredRole the role which is required to perform the command
+     * @return whether it should proceed
+     */
+    private boolean shouldProceed(Player player, PlayerRole requiredRole) {
         final Team team = controller.findTeam(player);
 
         if (team == null) {
             player.sendMessage(ChatColor.RED + "You are not in a team!");
-            return;
+            return false;
         }
 
-        if (!controller.findTeam(player).findData(PlayerTeamData.class).getRole(player.getUniqueId()).equals(PlayerRole.LEADER)) {
-            player.sendMessage(ChatColor.RED + "You must be the leader of your team to disband it!");
-            return;
+        if (requiredRole.isHigher(controller.findTeam(player).findData(PlayerTeamData.class).getRole(player.getUniqueId()))) {
+            final String $requiredRole = requiredRole.equals(PlayerRole.MEMBER)
+                    ? "a member" : requiredRole.equals(PlayerRole.CAPTAIN)
+                    ? "a captain" : requiredRole.equals(PlayerRole.CO_LEADER)
+                    ? "a co leader" : "the leader";
+
+            player.sendMessage(ChatColor.RED + "You must be " + $requiredRole + " of your team to execute this command!");
+            return false;
         }
 
-        team.disband();
-        player.sendMessage(ChatColor.YELLOW + "You have disbanded the team " + ChatColor.WHITE + team.getName());
+        return true;
     }
 }
