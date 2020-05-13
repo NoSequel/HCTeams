@@ -3,6 +3,8 @@ package io.github.nosequel.hcf.listeners;
 import io.github.nosequel.hcf.controller.Controllable;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
+import io.github.nosequel.hcf.team.claim.Claim;
+import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -26,9 +28,12 @@ public class ClaimListeners implements Listener, Controllable<TeamController> {
         final Team teamFrom = controller.findTeam(from);
 
         if (teamTo != null && teamFrom != null && !teamTo.equals(teamFrom)) {
+            final Claim teamToClaim = teamTo.findData(ClaimTeamData.class).getClaim();
+            final Claim teamFromClaim = teamFrom.findData(ClaimTeamData.class).getClaim();
+
             player.sendMessage(new String[]{
-                    ChatColor.WHITE + "from: " + teamFrom.getDisplayName(player) + ChatColor.GRAY + "[" + teamFrom.getType().name() + "]",
-                    ChatColor.WHITE + "to: " + teamTo.getDisplayName(player) + ChatColor.GRAY + "[" + teamTo.getType().name() + "]"
+                    ChatColor.YELLOW + "Leaving: " + teamFrom.getDisplayName(player) + ChatColor.YELLOW + "(" + (teamFromClaim.isDeathban() ? ChatColor.RED + "Deathban" : ChatColor.GREEN + "Non-Deathban") + ChatColor.YELLOW + ")",
+                    ChatColor.YELLOW + "Entering: " + teamTo.getDisplayName(player) + ChatColor.YELLOW + "(" + (teamToClaim.isDeathban() ? ChatColor.RED + "Deathban" : ChatColor.GREEN + "Non-Deathban") + ChatColor.YELLOW + ")"
             });
         }
     }

@@ -15,6 +15,8 @@ public class Claim {
     private final ClaimPriority priority;
     private final Cuboid cuboid;
 
+    private boolean deathban = true;
+
     /**
      * Constructor for creating a new Claim with a paramaterized claim priority
      *

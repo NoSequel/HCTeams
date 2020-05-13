@@ -7,7 +7,6 @@ import io.github.nosequel.hcf.team.data.TeamData;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
-import jdk.internal.jline.internal.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.ChatColor;
@@ -26,7 +25,6 @@ public class Team implements Controllable<TeamController> {
     private final TeamType type;
     private final List<Data> data = new ArrayList<>();
 
-    @Nullable
     private ChatColor color;
 
     private UUID uuid;
@@ -39,7 +37,7 @@ public class Team implements Controllable<TeamController> {
      * @param name the name of the team
      * @param type the team type
      */
-    public Team(@Nullable UUID uuid, String name, TeamType type) {
+    public Team(UUID uuid, String name, TeamType type) {
         this.uuid = uuid == null ? UUID.randomUUID() : uuid;
         this.name = name;
         this.type = type;
@@ -55,7 +53,7 @@ public class Team implements Controllable<TeamController> {
      * @param name       the name of the team
      * @param leaderUuid the leader of the team
      */
-    public Team(@Nullable UUID uuid, String name, UUID leaderUuid) {
+    public Team(UUID uuid, String name, UUID leaderUuid) {
         this(uuid, name, TeamType.PLAYER_TEAM);
 
         this.addData(new PlayerTeamData(this, leaderUuid));
@@ -70,7 +68,7 @@ public class Team implements Controllable<TeamController> {
      * @param type  the type of the claim
      * @param claim the allocated region of the team
      */
-    public Team(@Nullable UUID uuid, String name, TeamType type, Claim claim) {
+    public Team(UUID uuid, String name, TeamType type, Claim claim) {
         this(uuid, name, type);
 
         this.addData(new ClaimTeamData(this, claim));

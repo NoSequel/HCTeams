@@ -25,25 +25,13 @@ public class TeamController implements Controller, Datable<TeamData> {
     private final List<Class<TeamData>> registeredData = new ArrayList<>();
 
     public void enable() {
-        new Team(null, "Spawn", TeamType.SAFEZONE_TEAM,
-                new Claim(
-                        new Cuboid(
-                                new Location(Bukkit.getWorlds().get(0), 100, 100, 100),
-                                new Location(Bukkit.getWorlds().get(0), -100, -100, -100)
-                        ),
-                        ClaimPriority.NORMAL
-                )
-        );
+        final Claim spawnClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 100, 100, 100), new Location(Bukkit.getWorlds().get(0), -100, -100, -100)), ClaimPriority.NORMAL);
+        final Claim wildernessClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 2000, 2000, 2000), new Location(Bukkit.getWorlds().get(0), -2000, -2000, -2000)), ClaimPriority.NORMAL);
 
-        new Team(null, "Wilderness", TeamType.WILDERNESS_TEAM,
-                new Claim(
-                        new Cuboid(
-                                new Location(Bukkit.getWorlds().get(0), 2000, 2000, 2000),
-                                new Location(Bukkit.getWorlds().get(0), -2000, -2000, -2000)
-                        ),
-                        ClaimPriority.NORMAL
-                )
-        );
+        spawnClaim.setDeathban(false);
+
+        new Team(null, "Spawn", TeamType.SAFEZONE_TEAM, spawnClaim);
+        new Team(null, "Wilderness", TeamType.WILDERNESS_TEAM, wildernessClaim);
     }
 
     /**
