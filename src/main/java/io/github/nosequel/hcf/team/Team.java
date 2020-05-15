@@ -4,6 +4,7 @@ import io.github.nosequel.hcf.controller.Controllable;
 import io.github.nosequel.hcf.data.Data;
 import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.data.TeamData;
+import io.github.nosequel.hcf.team.data.impl.CosmeticTeamData;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
@@ -42,6 +43,7 @@ public class Team implements Controllable<TeamController> {
         this.name = name;
         this.type = type;
 
+        setupData();
         teamController.getTeams().add(this);
     }
 
@@ -72,6 +74,10 @@ public class Team implements Controllable<TeamController> {
         this(uuid, name, type);
 
         this.addData(new ClaimTeamData(this, claim));
+    }
+
+    private void setupData() {
+        this.addData(new CosmeticTeamData(this));
     }
 
     /**

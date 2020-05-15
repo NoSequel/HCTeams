@@ -26,6 +26,8 @@ public class PlayerTeamData implements SaveableTeamData {
     private final Set<UUID> captains = new HashSet<>();
     private final Set<UUID> coLeaders = new HashSet<>();
 
+    private final int balance = 0;
+
     private final Team team;
 
     /**
@@ -112,6 +114,19 @@ public class PlayerTeamData implements SaveableTeamData {
                 PlayerRole.CO_LEADER : null;
     }
 
+    /**
+     * Get all total members of the team
+     *
+     * @return a list of uuids of all members
+     */
+    public List<UUID> getAllMembers() {
+        final List<UUID> members = new ArrayList<>(this.captains);
+        members.addAll(this.members);
+        members.addAll(this.coLeaders);
+        members.add(this.leader);
+
+        return members;
+    }
 
     /**
      * Get all online members
@@ -119,12 +134,7 @@ public class PlayerTeamData implements SaveableTeamData {
      * @return the online members
      */
     public List<Player> getOnlineMembers() {
-        final List<UUID> members = new ArrayList<>(this.captains);
-        members.addAll(this.members);
-        members.addAll(this.coLeaders);
-        members.add(this.leader);
-
-        return members.stream()
+        return this.getAllMembers().stream()
                 .map(Bukkit::getPlayer)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());

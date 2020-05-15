@@ -1,13 +1,11 @@
 package io.github.nosequel.hcf;
 
-import app.ashcon.intake.bukkit.BukkitIntake;
-import app.ashcon.intake.bukkit.graph.BasicBukkitCommandGraph;
-import app.ashcon.intake.fluent.DispatcherNode;
 import io.github.nosequel.hcf.commands.TeamCommand;
 import io.github.nosequel.hcf.controller.Controller;
 import io.github.nosequel.hcf.controller.ControllerHandler;
 import io.github.nosequel.hcf.listeners.ClaimListeners;
 import io.github.nosequel.hcf.team.TeamController;
+import io.github.nosequel.hcf.util.command.CommandController;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,7 +18,6 @@ public class HCTeams extends JavaPlugin {
 
     private final ControllerHandler handler = new ControllerHandler();
 
-
     @Override
     public void onEnable() {
         // register the instance
@@ -30,12 +27,8 @@ public class HCTeams extends JavaPlugin {
         this.handler.registerController(new TeamController());
 
         // register commands
-        final BasicBukkitCommandGraph graph = new BasicBukkitCommandGraph();
-        final DispatcherNode dispatcherNode = graph.getRootDispatcherNode().registerNode("team", "t", "faction", "f");
-
-        dispatcherNode.registerCommands(new TeamCommand());
-
-        new BukkitIntake(this, graph).register();
+        final CommandController commandController = handler.registerController(new CommandController("hcteams"));
+        commandController.registerCommand(new TeamCommand());
 
         // register listeners
         Bukkit.getPluginManager().registerEvents(new ClaimListeners(), this);

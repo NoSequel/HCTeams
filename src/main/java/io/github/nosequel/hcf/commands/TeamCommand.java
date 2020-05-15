@@ -1,23 +1,32 @@
 package io.github.nosequel.hcf.commands;
 
-import app.ashcon.intake.Command;
-import app.ashcon.intake.bukkit.parametric.annotation.Sender;
 import io.github.nosequel.hcf.controller.Controllable;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
+import io.github.nosequel.hcf.team.data.impl.CosmeticTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerRole;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
+import io.github.nosequel.hcf.team.enums.TeamType;
+import io.github.nosequel.hcf.util.command.annotation.Command;
+import io.github.nosequel.hcf.util.command.annotation.Parameter;
+import io.github.nosequel.hcf.util.command.annotation.Subcommand;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TeamCommand implements Controllable<TeamController> {
 
     private final TeamController controller = this.getController();
 
-    @Command(aliases = {"help", ""}, desc = "Main command for teams")
-    public void help(@Sender Player player) {
+    @Command(label = "faction", aliases = {"f", "team", "t"})
+    @Subcommand(label = "help", parentLabel = "faction")
+    public void help(Player player) {
         player.sendMessage(new String[]{
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
 
@@ -31,8 +40,8 @@ public class TeamCommand implements Controllable<TeamController> {
         });
     }
 
-    @Command(aliases = {"create"}, desc = "Command for creating a new team")
-    public void create(@Sender Player player, String teamName) {
+    @Subcommand(label = "create", parentLabel = "faction")
+    public void create(Player player, @Parameter(name = "teamName") String teamName) {
         if (controller.findTeam(teamName) != null) {
             player.sendMessage(ChatColor.RED + "That team already exists!");
             return;
@@ -59,8 +68,8 @@ public class TeamCommand implements Controllable<TeamController> {
         Bukkit.broadcastMessage(ChatColor.YELLOW + "Team " + ChatColor.BLUE + teamName + ChatColor.YELLOW + " has been " + ChatColor.GREEN + "created " + ChatColor.YELLOW + "by " + ChatColor.WHITE + player.getName());
     }
 
-    @Command(aliases = {"disband"}, desc = "Command for disbanding a team")
-    public void disband(@Sender Player player) {
+    @Subcommand(label = "disband", parentLabel = "faction")
+    public void disband(Player player) {
         if (!this.shouldProceed(player, PlayerRole.LEADER)) {
             return;
         }
@@ -71,8 +80,8 @@ public class TeamCommand implements Controllable<TeamController> {
         player.sendMessage(ChatColor.YELLOW + "You have disbanded the team " + ChatColor.WHITE + team.getName());
     }
 
-    @Command(aliases = "rename", desc = "Command for renaming a team")
-    public void rename(@Sender Player player, String name) {
+    @Subcommand(label = "rename", parentLabel = "faction")
+    public void rename(Player player, @Parameter(name = "new name") String name) {
         if (!this.shouldProceed(player, PlayerRole.CO_LEADER)) {
             return;
         }
@@ -83,6 +92,36 @@ public class TeamCommand implements Controllable<TeamController> {
         team.findData(PlayerTeamData.class).broadcast(ChatColor.YELLOW + "Your current team has been renamed to " + ChatColor.WHITE + name);
     }
 
+    @Subcommand(label = "show", parentLabel = "faction")
+    public void show(Player player, @Parameter(name = "team", value = "@SELF") Team team) {
+        if (team == null) {
+            player.sendMessage(ChatColor.RED + "That team does not exist.");
+            return;
+        }
+
+        if (team.getType().equals(TeamType.PLAYER_TEAM)) {
+            final PlayerTeamData data = team.findData(PlayerTeamData.class);
+            final CosmeticTeamData cosmeticTeamData = team.findData(CosmeticTeamData.class);
+
+            final OfflinePlayer leader = Bukkit.getOfflinePlayer(data.getLeader());
+            final Date currentDate = new Date(cosmeticTeamData.getCreateTime());
+
+            player.sendMessage(new String[]{
+                    ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
+                    ChatColor.BLUE + team.getName() + ChatColor.DARK_AQUA + " - " + ChatColor.YELLOW + data.getOnlineMembers().size() + "/" + data.getAllMembers().size(),
+                    "",
+
+                    ChatColor.YELLOW + " Leader: " + (leader.getPlayer() == null ? ChatColor.GRAY : ChatColor.GREEN) + leader.getName() + (leader.getPlayer() == null ? "" : ChatColor.YELLOW + "[" + ChatColor.GREEN + player.getPlayer().getStatistic(Statistic.PLAYER_KILLS) + ChatColor.YELLOW + "]"),
+                    ChatColor.YELLOW + " Balance: " + ChatColor.WHITE + "$" + data.getBalance(),
+                    ChatColor.YELLOW + " Home: " + ChatColor.WHITE + "None",
+
+                    "",
+                    ChatColor.GRAY + ChatColor.ITALIC.toString() + "Founded on " + new SimpleDateFormat("MM/dd/yyyy").format(currentDate) + " at " + new SimpleDateFormat("hh:mm:ss").format(currentDate),
+                    ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
+            });
+        }
+    }
+    
     /**
      * Check whether the command should proceed the execution
      *
