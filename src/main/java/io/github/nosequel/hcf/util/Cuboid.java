@@ -3,7 +3,11 @@ package io.github.nosequel.hcf.util;
 import com.google.gson.JsonObject;
 import lombok.Data;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class Cuboid {
@@ -69,5 +73,22 @@ public class Cuboid {
      */
     public boolean isLocationInCuboid(Location location) {
         return (minX <= location.getBlockX() && minZ <= location.getBlockZ()) && (maxX >= location.getBlockX() && maxZ >= location.getBlockZ());
+    }
+
+    /**
+     * Get all chunks in a cuboid
+     *
+     * @return the chunks
+     */
+    public List<Chunk> getChunks() {
+        final List<Chunk> chunks = new ArrayList<>();
+
+        for (int x = this.minX; x < this.maxX; x++) {
+            for (int z = this.minZ; z < this.maxZ; z++) {
+                chunks.add(Bukkit.getWorld(worldName).getChunkAt(x, z));
+            }
+
+        }
+        return chunks;
     }
 }

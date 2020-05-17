@@ -12,6 +12,7 @@ import io.github.nosequel.hcf.util.Cuboid;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -26,12 +27,13 @@ public class TeamController implements Controller, Datable<TeamData> {
 
     public void enable() {
         final Claim spawnClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 100, 100, 100), new Location(Bukkit.getWorlds().get(0), -100, -100, -100)), ClaimPriority.NORMAL);
-        final Claim wildernessClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 2000, 2000, 2000), new Location(Bukkit.getWorlds().get(0), -2000, -2000, -2000)), ClaimPriority.NORMAL);
+        final Claim warzoneClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 750, 750, 750), new Location(Bukkit.getWorlds().get(0), -750, -750, -750)), ClaimPriority.NORMAL);
 
         spawnClaim.setDeathban(false);
 
         new Team(null, "Spawn", TeamType.SAFEZONE_TEAM, spawnClaim);
-        new Team(null, "Wilderness", TeamType.WILDERNESS_TEAM, wildernessClaim);
+        new Team(null, "Wilderness", TeamType.WILDERNESS_TEAM);
+        new Team(null, "Warzone", TeamType.SYSTEM_TEAM, warzoneClaim).setColor(ChatColor.DARK_RED);
     }
 
     /**
@@ -87,7 +89,11 @@ public class TeamController implements Controller, Datable<TeamData> {
                 .filter($claim -> $claim.getCuboid().isLocationInCuboid(location))
                 .findFirst();
 
-        return claim.map(Claim::getTeam).orElse(null);
+        if(claim.isPresent() && claim.get().getTeam() != null) {
+            return claim.get().getTeam();
+        }
+
+        return this.findTeam("Wilderness");
     }
 
     /**

@@ -11,6 +11,7 @@ import io.github.nosequel.hcf.util.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class PlayerTeamData implements SaveableTeamData {
 
     private UUID leader;
+    private Location home;
 
     private final Set<UUID> members = new HashSet<>();
     private final Set<UUID> captains = new HashSet<>();

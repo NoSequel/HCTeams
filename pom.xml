@@ -60,11 +60,6 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-
-        <repository>
-            <id>ashcon.app</id>
-            <url>https://repo.ashcon.app/nexus/content/repositories/snapshots/</url>
-        </repository>
     </repositories>
 
     <dependencies>
