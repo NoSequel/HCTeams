@@ -40,13 +40,21 @@ public class TeamCommand implements Controllable<TeamController> {
         player.sendMessage(new String[]{
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
 
-                ChatColor.BLUE + "General Commands",
+                ChatColor.BLUE + "Faction Help:",
+                ChatColor.GRAY + "This is the primary help command for factions",
 
+                "",
                 ChatColor.YELLOW + "/t create <name>" + ChatColor.GRAY + " - Create a new team",
                 ChatColor.YELLOW + "/t disband" + ChatColor.GRAY + " - Disband your current team",
                 ChatColor.YELLOW + "/t rename <newName>" + ChatColor.GRAY + " - Rename your team's name",
                 ChatColor.YELLOW + "/t invite <target>" + ChatColor.GRAY + " - Invite someone to your team",
-                ChatColor.YELLOW + "/t accept <team> " + ChatColor.GRAY + " - Accept an invite",
+                ChatColor.YELLOW + "/t accept <team>" + ChatColor.GRAY + " - Accept an invite",
+                ChatColor.YELLOW + "/t sethome" + ChatColor.GRAY + " - Set the team's HQ",
+                ChatColor.YELLOW + "/t home" + ChatColor.GRAY + " - Teleport to the team's HQ",
+                ChatColor.YELLOW + "/t promote <player>" + ChatColor.GRAY + " - Promote a player to a higher role",
+                ChatColor.YELLOW + "/t demote <player>" + ChatColor.GRAY + " - Demote a player to a lower role",
+                ChatColor.YELLOW + "/t leader <player>" + ChatColor.GRAY + " - Transfer leadership to someone else",
+
 
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56)
         });
@@ -275,6 +283,103 @@ public class TeamCommand implements Controllable<TeamController> {
             playerTeamData.promotePlayer(player.getUniqueId());
             playerTeamData.broadcast(ChatColor.WHITE + player.getName() + ChatColor.GRAY + " has joined your team.");
         }
+    }
+
+    @Subcommand(label = "promote", parentLabel = "faction")
+    public void promote(Player player, Player target) {
+        if (!this.shouldProceed(player, PlayerRole.LEADER)) {
+            return;
+        }
+
+        final Team team = this.controller.findTeam(player);
+        final PlayerTeamData data = team.findData(PlayerTeamData.class);
+
+        if (data == null) {
+            player.sendMessage(ChatColor.RED + "That command is not executable in this team.");
+            return;
+        }
+
+        if (!data.contains(target)) {
+            player.sendMessage(ChatColor.RED + "That player is not in your team.");
+            return;
+        }
+
+        if(player.equals(target)) {
+            player.sendMessage(ChatColor.RED + "You can't promote yourself.");
+            return;
+        }
+
+        if (data.getRole(target.getUniqueId()).priority >= PlayerRole.CO_LEADER.priority) {
+            player.sendMessage(ChatColor.GRAY + "To transfer leadership, use /team leader <player>");
+            return;
+        }
+
+        data.promotePlayer(target.getUniqueId());
+        data.broadcast(ChatColor.WHITE + target.getName() + ChatColor.GRAY + " has been promoted to " + ChatColor.WHITE + data.getRole(target.getUniqueId()).name());
+    }
+
+    @Subcommand(label = "demote", parentLabel = "faction")
+    public void demote(Player player, Player target) {
+        if (!this.shouldProceed(player, PlayerRole.LEADER)) {
+            return;
+        }
+
+        final Team team = this.controller.findTeam(player);
+        final PlayerTeamData data = team.findData(PlayerTeamData.class);
+
+        if (data == null) {
+            player.sendMessage(ChatColor.RED + "That command is not executable in this team.");
+            return;
+        }
+
+        if (!data.contains(target)) {
+            player.sendMessage(ChatColor.RED + "That player is not in your team.");
+            return;
+        }
+
+        if(player.equals(target)) {
+            player.sendMessage(ChatColor.RED + "You can't demote yourself.");
+            return;
+        }
+
+        if (data.getRole(target.getUniqueId()).equals(PlayerRole.MEMBER)) {
+            player.sendMessage(ChatColor.GRAY + "To kick a player, use /team kick <player>");
+            return;
+        }
+
+
+        data.demotePlayer(target.getUniqueId());
+        data.broadcast(ChatColor.WHITE + target.getName() + ChatColor.GRAY + " has been demoted to " + ChatColor.WHITE + data.getRole(target.getUniqueId()).name());
+    }
+
+    @Subcommand(label = "leader", parentLabel = "faction")
+    public void leader(Player player, Player target) {
+        if (!this.shouldProceed(player, PlayerRole.LEADER)) {
+            return;
+        }
+
+        final Team team = this.controller.findTeam(player);
+        final PlayerTeamData data = team.findData(PlayerTeamData.class);
+
+        if (data == null) {
+            player.sendMessage(ChatColor.RED + "That command is not executable in this team.");
+            return;
+        }
+
+        if (!data.contains(target)) {
+            player.sendMessage(ChatColor.RED + "That player is not in your team.");
+            return;
+        }
+
+        if(player.equals(target)) {
+            player.sendMessage(ChatColor.RED + "You can't transfer ownership to yourself.");
+            return;
+        }
+
+        data.setLeader(target.getUniqueId());
+        data.getCoLeaders().add(player.getUniqueId());
+
+        data.broadcast(ChatColor.WHITE + player.getName() + ChatColor.GRAY + " has transferred the team's ownership to " + ChatColor.WHITE + target.getName());
     }
 
     /**

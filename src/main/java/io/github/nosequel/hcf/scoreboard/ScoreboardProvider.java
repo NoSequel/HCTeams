@@ -16,7 +16,7 @@ public class ScoreboardProvider implements AssembleAdapter {
 
     @Override
     public String getTitle(Player player) {
-        return ChatColor.GOLD + ChatColor.BOLD.toString() + "Squads" + ChatColor.RED + " [Map 1]";
+        return ChatColor.GOLD + ChatColor.BOLD.toString() + "Vesta" + ChatColor.RED + " [Squads]";
     }
 
     @Override
