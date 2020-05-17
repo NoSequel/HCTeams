@@ -7,6 +7,7 @@ import io.github.nosequel.hcf.team.data.TeamData;
 import io.github.nosequel.hcf.team.data.impl.CosmeticTeamData;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
+import io.github.nosequel.hcf.team.data.impl.player.invites.InviteTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
 import lombok.Getter;
 import lombok.Setter;
@@ -78,6 +79,10 @@ public class Team implements Controllable<TeamController> {
 
     private void setupData() {
         this.addData(new CosmeticTeamData(this));
+
+        if(this.type.equals(TeamType.PLAYER_TEAM)) {
+            this.addData(new InviteTeamData());
+        }
     }
 
     /**

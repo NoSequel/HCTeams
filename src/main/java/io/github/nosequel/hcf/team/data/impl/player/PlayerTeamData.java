@@ -62,9 +62,16 @@ public class PlayerTeamData implements SaveableTeamData {
 
             jsonArray.forEach(element -> value.add(UUID.fromString(element.getAsString())));
         });
-
     }
 
+    /**
+     * Add a player to the team
+     *
+     * @param player the player
+     */
+    public void join(Player player) {
+        this.members.add(player.getUniqueId());
+    }
 
     /**
      * Promote a player to a higher role

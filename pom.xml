@@ -60,6 +60,11 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -85,6 +90,12 @@
             <groupId>org.mongodb</groupId>
             <artifactId>bson</artifactId>
             <version>4.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ThatKawaiiSam</groupId>
+            <artifactId>Assemble</artifactId>
+            <version>master-105d9baddc-1</version>
         </dependency>
     </dependencies>
 

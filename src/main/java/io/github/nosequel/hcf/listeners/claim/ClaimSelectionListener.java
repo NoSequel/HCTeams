@@ -32,7 +32,7 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
             final ClaimSelectionData data = playerData.findData(ClaimSelectionData.class);
             final ClaimSelection claimSelection = data.getClaimSelection();
             final Action action = event.getAction();
-            
+
             switch (action) {
                 case LEFT_CLICK_BLOCK: {
                     claimSelection.setLocation1(event.getClickedBlock().getLocation());

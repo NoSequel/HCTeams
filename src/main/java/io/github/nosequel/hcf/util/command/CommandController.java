@@ -2,10 +2,7 @@ package io.github.nosequel.hcf.util.command;
 
 import io.github.nosequel.hcf.controller.Controller;
 import io.github.nosequel.hcf.util.command.adapter.TypeAdapter;
-import io.github.nosequel.hcf.util.command.adapter.defaults.IntegerTypeAdapter;
-import io.github.nosequel.hcf.util.command.adapter.defaults.LongTypeAdapter;
-import io.github.nosequel.hcf.util.command.adapter.defaults.TeamTypeAdapter;
-import io.github.nosequel.hcf.util.command.adapter.defaults.UUIDTypeAdapter;
+import io.github.nosequel.hcf.util.command.adapter.defaults.*;
 import io.github.nosequel.hcf.util.command.annotation.Command;
 import io.github.nosequel.hcf.util.command.annotation.Subcommand;
 import io.github.nosequel.hcf.util.command.data.CommandData;
@@ -43,7 +40,7 @@ public class CommandController implements Controller {
         instance = this;
 
         this.fallbackPrefix = fallbackPrefix;
-        this.typeAdapters.addAll(Arrays.asList(new UUIDTypeAdapter(), new LongTypeAdapter(), new IntegerTypeAdapter(), new TeamTypeAdapter()));
+        this.typeAdapters.addAll(Arrays.asList(new UUIDTypeAdapter(), new LongTypeAdapter(), new IntegerTypeAdapter(), new TeamTypeAdapter(), new PlayerTypeAdapter()));
     }
 
     /**

@@ -12,6 +12,7 @@ import io.github.nosequel.hcf.team.data.impl.CosmeticTeamData;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerRole;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
+import io.github.nosequel.hcf.team.data.impl.player.invites.InviteTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
 import io.github.nosequel.hcf.util.command.annotation.Command;
 import io.github.nosequel.hcf.util.command.annotation.Parameter;
@@ -40,7 +41,9 @@ public class TeamCommand implements Controllable<TeamController> {
 
                 ChatColor.YELLOW + "/t create <name>" + ChatColor.GRAY + " - Create a new team",
                 ChatColor.YELLOW + "/t disband" + ChatColor.GRAY + " - Disband your current team",
-                ChatColor.YELLOW + "/t rename" + ChatColor.GRAY + " - Rename your team's name",
+                ChatColor.YELLOW + "/t rename <newName>" + ChatColor.GRAY + " - Rename your team's name",
+                ChatColor.YELLOW + "/t invite <target>" + ChatColor.GRAY + " - Invite someone to your team",
+                ChatColor.YELLOW + "/t accept <team> " + ChatColor.GRAY + " - Accept an invite",
 
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56)
         });
@@ -93,12 +96,13 @@ public class TeamCommand implements Controllable<TeamController> {
         }
 
         final Team team = controller.findTeam(player);
+        final PlayerTeamData data = team.findData(PlayerTeamData.class);
 
         team.setName(name);
-        team.findData(PlayerTeamData.class).broadcast(ChatColor.YELLOW + "Your current team has been renamed to " + ChatColor.WHITE + name);
+        data.broadcast(ChatColor.GRAY + "Your team's has been renamed to " + ChatColor.WHITE + name);
     }
 
-    @Subcommand(label = "show", parentLabel = "faction")
+    @Subcommand(label = "show", aliases = {"info", "who", "i"}, parentLabel = "faction")
     public void show(Player player, @Parameter(name = "team", value = "@SELF") Team team) {
         if (team == null) {
             player.sendMessage(ChatColor.RED + "That team does not exist.");
@@ -219,6 +223,56 @@ public class TeamCommand implements Controllable<TeamController> {
                 ChatColor.YELLOW + "To cancel claiming, sneak while you press " + Action.RIGHT_CLICK_AIR.name(),
                 ""
         });
+    }
+
+    @Subcommand(label = "invite", parentLabel = "faction")
+    public void invite(Player player, Player target) {
+        if (!this.shouldProceed(player, PlayerRole.CAPTAIN)) {
+            return;
+        }
+
+        final Team team = this.controller.findTeam(player);
+        final PlayerTeamData playerTeamData = team.findData(PlayerTeamData.class);
+
+        if (playerTeamData != null && !playerTeamData.contains(target)) {
+            final InviteTeamData inviteTeamData = team.findData(InviteTeamData.class);
+
+            if (inviteTeamData.hasInvite(target)) {
+                player.sendMessage(ChatColor.RED + "That player has already been invited to that team.");
+                return;
+            }
+
+            inviteTeamData.invite(target);
+            player.sendMessage(ChatColor.GRAY + "You have invited " + target.getName() + " to your team.");
+
+            target.sendMessage(new String[]{
+                    ChatColor.GRAY + "You have been invited to join " + ChatColor.WHITE + team.getName(),
+                    ChatColor.GRAY + "Type /team accept " + team.getName() + " to accept the invite."
+            });
+        }
+    }
+
+    @Subcommand(label = "accept", aliases = "join", parentLabel = "faction")
+    public void accept(Player player, Team team) {
+        final PlayerTeamData playerTeamData = team.findData(PlayerTeamData.class);
+        final InviteTeamData inviteTeamData = team.findData(InviteTeamData.class);
+
+        if (playerTeamData == null || inviteTeamData == null) {
+            player.sendMessage(ChatColor.RED + "That team is not joinable.");
+        } else {
+            if (!inviteTeamData.hasInvite(player)) {
+                player.sendMessage(ChatColor.RED + "That team has not invited you.");
+                return;
+            }
+
+            if (playerTeamData.contains(player)) {
+                player.sendMessage(ChatColor.RED + "You are already in that team.");
+                return;
+            }
+
+            playerTeamData.promotePlayer(player.getUniqueId());
+            playerTeamData.broadcast(ChatColor.WHITE + player.getName() + ChatColor.GRAY + " has joined your team.");
+        }
     }
 
     /**
