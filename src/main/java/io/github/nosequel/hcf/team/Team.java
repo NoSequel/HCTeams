@@ -107,6 +107,19 @@ public class Team implements Controllable<TeamController> {
     }
 
     /**
+     * Set the team's claim to a new claim
+     *
+     * @param claim the claim
+     */
+    public void addClaim(Claim claim) {
+        if(this.findData(ClaimTeamData.class) != null) {
+            this.getData().remove(this.findData(ClaimTeamData.class));
+        }
+
+        this.addData(new ClaimTeamData(this, claim));
+    }
+
+    /**
      * Check whether a player can interact with the team's claim
      *
      * @param player the player

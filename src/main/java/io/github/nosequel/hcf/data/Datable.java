@@ -9,6 +9,6 @@ public interface Datable<T extends Data> {
      *
      * @return the registered data classes
      */
-    List<Class<T>> getRegisteredData();
+    List<Class<? extends T>> getRegisteredData();
 
 }

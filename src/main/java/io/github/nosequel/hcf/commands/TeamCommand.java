@@ -1,8 +1,13 @@
 package io.github.nosequel.hcf.commands;
 
+import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.controller.Controllable;
+import io.github.nosequel.hcf.player.PlayerData;
+import io.github.nosequel.hcf.player.PlayerDataController;
+import io.github.nosequel.hcf.player.data.ClaimSelectionData;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
+import io.github.nosequel.hcf.team.claim.selection.ClaimSelection;
 import io.github.nosequel.hcf.team.data.impl.CosmeticTeamData;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerRole;
@@ -14,6 +19,7 @@ import io.github.nosequel.hcf.util.command.annotation.Subcommand;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,6 +28,7 @@ import java.util.stream.Collectors;
 public class TeamCommand implements Controllable<TeamController> {
 
     private final TeamController controller = this.getController();
+    private final PlayerDataController playerDataController = HCTeams.getInstance().getHandler().findController(PlayerDataController.class);
 
     @Command(label = "faction", aliases = {"f", "team", "t"})
     @Subcommand(label = "help", parentLabel = "faction")
@@ -186,6 +193,32 @@ public class TeamCommand implements Controllable<TeamController> {
             player.teleport(data.getHome());
             player.sendMessage(ChatColor.GRAY + "You have been teleported to your team's HQ.");
         }
+    }
+
+    @Subcommand(label = "claim", parentLabel = "faction")
+    public void execute(Player player) {
+        if (!shouldProceed(player, PlayerRole.CAPTAIN)) {
+            return;
+        }
+
+        final PlayerData playerData = this.playerDataController.findPlayerData(player.getUniqueId());
+        final Team team = this.controller.findTeam(player);
+
+        if (playerData.hasData(ClaimSelectionData.class)) {
+            player.sendMessage(ChatColor.RED + "You are already claiming.");
+            return;
+        }
+
+        playerData.addData(new ClaimSelectionData(new ClaimSelection(team)));
+        player.sendMessage(new String[]{
+                "",
+                ChatColor.GREEN + ChatColor.BOLD.toString() + "You are currently claiming for your own faction,",
+                ChatColor.GRAY + "* Click " + Action.RIGHT_CLICK_BLOCK.name() + " for the first position",
+                ChatColor.GRAY + "* Click " + Action.LEFT_CLICK_BLOCK.name() + " for the second position",
+                ChatColor.YELLOW + "To finish your claiming, sneak while you press " + Action.LEFT_CLICK_AIR.name(),
+                ChatColor.YELLOW + "To cancel claiming, sneak while you press " + Action.RIGHT_CLICK_AIR.name(),
+                ""
+        });
     }
 
     /**

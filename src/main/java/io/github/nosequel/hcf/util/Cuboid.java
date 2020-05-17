@@ -27,12 +27,12 @@ public class Cuboid {
         }
 
         this.maxX = Math.max(location1.getBlockX(), location2.getBlockX());
-        this.maxY = Math.max(location1.getBlockX(), location2.getBlockX());
-        this.maxZ = Math.max(location1.getBlockX(), location2.getBlockX());
+        this.maxY = Math.max(location1.getBlockY(), location2.getBlockY());
+        this.maxZ = Math.max(location1.getBlockZ(), location2.getBlockZ());
 
         this.minX = Math.min(location1.getBlockX(), location2.getBlockX());
-        this.minY = Math.min(location1.getBlockX(), location2.getBlockX());
-        this.minZ = Math.min(location1.getBlockX(), location2.getBlockX());
+        this.minY = Math.min(location1.getBlockY(), location2.getBlockY());
+        this.minZ = Math.min(location1.getBlockZ(), location2.getBlockZ());
 
         this.worldName = location1.getWorld().getName();
     }
@@ -91,4 +91,9 @@ public class Cuboid {
         }
         return chunks;
     }
+
+    public String toString() {
+        return new Location(Bukkit.getWorld(worldName), minX, minY, minZ).toString() + ", " + new Location(Bukkit.getWorld(worldName), maxX, maxY, maxZ).toString();
+    }
+
 }

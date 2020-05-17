@@ -1,17 +1,17 @@
 package io.github.nosequel.hcf.team.enums;
 
-import io.github.nosequel.hcf.controller.Controllable;
+import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public enum TeamType implements Controllable<TeamController> {
+public enum TeamType {
 
     PLAYER_TEAM(false) {
         @Override
         public String formatName(Team team, Player player) {
-            return (getController().findTeam(player).equals(team) ? ChatColor.GREEN : ChatColor.RED) + team.getFormattedName();
+            return (HCTeams.getInstance().getHandler().findController(TeamController.class).findTeam(player).equals(team) ? ChatColor.GREEN : ChatColor.RED) + team.getFormattedName();
         }
     },
 

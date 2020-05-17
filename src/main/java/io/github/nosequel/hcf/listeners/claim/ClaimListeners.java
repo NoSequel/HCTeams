@@ -1,4 +1,4 @@
-package io.github.nosequel.hcf.listeners;
+package io.github.nosequel.hcf.listeners.claim;
 
 import io.github.nosequel.hcf.controller.Controllable;
 import io.github.nosequel.hcf.team.Team;

@@ -23,16 +23,17 @@ import java.util.*;
 public class TeamController implements Controller, Datable<TeamData> {
 
     private final List<Team> teams = new ArrayList<>();
-    private final List<Class<TeamData>> registeredData = new ArrayList<>();
+    private final List<Class<? extends  TeamData>> registeredData = new ArrayList<>();
 
     public void enable() {
         final Claim spawnClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 100, 100, 100), new Location(Bukkit.getWorlds().get(0), -100, -100, -100)), ClaimPriority.NORMAL);
         final Claim warzoneClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 750, 750, 750), new Location(Bukkit.getWorlds().get(0), -750, -750, -750)), ClaimPriority.NORMAL);
+        final Claim wildernessClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), -1, -1, -1), new Location(Bukkit.getWorlds().get(0), -1, -1, -1)), ClaimPriority.LOW);
 
         spawnClaim.setDeathban(false);
 
         new Team(null, "Spawn", TeamType.SAFEZONE_TEAM, spawnClaim);
-        new Team(null, "Wilderness", TeamType.WILDERNESS_TEAM);
+        new Team(null, "Wilderness", TeamType.WILDERNESS_TEAM, wildernessClaim);
         new Team(null, "Warzone", TeamType.SYSTEM_TEAM, warzoneClaim).setColor(ChatColor.DARK_RED);
     }
 
