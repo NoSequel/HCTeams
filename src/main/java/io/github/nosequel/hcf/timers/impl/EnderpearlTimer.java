@@ -5,9 +5,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class EnderpearlTimer extends Timer {
 
@@ -18,8 +18,9 @@ public class EnderpearlTimer extends Timer {
     @EventHandler
     public void onEnderpearl(PlayerInteractEvent event) {
         final Player player = event.getPlayer();
+        final ItemStack item = event.getItem() == null ? player.getItemInHand() : event.getItem();
 
-        if (player.getItemInHand() != null && player.getItemInHand().getType().equals(Material.ENDER_PEARL) && (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))) {
+        if (item != null && player.getItemInHand().getType().equals(Material.ENDER_PEARL) && (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
             if (this.isOnCooldown(player)) {
                 player.sendMessage(ChatColor.RED + "You are currently still on an enderpearl cooldown.");
                 event.setCancelled(true);

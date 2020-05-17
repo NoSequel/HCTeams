@@ -14,6 +14,8 @@ import io.github.nosequel.hcf.team.data.impl.player.PlayerRole;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.invites.InviteTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
+import io.github.nosequel.hcf.timers.TimerController;
+import io.github.nosequel.hcf.timers.impl.TeleportTimer;
 import io.github.nosequel.hcf.util.command.annotation.Command;
 import io.github.nosequel.hcf.util.command.annotation.Parameter;
 import io.github.nosequel.hcf.util.command.annotation.Subcommand;
@@ -30,6 +32,7 @@ public class TeamCommand implements Controllable<TeamController> {
 
     private final TeamController controller = this.getController();
     private final PlayerDataController playerDataController = HCTeams.getInstance().getHandler().findController(PlayerDataController.class);
+    private final TimerController timerController = HCTeams.getInstance().getHandler().findController(TimerController.class);
 
     @Command(label = "faction", aliases = {"f", "team", "t"})
     @Subcommand(label = "help", parentLabel = "faction")
@@ -194,8 +197,7 @@ public class TeamCommand implements Controllable<TeamController> {
                 return;
             }
 
-            player.teleport(data.getHome());
-            player.sendMessage(ChatColor.GRAY + "You have been teleported to your team's HQ.");
+            this.timerController.findTimer(TeleportTimer.class).start(player);
         }
     }
 

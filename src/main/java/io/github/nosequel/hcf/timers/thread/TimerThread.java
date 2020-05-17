@@ -28,10 +28,12 @@ public class TimerThread extends BukkitRunnable {
     public void run() {
         synchronized (durations) {
 
-            for(Map.Entry<Player, Long> entry : durations.entrySet()) {
+            // loop through all players which have an active timer
+            for (Map.Entry<Player, Long> entry : durations.entrySet()) {
                 final Player player = entry.getKey();
                 final long $duration = entry.getValue();
 
+                // check whether the timer of the player should be cancelled or not.
                 if (cancellations.containsKey(player)) {
                     durations.remove(player);
                     timer.handleCancel(player);
@@ -41,15 +43,18 @@ public class TimerThread extends BukkitRunnable {
 
                 final long duration = $duration - 50;
 
+                // if the timer has been expired, remove the player from the map and end the timer.
                 if (duration <= 0L) {
                     durations.remove(player);
                     timer.handleEnd(player);
-                } else {
+                } else { // if not, update the time in the map and handle the tick method.
                     durations.put(player, duration);
                     timer.handleTick(player);
                 }
             }
+
+            // everything which needed to be cancelled has been cancelled by now, so we can clear the map.
+            this.cancellations.clear();
         }
     }
-
 }
