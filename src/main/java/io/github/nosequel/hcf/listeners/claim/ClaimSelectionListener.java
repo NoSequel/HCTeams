@@ -32,44 +32,50 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
             final ClaimSelectionData data = playerData.findData(ClaimSelectionData.class);
             final ClaimSelection claimSelection = data.getClaimSelection();
             final Action action = event.getAction();
+            
+            switch (action) {
+                case LEFT_CLICK_BLOCK: {
+                    claimSelection.setLocation1(event.getClickedBlock().getLocation());
+                } break;
 
-            if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
-                claimSelection.setLocation1(event.getClickedBlock().getLocation());
-                event.setCancelled(true);
+                case RIGHT_CLICK_BLOCK: {
+                    claimSelection.setLocation2(event.getClickedBlock().getLocation());
+                } break;
 
-            } else if (action.equals(Action.LEFT_CLICK_BLOCK)) {
-                claimSelection.setLocation2(event.getClickedBlock().getLocation());
-                event.setCancelled(true);
+                case RIGHT_CLICK_AIR: {
+                    if (player.isSneaking()) {
+                        playerData.getData().remove(data);
+                        player.sendMessage(ChatColor.GRAY + "You have cancelled your claiming task.");
+                    }
+                } break;
 
-            } else if(action.equals(Action.RIGHT_CLICK_AIR) && player.isSneaking()) {
-                playerData.getData().remove(data);
-                player.sendMessage(ChatColor.GRAY + "You have cancelled your claiming task.");
+                case LEFT_CLICK_AIR: {
+                    if (player.isSneaking()) {
+                        if (claimSelection.getLocation1() == null || claimSelection.getLocation2() == null) {
+                            player.sendMessage(ChatColor.GRAY + "One or more positions hasn't been set.");
+                            return;
+                        }
 
-            } else if (action.equals(Action.LEFT_CLICK_AIR) && player.isSneaking()) {
+                        if (!teamController.findTeam(claimSelection.getLocation1()).getType().equals(TeamType.WILDERNESS_TEAM) || !teamController.findTeam(claimSelection.getLocation1()).getType().equals(TeamType.WILDERNESS_TEAM)) {
+                            player.sendMessage(ChatColor.GRAY + "The current selection contains non-wilderness regions.");
+                        }
 
-                if (claimSelection.getLocation1() == null) {
-                    player.sendMessage(ChatColor.GRAY + "You still have to set position 1 of the claim.");
-                    return;
-                } else if (claimSelection.getLocation2() == null) {
-                    player.sendMessage(ChatColor.GRAY + "You still have to set position 2 of the claim.");
-                    return;
-                }
+                    }
 
-                if (!teamController.findTeam(claimSelection.getLocation1()).getType().equals(TeamType.WILDERNESS_TEAM) || !teamController.findTeam(claimSelection.getLocation1()).getType().equals(TeamType.WILDERNESS_TEAM)) {
-                    player.sendMessage(ChatColor.GRAY + "Your current selection contains non-wilderness regions.");
-                }
+                    final Team team = claimSelection.getTeam();
+                    claimSelection.apply();
+                    playerData.getData().remove(data);
 
-                final Team team = claimSelection.getTeam();
-                claimSelection.apply();
-                playerData.getData().remove(data);
+                    if (team.getType().equals(TeamType.PLAYER_TEAM)) {
+                        final PlayerTeamData playerTeamData = team.findData(PlayerTeamData.class);
+                        final ClaimTeamData claimTeamData = team.findData(ClaimTeamData.class);
 
-                if (team.getType().equals(TeamType.PLAYER_TEAM)) {
-                    final PlayerTeamData playerTeamData = team.findData(PlayerTeamData.class);
-                    final ClaimTeamData claimTeamData = team.findData(ClaimTeamData.class);
-
-                    playerTeamData.broadcast(ChatColor.GRAY + "Your team now has a claim of " + claimTeamData.getClaim().getCuboid().getChunks().size() + " chunks.");
-                }
+                        playerTeamData.broadcast(ChatColor.GRAY + "Your team now has a claim of " + claimTeamData.getClaim().getCuboid().getChunks().size() + " chunks.");
+                    }
+                } break;
             }
+
+            event.setCancelled(true);
         }
     }
 }
