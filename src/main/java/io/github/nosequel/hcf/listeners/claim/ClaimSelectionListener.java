@@ -70,7 +70,7 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
                         final PlayerTeamData playerTeamData = team.findData(PlayerTeamData.class);
                         final ClaimTeamData claimTeamData = team.findData(ClaimTeamData.class);
 
-                        playerTeamData.broadcast(ChatColor.GRAY + "Your team now has a claim of " + claimTeamData.getClaim().getCuboid().getChunks().size() + " chunks.");
+                        playerTeamData.broadcast(ChatColor.GRAY + "Your team now has a claim of " + claimTeamData.getClaim().getCuboid().getChunks() + " chunks.");
                     }
                 } break;
             }

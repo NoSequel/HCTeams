@@ -146,7 +146,7 @@ public class TeamCommand implements Controllable<TeamController> {
 
             messages.addAll(Arrays.asList(
                     ChatColor.YELLOW + " Balance: " + ChatColor.RED + "$" + data.getBalance(),
-                    ChatColor.YELLOW + " Claim: " + ChatColor.RED + (claimTeamData != null ? claimTeamData.getClaim().getCuboid().getChunks().size() : "0") + " chunks" + ChatColor.YELLOW + ", " + "Home: " + ChatColor.RED + "None",
+                    ChatColor.YELLOW + " Claim: " + ChatColor.RED + (claimTeamData != null ? claimTeamData.getClaim().getCuboid().getChunks() : "0") + " chunks" + ChatColor.YELLOW + ", " + "Home: " + ChatColor.RED + "None",
 
                     "",
                     ChatColor.GRAY + ChatColor.ITALIC.toString() + "Founded on " + new SimpleDateFormat("MM/dd/yyyy").format(currentDate) + " at " + new SimpleDateFormat("hh:mm:ss").format(currentDate),
