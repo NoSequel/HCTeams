@@ -37,25 +37,25 @@ public class TeamCommand implements Controllable<TeamController> {
     @Command(label = "faction", aliases = {"f", "team", "t"})
     @Subcommand(label = "help", parentLabel = "faction")
     public void help(Player player) {
-        player.sendMessage(new String[]{
+        player.sendMessage(new String[] {
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
-
-                ChatColor.BLUE + "Faction Help:",
-                ChatColor.GRAY + "This is the primary help command for factions",
-
+                ChatColor.GREEN + ChatColor.BOLD.toString() + "General Faction Help",
+                ChatColor.YELLOW + "General command for helping with faction commands",
                 "",
-                ChatColor.YELLOW + "/t create <name>" + ChatColor.GRAY + " - Create a new team",
-                ChatColor.YELLOW + "/t disband" + ChatColor.GRAY + " - Disband your current team",
-                ChatColor.YELLOW + "/t rename <newName>" + ChatColor.GRAY + " - Rename your team's name",
-                ChatColor.YELLOW + "/t invite <target>" + ChatColor.GRAY + " - Invite someone to your team",
-                ChatColor.YELLOW + "/t accept <team>" + ChatColor.GRAY + " - Accept an invite",
-                ChatColor.YELLOW + "/t sethome" + ChatColor.GRAY + " - Set the team's HQ",
-                ChatColor.YELLOW + "/t home" + ChatColor.GRAY + " - Teleport to the team's HQ",
-                ChatColor.YELLOW + "/t promote <player>" + ChatColor.GRAY + " - Promote a player to a higher role",
-                ChatColor.YELLOW + "/t demote <player>" + ChatColor.GRAY + " - Demote a player to a lower role",
-                ChatColor.YELLOW + "/t leader <player>" + ChatColor.GRAY + " - Transfer leadership to someone else",
-
-
+                ChatColor.YELLOW + "/t create <name>" + ChatColor.GREEN + " - Create a new team",
+                ChatColor.YELLOW + "/t disband" + ChatColor.GREEN + " - Disband your current team",
+                "",
+                ChatColor.YELLOW + "/t rename <newName>" + ChatColor.GREEN + " - Rename your team's name",
+                "",
+                ChatColor.YELLOW + "/t invite <target>" + ChatColor.GREEN + " - Invite someone to your team",
+                ChatColor.YELLOW + "/t accept <team>" + ChatColor.GREEN + " - Accept an invite",
+                "",
+                ChatColor.YELLOW + "/t sethome" + ChatColor.GREEN + " - Set the team's HQ",
+                ChatColor.YELLOW + "/t home" + ChatColor.GREEN + " - Teleport to the team's HQ",
+                "",
+                ChatColor.YELLOW + "/t promote <player>" + ChatColor.GREEN + " - Promote a player to a higher role",
+                ChatColor.YELLOW + "/t demote <player>" + ChatColor.GREEN + " - Demote a player to a lower role",
+                ChatColor.YELLOW + "/t leader <player>" + ChatColor.GREEN + " - Transfer leadership to someone else",
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56)
         });
     }

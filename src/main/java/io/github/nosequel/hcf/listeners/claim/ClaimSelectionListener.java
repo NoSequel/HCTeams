@@ -58,6 +58,7 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
 
                         if (!teamController.findTeam(claimSelection.getLocation1()).getType().equals(TeamType.WILDERNESS_TEAM) || !teamController.findTeam(claimSelection.getLocation1()).getType().equals(TeamType.WILDERNESS_TEAM)) {
                             player.sendMessage(ChatColor.GRAY + "The current selection contains non-wilderness regions.");
+                            return;
                         }
 
                     }

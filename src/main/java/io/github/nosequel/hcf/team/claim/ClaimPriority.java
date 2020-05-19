@@ -6,7 +6,7 @@ public enum ClaimPriority {
     NORMAL(2),
     HIGH(3);
 
-    private final int priority;
+    public final int priority;
 
     /**
      * Constructor for creating a new ClaimPriority enumeration with a priority.

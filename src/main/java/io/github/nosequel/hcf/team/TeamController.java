@@ -23,7 +23,7 @@ import java.util.*;
 public class TeamController implements Controller, Datable<TeamData> {
 
     private final List<Team> teams = new ArrayList<>();
-    private final List<Class<? extends  TeamData>> registeredData = new ArrayList<>();
+    private final List<Class<? extends TeamData>> registeredData = new ArrayList<>();
 
     public void enable() {
         final Claim spawnClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 100, 100, 100), new Location(Bukkit.getWorlds().get(0), -100, -100, -100)), ClaimPriority.NORMAL);
@@ -87,10 +87,11 @@ public class TeamController implements Controller, Datable<TeamData> {
         final Optional<Claim> claim = this.teams.stream()
                 .filter(team -> team.findData(ClaimTeamData.class) != null)
                 .map(team -> team.findData(ClaimTeamData.class).getClaim())
+                .sorted(Comparator.comparing(claim1 -> ((Claim) claim1).getPriority().priority).reversed())
                 .filter($claim -> $claim.getCuboid().isLocationInCuboid(location))
                 .findFirst();
 
-        if(claim.isPresent() && claim.get().getTeam() != null) {
+        if (claim.isPresent() && claim.get().getTeam() != null) {
             return claim.get().getTeam();
         }
 

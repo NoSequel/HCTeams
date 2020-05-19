@@ -131,8 +131,8 @@ public class Team implements Controllable<TeamController> {
      * @return whether he can interact
      */
     public boolean canInteract(Player player) {
-        if (player.hasPermission("hcteams.bypass.interact")) {
-            return player.getGameMode().equals(GameMode.CREATIVE) || this.type.canInteract;
+        if (player.hasPermission("hcteams.bypass.interact") || player.getGameMode().equals(GameMode.CREATIVE)) {
+            return true;
         }
 
         if (this.getType().equals(TeamType.PLAYER_TEAM)) {

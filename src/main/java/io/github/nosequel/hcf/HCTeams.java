@@ -6,6 +6,7 @@ import io.github.nosequel.hcf.controller.ControllerHandler;
 import io.github.nosequel.hcf.listeners.PlayerListeners;
 import io.github.nosequel.hcf.listeners.claim.ClaimListeners;
 import io.github.nosequel.hcf.listeners.claim.ClaimSelectionListener;
+import io.github.nosequel.hcf.listeners.team.DamageListeners;
 import io.github.nosequel.hcf.player.PlayerDataController;
 import io.github.nosequel.hcf.scoreboard.ScoreboardProvider;
 import io.github.nosequel.hcf.team.TeamController;
@@ -46,6 +47,7 @@ public class HCTeams extends JavaPlugin {
         pluginManager.registerEvents(new ClaimListeners(), this);
         pluginManager.registerEvents(new ClaimSelectionListener(), this);
         pluginManager.registerEvents(new PlayerListeners(), this);
+        pluginManager.registerEvents(new DamageListeners(), this);
 
         // setup scoreboard
         new Assemble(this, new ScoreboardProvider()).setAssembleStyle(AssembleStyle.MODERN);
