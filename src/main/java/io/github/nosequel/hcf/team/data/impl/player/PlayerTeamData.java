@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class PlayerTeamData implements SaveableTeamData {
 
     private UUID leader;
-    private Location home;
 
     private final Set<UUID> members = new HashSet<>();
     private final Set<UUID> captains = new HashSet<>();

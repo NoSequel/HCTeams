@@ -38,7 +38,7 @@ public abstract class Timer implements Listener {
      * @param player the player
      */
     public void cancel(Player player) {
-        this.thread.getCancellations().put(player, true);
+        this.thread.getCancelled().add(player);
     }
 
     /**

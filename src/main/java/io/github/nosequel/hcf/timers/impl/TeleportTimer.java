@@ -3,13 +3,14 @@ package io.github.nosequel.hcf.timers.impl;
 import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
-import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
+import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.timers.Timer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class TeleportTimer extends Timer {
 
@@ -33,6 +34,15 @@ public class TeleportTimer extends Timer {
         }
     }
 
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent event) {
+        final Player player = event.getPlayer();
+
+        if (this.isOnCooldown(player)) {
+            this.cancel(player);
+        }
+    }
+
     @Override
     public void handleTick(Player player) {
     }
@@ -42,10 +52,12 @@ public class TeleportTimer extends Timer {
         final Team team = teamController.findTeam(player);
 
         if (team != null) {
-            final PlayerTeamData playerTeamData = team.findData(PlayerTeamData.class);
+            final ClaimTeamData data = team.findData(ClaimTeamData.class);
 
-            player.teleport(playerTeamData.getHome());
-            player.sendMessage(ChatColor.GRAY + "You have been teleported to your team's HQ.");
+            if (data != null) {
+                player.teleport(data.getHome());
+                player.sendMessage(ChatColor.GRAY + "You have been teleported to your team's HQ.");
+            }
         }
     }
 

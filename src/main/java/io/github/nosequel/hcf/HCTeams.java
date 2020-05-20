@@ -25,12 +25,14 @@ public class HCTeams extends JavaPlugin {
     @Getter
     private static HCTeams instance;
 
-    private final ControllerHandler handler = new ControllerHandler();
+    private Thread mainThread;
+    private ControllerHandler handler = new ControllerHandler();
 
     @Override
     public void onEnable() {
         // register the instance
         instance = this;
+        this.mainThread = Thread.currentThread();
 
         // register controllers
         this.handler.registerController(new TeamController());

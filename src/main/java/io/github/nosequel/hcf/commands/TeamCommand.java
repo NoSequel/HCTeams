@@ -15,6 +15,8 @@ import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.invites.InviteTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
 import io.github.nosequel.hcf.timers.TimerController;
+import io.github.nosequel.hcf.timers.impl.CombatTimer;
+import io.github.nosequel.hcf.timers.impl.EnderpearlTimer;
 import io.github.nosequel.hcf.timers.impl.TeleportTimer;
 import io.github.nosequel.hcf.util.command.annotation.Command;
 import io.github.nosequel.hcf.util.command.annotation.Parameter;
@@ -37,7 +39,7 @@ public class TeamCommand implements Controllable<TeamController> {
     @Command(label = "faction", aliases = {"f", "team", "t"})
     @Subcommand(label = "help", parentLabel = "faction")
     public void help(Player player) {
-        player.sendMessage(new String[] {
+        player.sendMessage(new String[]{
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
                 ChatColor.GREEN + ChatColor.BOLD.toString() + "General Faction Help",
                 ChatColor.YELLOW + "General command for helping with faction commands",
@@ -172,24 +174,25 @@ public class TeamCommand implements Controllable<TeamController> {
         }
 
         final Team team = controller.findTeam(player);
-        final PlayerTeamData data = team.findData(PlayerTeamData.class);
-        final ClaimTeamData claimData = team.findData(ClaimTeamData.class);
+        final ClaimTeamData data = team.findData(ClaimTeamData.class);
 
-        if (claimData == null) {
+        if (data == null) {
             player.sendMessage(ChatColor.RED + "Your team doesn't have a claim yet.");
             return;
         }
 
-        if (data != null) {
-            if (!claimData.getClaim().getCuboid().isLocationInCuboid(player.getLocation())) {
-                player.sendMessage(ChatColor.RED + "You can only set the team's home in your own claim.");
-                return;
-            }
+        if (!data.getClaim().getCuboid().isLocationInCuboid(player.getLocation())) {
+            player.sendMessage(ChatColor.RED + "You can only set the team's home in your own claim.");
+            return;
+        }
 
-            final Location location = player.getLocation();
+        final Location location = player.getLocation();
+        final PlayerTeamData playerTeamData = team.findData(PlayerTeamData.class);
 
-            data.setHome(location);
-            data.broadcast(ChatColor.GRAY + "The team's HQ has been set at (" + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ")");
+        data.setHome(location);
+
+        if (playerTeamData != null) {
+            playerTeamData.broadcast(ChatColor.GRAY + "The team's HQ has been set at (" + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ")");
         }
     }
 
@@ -197,11 +200,24 @@ public class TeamCommand implements Controllable<TeamController> {
     public void home(Player player) {
         final Team team = controller.findTeam(player);
 
-        if (team != null && team.findData(PlayerTeamData.class) != null) {
-            final PlayerTeamData data = team.findData(PlayerTeamData.class);
+        if (team != null && team.findData(ClaimTeamData.class) != null) {
+            final ClaimTeamData data = team.findData(ClaimTeamData.class);
 
             if (data.getHome() == null) {
                 player.sendMessage(ChatColor.RED + "Your team doesn't have a home set, set it with /team sethome.");
+                return;
+            }
+
+            final CombatTimer combatTimer = this.timerController.findTimer(CombatTimer.class);
+            final EnderpearlTimer enderpearlTimer = this.timerController.findTimer(EnderpearlTimer.class);
+
+            if (enderpearlTimer.isOnCooldown(player)) {
+                player.sendMessage(ChatColor.RED + "You are still under an enderpearl cooldown.");
+                return;
+            }
+
+            if (combatTimer.isOnCooldown(player)) {
+                player.sendMessage(ChatColor.RED + "You are currently in combat");
                 return;
             }
 
@@ -304,7 +320,7 @@ public class TeamCommand implements Controllable<TeamController> {
             return;
         }
 
-        if(player.equals(target)) {
+        if (player.equals(target)) {
             player.sendMessage(ChatColor.RED + "You can't promote yourself.");
             return;
         }
@@ -337,7 +353,7 @@ public class TeamCommand implements Controllable<TeamController> {
             return;
         }
 
-        if(player.equals(target)) {
+        if (player.equals(target)) {
             player.sendMessage(ChatColor.RED + "You can't demote yourself.");
             return;
         }
@@ -371,7 +387,7 @@ public class TeamCommand implements Controllable<TeamController> {
             return;
         }
 
-        if(player.equals(target)) {
+        if (player.equals(target)) {
             player.sendMessage(ChatColor.RED + "You can't transfer ownership to yourself.");
             return;
         }

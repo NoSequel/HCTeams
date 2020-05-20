@@ -1,6 +1,8 @@
 package io.github.nosequel.hcf.timers.impl;
 
+import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.timers.Timer;
+import io.github.nosequel.hcf.timers.TimerController;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,6 +10,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class CombatTimer extends Timer {
+
+    private final TimerController timerController = HCTeams.getInstance().getHandler().findController(TimerController.class);
 
     public CombatTimer() {
         super("Combat", ChatColor.RED + ChatColor.BOLD.toString() + "Spawn Tag", false, 30000);
@@ -22,6 +26,16 @@ public class CombatTimer extends Timer {
 
                 this.start(player);
                 this.start(damager);
+
+                final TeleportTimer teleportTimer = timerController.findTimer(TeleportTimer.class);
+
+                if(teleportTimer.isOnCooldown(player)) {
+                    teleportTimer.cancel(player);
+                }
+
+                if(teleportTimer.isOnCooldown(damager)) {
+                    teleportTimer.cancel(damager);
+                }
             }
         }
     }

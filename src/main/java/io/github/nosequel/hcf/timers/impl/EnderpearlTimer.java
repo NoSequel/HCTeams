@@ -1,6 +1,8 @@
 package io.github.nosequel.hcf.timers.impl;
 
+import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.timers.Timer;
+import io.github.nosequel.hcf.timers.TimerController;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,6 +12,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class EnderpearlTimer extends Timer {
+
+    private final TimerController timerController = HCTeams.getInstance().getHandler().findController(TimerController.class);
 
     public EnderpearlTimer() {
         super("Enderpearl", ChatColor.YELLOW + ChatColor.BOLD.toString() + "Enderpearl", true, 16000L);
@@ -28,6 +32,12 @@ public class EnderpearlTimer extends Timer {
             }
 
             this.start(player);
+
+            final TeleportTimer teleportTimer = timerController.findTimer(TeleportTimer.class);
+
+            if(teleportTimer.isOnCooldown(player)) {
+                teleportTimer.cancel(player);
+            }
         }
     }
 

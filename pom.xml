@@ -97,6 +97,12 @@
             <artifactId>Assemble</artifactId>
             <version>master-105d9baddc-1</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.reactivex.rxjava3</groupId>
+            <artifactId>rxjava</artifactId>
+            <version>3.0.3</version>
+        </dependency>
     </dependencies>
 
 </project>
