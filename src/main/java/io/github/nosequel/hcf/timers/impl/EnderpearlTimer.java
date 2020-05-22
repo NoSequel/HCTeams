@@ -23,6 +23,7 @@ public class EnderpearlTimer extends Timer {
     public void onEnderpearl(PlayerInteractEvent event) {
         final Player player = event.getPlayer();
         final ItemStack item = event.getItem() == null ? player.getItemInHand() : event.getItem();
+        final TeleportTimer teleportTimer = timerController.findTimer(TeleportTimer.class);
 
         if (item != null && player.getItemInHand().getType().equals(Material.ENDER_PEARL) && (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
             if (this.isOnCooldown(player)) {
@@ -33,9 +34,7 @@ public class EnderpearlTimer extends Timer {
 
             this.start(player);
 
-            final TeleportTimer teleportTimer = timerController.findTimer(TeleportTimer.class);
-
-            if(teleportTimer.isOnCooldown(player)) {
+            if (teleportTimer.isOnCooldown(player)) {
                 teleportTimer.cancel(player);
             }
         }

@@ -14,6 +14,7 @@ import java.util.Map;
 public class TimerThread extends BukkitRunnable {
 
     private final Timer timer;
+
     private final Map<Player, Long> durations = new HashMap<>();
     private final List<Player> cancelled = new ArrayList<>();
 
@@ -29,12 +30,7 @@ public class TimerThread extends BukkitRunnable {
     @Override
     public void run() {
         synchronized (durations) {
-
-            // loop through all players which have an active timer
-            for (Map.Entry<Player, Long> entry : durations.entrySet()) {
-                final Player player = entry.getKey();
-                final long $duration = entry.getValue();
-
+            durations.forEach((player, $duration) -> {
                 // check whether the timer of the player should be cancelled or not.
                 if (cancelled.contains(player)) {
                     durations.remove(player);
@@ -53,10 +49,11 @@ public class TimerThread extends BukkitRunnable {
                     durations.put(player, duration);
                     timer.handleTick(player);
                 }
-            }
 
-            // everything which needed to be cancelled has been cancelled by now, so we can clear the map.
-            this.cancelled.clear();
+
+                // everything which needed to be cancelled has been cancelled by now, so we can clear the map.
+                this.cancelled.clear();
+            });
         }
     }
 }

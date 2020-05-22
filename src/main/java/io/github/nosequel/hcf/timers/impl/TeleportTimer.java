@@ -54,7 +54,7 @@ public class TeleportTimer extends Timer {
         if (team != null) {
             final ClaimTeamData data = team.findData(ClaimTeamData.class);
 
-            if (data != null) {
+            if (data != null && data.getHome() != null) {
                 player.teleport(data.getHome());
                 player.sendMessage(ChatColor.GRAY + "You have been teleported to your team's HQ.");
             }

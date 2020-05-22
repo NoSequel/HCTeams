@@ -1,6 +1,5 @@
 package io.github.nosequel.hcf.timers;
 
-import com.google.common.collect.HashBasedTable;
 import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.controller.Controller;
 import io.github.nosequel.hcf.timers.impl.CombatTimer;

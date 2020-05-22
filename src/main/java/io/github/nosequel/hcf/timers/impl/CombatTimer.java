@@ -9,6 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import java.util.Arrays;
+
 public class CombatTimer extends Timer {
 
     private final TimerController timerController = HCTeams.getInstance().getHandler().findController(TimerController.class);
@@ -19,24 +21,18 @@ public class CombatTimer extends Timer {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDamage(EntityDamageByEntityEvent event) {
-        if(!event.isCancelled()) {
-            if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
-                final Player player = (Player) event.getEntity();
-                final Player damager = (Player) event.getDamager();
+        if (!event.isCancelled() && event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
+            final Player player = (Player) event.getEntity();
+            final Player damager = (Player) event.getDamager();
+            final TeleportTimer teleportTimer = timerController.findTimer(TeleportTimer.class);
 
-                this.start(player);
-                this.start(damager);
+            Arrays.asList(player, damager).forEach(target -> {
+                this.start(target);
 
-                final TeleportTimer teleportTimer = timerController.findTimer(TeleportTimer.class);
-
-                if(teleportTimer.isOnCooldown(player)) {
-                    teleportTimer.cancel(player);
+                if (teleportTimer.isOnCooldown(target)) {
+                    teleportTimer.cancel(target);
                 }
-
-                if(teleportTimer.isOnCooldown(damager)) {
-                    teleportTimer.cancel(damager);
-                }
-            }
+            });
         }
     }
 
