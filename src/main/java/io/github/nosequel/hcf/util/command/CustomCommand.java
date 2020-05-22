@@ -79,7 +79,16 @@ public class CustomCommand extends Command {
                 } else if (param != null && !param.value().isEmpty() && i >= args.length) {
                     final TypeAdapter<?> typeAdapter = CommandController.getInstance().findConverter(parameter.getType());
 
-                    objects[i] = typeAdapter.convert(sender, param.value());
+                    if(typeAdapter != null) {
+                        try {
+                            objects[i] = typeAdapter.convert(sender, param.value());
+                        } catch (Exception exception) {
+                            typeAdapter.handleException(sender, param.value());
+                        }
+                    } else {
+                        objects[i] = param.value();
+                    }
+
                 } else {
                     final TypeAdapter<?> typeAdapter = CommandController.getInstance().findConverter(parameter.getType());
 

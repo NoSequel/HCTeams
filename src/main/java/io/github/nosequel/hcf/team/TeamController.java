@@ -56,9 +56,29 @@ public class TeamController implements Controller, Datable<TeamData> {
      * @return the foun team
      */
     public Team findTeam(String name) {
+        return this.findTeamByName(name) == null ? this.findTeamByAcronym(name) : this.findTeamByName(name);
+    }
+
+    public Team findTeamByName(String name) {
         return this.teams.stream()
                 .filter(team -> team.getName().equalsIgnoreCase(name))
                 .findFirst().orElse(null);
+    }
+
+    /**
+     * Find a team by their acronym
+     *
+     * @param acronym the acronym
+     * @return the team
+     */
+    public Team findTeamByAcronym(String acronym) {
+        final Optional<PlayerTeamData> team = this.teams.stream()
+                .map($team -> $team.findData(PlayerTeamData.class))
+                .filter(Objects::nonNull)
+                .filter(data -> data.getAbbreviatedName().equalsIgnoreCase(acronym))
+                .findFirst();
+
+        return team.map(PlayerTeamData::getTeam).orElse(null);
     }
 
     /**

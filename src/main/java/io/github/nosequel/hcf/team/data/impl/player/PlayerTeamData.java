@@ -11,7 +11,6 @@ import io.github.nosequel.hcf.util.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -30,6 +29,8 @@ public class PlayerTeamData implements SaveableTeamData {
     private final int balance = 0;
 
     private final Team team;
+
+    private String abbreviatedName;
 
     /**
      * Constructor for creating a new PlayerTeamData object

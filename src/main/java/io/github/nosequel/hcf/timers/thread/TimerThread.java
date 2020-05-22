@@ -5,10 +5,7 @@ import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 public class TimerThread extends BukkitRunnable {
@@ -16,7 +13,7 @@ public class TimerThread extends BukkitRunnable {
     private final Timer timer;
 
     private final Map<Player, Long> durations = new HashMap<>();
-    private final List<Player> cancelled = new ArrayList<>();
+    private final Set<Player> cancelled = new HashSet<>();
 
     /**
      * Constructor for creating a new TimerThread instance
@@ -34,6 +31,7 @@ public class TimerThread extends BukkitRunnable {
                 // check whether the timer of the player should be cancelled or not.
                 if (cancelled.contains(player)) {
                     durations.remove(player);
+                    cancelled.remove(player);
                     timer.handleCancel(player);
 
                     return;
