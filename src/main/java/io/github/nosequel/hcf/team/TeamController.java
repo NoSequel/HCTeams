@@ -1,7 +1,8 @@
 package io.github.nosequel.hcf.team;
 
-import io.github.nosequel.hcf.data.Datable;
+import io.github.nosequel.hcf.data.DataController;
 import io.github.nosequel.hcf.controller.Controller;
+import io.github.nosequel.hcf.data.Loadable;
 import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.claim.ClaimPriority;
 import io.github.nosequel.hcf.team.data.TeamData;
@@ -20,7 +21,7 @@ import java.util.*;
 
 @Getter
 @Setter
-public class TeamController implements Controller, Datable<TeamData> {
+public class TeamController implements Controller, DataController<Team, TeamData> {
 
     private final List<Team> teams = new ArrayList<>();
     private final List<Class<? extends TeamData>> registeredData = new ArrayList<>();
@@ -37,6 +38,11 @@ public class TeamController implements Controller, Datable<TeamData> {
         new Team(null, "Warzone", TeamType.SYSTEM_TEAM, warzoneClaim).setColor(ChatColor.DARK_RED);
     }
 
+    @Override
+    public void load(Team loadable) {
+
+    }
+
     /**
      * Find a team by a UUID
      *
@@ -45,7 +51,7 @@ public class TeamController implements Controller, Datable<TeamData> {
      */
     public Team findTeam(UUID uuid) {
         return this.teams.stream()
-                .filter(team -> team.getUuid().equals(uuid))
+                .filter(team -> team.getUniqueId().equals(uuid))
                 .findFirst().orElse(null);
     }
 

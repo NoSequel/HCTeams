@@ -36,18 +36,21 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
             switch (action) {
                 case LEFT_CLICK_BLOCK: {
                     claimSelection.setLocation1(event.getClickedBlock().getLocation());
-                } break;
+                }
+                break;
 
                 case RIGHT_CLICK_BLOCK: {
                     claimSelection.setLocation2(event.getClickedBlock().getLocation());
-                } break;
+                }
+                break;
 
                 case RIGHT_CLICK_AIR: {
                     if (player.isSneaking()) {
                         playerData.getData().remove(data);
                         player.sendMessage(ChatColor.GRAY + "You have cancelled your claiming task.");
                     }
-                } break;
+                }
+                break;
 
                 case LEFT_CLICK_AIR: {
                     if (player.isSneaking()) {
@@ -73,7 +76,8 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
 
                         playerTeamData.broadcast(ChatColor.GRAY + "Your team now has a claim of " + claimTeamData.getClaim().getCuboid().getChunks() + " chunks.");
                     }
-                } break;
+                }
+                break;
             }
 
             event.setCancelled(true);

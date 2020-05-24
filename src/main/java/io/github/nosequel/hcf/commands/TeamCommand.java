@@ -46,6 +46,7 @@ public class TeamCommand implements Controllable<TeamController> {
                 ChatColor.GRAY + ChatColor.ITALIC.toString() + "General command for helping with faction commands",
                 "",
                 ChatColor.BLUE + "General Commands: ",
+                ChatColor.GRAY + "/t help" + ChatColor.WHITE + " - Shows you this page",
                 ChatColor.GRAY + "/t create <name> [acronym]" + ChatColor.WHITE + " - Create a new team",
                 ChatColor.GRAY + "/t disband" + ChatColor.WHITE + " - Disband your current team",
                 ChatColor.GRAY + "/t invite <target>" + ChatColor.WHITE + " - Invite someone to your team",
@@ -66,7 +67,7 @@ public class TeamCommand implements Controllable<TeamController> {
     }
 
     @Subcommand(label = "create", parentLabel = "faction")
-    public void create(Player player, @Parameter(name = "teamName") String teamName, @Parameter(name="acronym", value="@OPTIONAL") String acronym) {
+    public void create(Player player, @Parameter(name = "teamName") String teamName, @Parameter(name = "acronym", value = "@OPTIONAL") String acronym) {
         if (controller.findTeam(teamName) != null) {
             player.sendMessage(ChatColor.RED + "That team already exists!");
             return;
@@ -140,10 +141,10 @@ public class TeamCommand implements Controllable<TeamController> {
         } else if (name.length() < 3) {
             player.sendMessage(ChatColor.RED + "Minimum team name length is 3 characters!");
             return;
-        } else if(!StringUtils.isAlphanumeric(name)) {
+        } else if (!StringUtils.isAlphanumeric(name)) {
             player.sendMessage(ChatColor.RED + "Your team name has to be alphanumeric.");
             return;
-        } else if(controller.findTeam(name) != null) {
+        } else if (controller.findTeam(name) != null) {
             player.sendMessage(ChatColor.RED + "That name is already taken.");
             return;
         }
@@ -152,17 +153,17 @@ public class TeamCommand implements Controllable<TeamController> {
         data.broadcast(ChatColor.GRAY + "Your team's has been renamed to " + ChatColor.WHITE + name);
     }
 
-    @Subcommand(label="acronym", parentLabel = "faction")
-    public void acronym(Player player, @Parameter(name="acronym") String acronym) {
+    @Subcommand(label = "acronym", parentLabel = "faction")
+    public void acronym(Player player, @Parameter(name = "acronym") String acronym) {
         if (!this.shouldProceed(player, PlayerRole.CAPTAIN)) {
             return;
-        } else if(controller.findTeamByAcronym(acronym) != null) {
+        } else if (controller.findTeamByAcronym(acronym) != null) {
             player.sendMessage(ChatColor.RED + "That acronym is already taken");
             return;
-        } else if(acronym.length() > 3) {
+        } else if (acronym.length() > 3) {
             player.sendMessage(ChatColor.RED + "Maximum acronym length is 3 characters.");
             return;
-        }  else if(!StringUtils.isAlphanumeric(acronym)) {
+        } else if (!StringUtils.isAlphanumeric(acronym)) {
             player.sendMessage(ChatColor.RED + "Your team's acronym has to be alphanumeric.");
             return;
         }
@@ -202,9 +203,9 @@ public class TeamCommand implements Controllable<TeamController> {
             ));
 
             ImmutableMap.of(
-                    ChatColor.YELLOW + " Co Leaders: ", coLeaders,
-                    ChatColor.YELLOW + " Captains: ", captains,
-                    ChatColor.YELLOW + " Members: ", members
+                    ChatColor.YELLOW + "Co Leaders: ", coLeaders,
+                    ChatColor.YELLOW + "Captains: ", captains,
+                    ChatColor.YELLOW + "Members: ", members
             ).forEach(($string, _string) -> {
                 if (!_string.isEmpty()) {
                     messages.add($string + _string);
@@ -212,8 +213,8 @@ public class TeamCommand implements Controllable<TeamController> {
             });
 
             messages.addAll(Arrays.asList(
-                    ChatColor.YELLOW + " Balance: " + ChatColor.RED + "$" + data.getBalance(),
-                    ChatColor.YELLOW + " Claim: " + ChatColor.RED + (claimTeamData != null ? claimTeamData.getClaim().getCuboid().getChunks() : "0") + " chunks" + ChatColor.YELLOW + ", " + "Home: " + ChatColor.RED + "None",
+                    ChatColor.YELLOW + "Balance: " + ChatColor.RED + "$" + data.getBalance(),
+                    ChatColor.YELLOW + "Claim: " + ChatColor.RED + (claimTeamData != null ? claimTeamData.getClaim().getCuboid().getChunks() : "0") + " chunks" + ChatColor.YELLOW + ", " + "Home: " + ChatColor.RED + "None",
 
                     "",
                     ChatColor.GRAY + ChatColor.ITALIC.toString() + "Founded on " + new SimpleDateFormat("MM/dd/yyyy").format(currentDate) + " at " + new SimpleDateFormat("hh:mm:ss").format(currentDate),
@@ -302,6 +303,10 @@ public class TeamCommand implements Controllable<TeamController> {
                 ChatColor.YELLOW + "To cancel claiming, sneak while you press " + Action.RIGHT_CLICK_AIR.name(),
                 ""
         });
+
+        if (team.findData(ClaimTeamData.class) != null && team.findData(ClaimTeamData.class).getHome() != null) {
+            player.sendMessage(ChatColor.RED + "Note: " + ChatColor.YELLOW + "Your team's HQ will be removed if you make a new claim.");
+        }
     }
 
     @Subcommand(label = "invite", parentLabel = "faction")
@@ -323,7 +328,6 @@ public class TeamCommand implements Controllable<TeamController> {
 
             inviteTeamData.invite(target);
             player.sendMessage(ChatColor.GRAY + "You have invited " + target.getName() + " to your team.");
-
             target.sendMessage(new String[]{
                     ChatColor.GRAY + "You have been invited to join " + ChatColor.WHITE + team.getName(),
                     ChatColor.GRAY + "Type /team accept " + team.getName() + " to accept the invite."
@@ -429,7 +433,6 @@ public class TeamCommand implements Controllable<TeamController> {
 
         data.setLeader(target.getUniqueId());
         data.getCoLeaders().add(player.getUniqueId());
-
         data.broadcast(ChatColor.WHITE + player.getName() + ChatColor.GRAY + " has transferred the team's ownership to " + ChatColor.WHITE + target.getName());
     }
 

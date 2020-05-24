@@ -38,4 +38,17 @@ public class ControllerHandler {
 
         return (T) this.findController(controller.getClass());
     }
+
+    /**
+     * Unregister a controller
+     *
+     * @param controller the controller to get unregistered
+     */
+    public void unregisterController(Class<? extends Controller> controller) {
+        if (this.findController(controller) != null) {
+            this.controllers.remove(this.findController(controller));
+        }
+
+        System.out.println("Tried unregistering controller which isn't registered");
+    }
 }

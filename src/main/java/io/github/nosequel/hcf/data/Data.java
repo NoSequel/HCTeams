@@ -1,7 +1,3 @@
 package io.github.nosequel.hcf.data;
 
-public interface Data {
-
-
-
-}
+public interface Data { }
