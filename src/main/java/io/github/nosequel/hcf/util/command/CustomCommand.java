@@ -40,9 +40,9 @@ public class CustomCommand extends Command {
         final Method method;
         final String permission;
 
-        if (passedParameters.length >= 1 && !data.getSubcommands().isEmpty() && data.getSubcommands().stream().anyMatch(subcommand -> subcommand.getSubcommand().label().equalsIgnoreCase(passedParameters[0]))) {
+        if (passedParameters.length >= 1 && !data.getSubcommands().isEmpty() && data.getSubcommands().stream().anyMatch(subcommand -> subcommand.getSubcommand().label().equalsIgnoreCase(passedParameters[0]) || Arrays.stream(subcommand.getSubcommand().aliases()).anyMatch(string -> string.equalsIgnoreCase(passedParameters[0])))) {
             final SubcommandData subcommand = Objects.requireNonNull(data.getSubcommands().stream()
-                    .filter(subcommandData -> subcommandData.getSubcommand().label().equalsIgnoreCase(passedParameters[0]))
+                    .filter(subcommandData -> subcommandData.getSubcommand().label().equalsIgnoreCase(passedParameters[0]) || Arrays.stream(subcommandData.getSubcommand().aliases()).anyMatch(string -> string.equalsIgnoreCase(passedParameters[0])))
                     .findFirst().orElse(null));
 
             args = Arrays.copyOfRange(passedParameters, 1, passedParameters.length);
@@ -79,7 +79,7 @@ public class CustomCommand extends Command {
                 } else if (param != null && !param.value().isEmpty() && i >= args.length) {
                     final TypeAdapter<?> typeAdapter = CommandController.getInstance().findConverter(parameter.getType());
 
-                    if(typeAdapter != null) {
+                    if (typeAdapter != null) {
                         try {
                             objects[i] = typeAdapter.convert(sender, param.value());
                         } catch (Exception exception) {

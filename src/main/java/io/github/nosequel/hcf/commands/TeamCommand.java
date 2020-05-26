@@ -43,25 +43,25 @@ public class TeamCommand implements Controllable<TeamController> {
         player.sendMessage(new String[]{
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
                 ChatColor.BLUE + ChatColor.BOLD.toString() + "General Faction Help",
-                ChatColor.GRAY + ChatColor.ITALIC.toString() + "General command for helping with faction commands",
+                ChatColor.YELLOW + ChatColor.ITALIC.toString() + "General command for helping with faction commands",
                 "",
                 ChatColor.BLUE + "General Commands: ",
-                ChatColor.GRAY + "/t help" + ChatColor.WHITE + " - Shows you this page",
-                ChatColor.GRAY + "/t create <name> [acronym]" + ChatColor.WHITE + " - Create a new team",
-                ChatColor.GRAY + "/t disband" + ChatColor.WHITE + " - Disband your current team",
-                ChatColor.GRAY + "/t invite <target>" + ChatColor.WHITE + " - Invite someone to your team",
-                ChatColor.GRAY + "/t accept <team>" + ChatColor.WHITE + " - Accept an invite",
+                ChatColor.YELLOW + "/t help" + ChatColor.GRAY + " - Shows you this page",
+                ChatColor.YELLOW + "/t create <name> [acronym]" + ChatColor.GRAY + " - Create a new team",
+                ChatColor.YELLOW + "/t disband" + ChatColor.GRAY + " - Disband your current team",
+                ChatColor.YELLOW + "/t invite <target>" + ChatColor.GRAY + " - Invite someone to your team",
+                ChatColor.YELLOW + "/t accept <team>" + ChatColor.GRAY + " - Accept an invite",
                 "",
                 ChatColor.BLUE + "Captain Commands: ",
-                ChatColor.GRAY + "/t rename <newName>" + ChatColor.WHITE + " - Rename your team's name",
-                ChatColor.GRAY + "/t acronym <new acronym>" + ChatColor.WHITE + " - Set the new acronym of your team.",
-                ChatColor.GRAY + "/t sethome" + ChatColor.WHITE + " - Set the team's HQ",
-                ChatColor.GRAY + "/t home" + ChatColor.WHITE + " - Teleport to the team's HQ",
+                ChatColor.YELLOW + "/t rename <newName>" + ChatColor.GRAY + " - Rename your team's name",
+                ChatColor.YELLOW + "/t acronym <new acronym>" + ChatColor.GRAY + " - Set the new acronym of your team.",
+                ChatColor.YELLOW + "/t sethome" + ChatColor.GRAY + " - Set the team's HQ",
+                ChatColor.YELLOW + "/t home" + ChatColor.GRAY + " - Teleport to the team's HQ",
                 "",
                 ChatColor.BLUE + "Leader Commands: ",
-                ChatColor.GRAY + "/t promote <player>" + ChatColor.WHITE + " - Promote a player to a higher role",
-                ChatColor.GRAY + "/t demote <player>" + ChatColor.WHITE + " - Demote a player to a lower role",
-                ChatColor.GRAY + "/t leader <player>" + ChatColor.WHITE + " - Transfer leadership to someone else",
+                ChatColor.YELLOW + "/t promote <player>" + ChatColor.GRAY + " - Promote a player to a higher role",
+                ChatColor.YELLOW + "/t demote <player>" + ChatColor.GRAY + " - Demote a player to a lower role",
+                ChatColor.YELLOW + "/t leader <player>" + ChatColor.GRAY + " - Transfer leadership to someone else",
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56)
         });
     }
@@ -121,9 +121,15 @@ public class TeamCommand implements Controllable<TeamController> {
         }
 
         final Team team = controller.findTeam(player);
+        final PlayerTeamData data = team.findData(PlayerTeamData.class);
+
+        Bukkit.broadcastMessage(ChatColor.YELLOW + "Team " + ChatColor.BLACK + team.getName() + ChatColor.YELLOW + " has been " + ChatColor.RED + "disbanded" + ChatColor.YELLOW + " by " + ChatColor.WHITE + player.getName());
+
+        if (data != null) {
+            data.broadcast(ChatColor.GRAY + "The team you were previously in has been disbanded.");
+        }
 
         team.disband();
-        player.sendMessage(ChatColor.YELLOW + "You have disbanded the team " + ChatColor.WHITE + team.getName());
     }
 
     @Subcommand(label = "rename", parentLabel = "faction")
@@ -199,7 +205,7 @@ public class TeamCommand implements Controllable<TeamController> {
                     ChatColor.BLUE + team.getName() + ChatColor.GRAY + " (" + data.getAbbreviatedName() + ")",
                     "",
 
-                    ChatColor.YELLOW + " Leader: " + (leader.getPlayer() == null ? ChatColor.GRAY : ChatColor.GREEN) + leader.getName() + (leader.getPlayer() == null ? "" : ChatColor.YELLOW + "[" + ChatColor.GREEN + player.getPlayer().getStatistic(Statistic.PLAYER_KILLS) + ChatColor.YELLOW + "]")
+                    ChatColor.YELLOW + "Leader: " + (leader.getPlayer() == null ? ChatColor.GRAY : ChatColor.GREEN) + leader.getName() + (leader.getPlayer() == null ? "" : ChatColor.YELLOW + "[" + ChatColor.GREEN + player.getPlayer().getStatistic(Statistic.PLAYER_KILLS) + ChatColor.YELLOW + "]")
             ));
 
             ImmutableMap.of(
@@ -214,8 +220,7 @@ public class TeamCommand implements Controllable<TeamController> {
 
             messages.addAll(Arrays.asList(
                     ChatColor.YELLOW + "Balance: " + ChatColor.RED + "$" + data.getBalance(),
-                    ChatColor.YELLOW + "Claim: " + ChatColor.RED + (claimTeamData != null ? claimTeamData.getClaim().getCuboid().getChunks() : "0") + " chunks" + ChatColor.YELLOW + ", " + "Home: " + ChatColor.RED + "None",
-
+                    ChatColor.YELLOW + "Claim: " + ChatColor.RED + (claimTeamData != null ? claimTeamData.getClaim().getCuboid().getChunks() : "0") + " chunks" + ChatColor.YELLOW + ", " + "Home: " + ChatColor.RED + (claimTeamData == null ? "Not Set" : claimTeamData.getHomeAsString()),
                     "",
                     ChatColor.GRAY + ChatColor.ITALIC.toString() + "Founded on " + new SimpleDateFormat("MM/dd/yyyy").format(currentDate) + " at " + new SimpleDateFormat("hh:mm:ss").format(currentDate),
                     ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56)

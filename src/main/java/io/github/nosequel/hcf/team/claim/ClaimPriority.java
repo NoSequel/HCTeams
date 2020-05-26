@@ -11,7 +11,7 @@ public enum ClaimPriority {
     /**
      * Constructor for creating a new ClaimPriority enumeration with a priority.
      *
-     * @param priority
+     * @param priority the priority of the ClaimPriority
      */
     ClaimPriority(int priority) {
         this.priority = priority;

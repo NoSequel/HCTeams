@@ -79,9 +79,9 @@ public class TeamController implements Controller, DataController<Team, TeamData
      */
     public Team findTeamByAcronym(String acronym) {
         final Optional<PlayerTeamData> team = this.teams.stream()
+                .filter($team -> $team.hasData(PlayerTeamData.class))
                 .map($team -> $team.findData(PlayerTeamData.class))
-                .filter(Objects::nonNull)
-                .filter(data -> data.getAbbreviatedName().equalsIgnoreCase(acronym))
+                .filter(data -> data.getAbbreviatedName() != null && data.getAbbreviatedName().equalsIgnoreCase(acronym))
                 .findFirst();
 
         return team.map(PlayerTeamData::getTeam).orElse(null);

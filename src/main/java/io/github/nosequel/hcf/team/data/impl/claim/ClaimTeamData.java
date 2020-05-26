@@ -22,6 +22,15 @@ public class ClaimTeamData implements SaveableTeamData {
         this.claim = claim;
     }
 
+    /**
+     * Get a home as a string
+     *
+     * @return the string
+     */
+    public String getHomeAsString() {
+        return home == null ? "Not Set" : home.getBlockX() + ", " + home.getBlockY() + ", " + home.getBlockZ();
+    }
+
     @Override
     public String getSavePath() {
         return "claim_data";

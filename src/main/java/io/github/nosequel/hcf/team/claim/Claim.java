@@ -45,8 +45,7 @@ public class Claim {
      */
     public Team getTeam() {
         return HCTeams.getInstance().getHandler().findController(TeamController.class).getTeams().stream()
-                .filter(team -> team.findData(ClaimTeamData.class) != null)
-                .filter(team -> team.findData(ClaimTeamData.class).getClaim().equals(this))
+                .filter(team -> team.hasData(ClaimTeamData.class) && team.findData(ClaimTeamData.class).getClaim().equals(this))
                 .findFirst().orElse(null);
     }
 }
