@@ -18,7 +18,7 @@ public class ClaimSelection {
      * Constructor for creating a new ClaimSelection instance
      * Only used to set the team
      *
-     * @param team
+     * @param team the team the ClaimSelection is dedicated to
      */
     public ClaimSelection(Team team) {
         this.team = team;

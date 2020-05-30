@@ -1,18 +1,20 @@
 package io.github.nosequel.hcf.scoreboard;
 
-import io.github.nosequel.hcf.HCTeams;
-import io.github.nosequel.hcf.timers.TimerController;
-import io.github.nosequel.hcf.util.StringUtils;
+import io.github.nosequel.hcf.scoreboard.provider.impl.TimerBoardProvider;
+import io.github.nosequel.hcf.scoreboard.provider.BoardProvider;
 import io.github.thatkawaiisam.assemble.AssembleAdapter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class ScoreboardProvider implements AssembleAdapter {
+public class BoardProviderHandler implements AssembleAdapter {
 
-    private final TimerController timerController = HCTeams.getInstance().getHandler().findController(TimerController.class);
+    private final List<BoardProvider> providers = new ArrayList<>(Arrays.asList(
+            new TimerBoardProvider()
+    ));
 
     @Override
     public String getTitle(Player player) {
@@ -23,10 +25,7 @@ public class ScoreboardProvider implements AssembleAdapter {
     public List<String> getLines(Player player) {
         final List<String> strings = new ArrayList<>();
 
-        timerController.getTimers().stream()
-                .filter(timer -> timer.isOnCooldown(player))
-                .map(timer -> timer.getScoreboardTag() + ChatColor.GRAY + ": " + ChatColor.RED + StringUtils.getFormattedTime(timer.getDuration(player), timer.isTrailing()))
-                .forEach(strings::add);
+        providers.forEach(provider -> strings.addAll(provider.getStrings(player)));
 
         if (!strings.isEmpty()) {
             strings.add(0, "&7&m-------------------");

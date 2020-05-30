@@ -20,17 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9794bd8-a79a-4b78-a6c5-bc3ea623b1c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/data/deathban/DeathbanData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/data/deathban/impl/PlayerDeathbanData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/scoreboard/provider/BoardProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/scoreboard/provider/impl/TimerBoardProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/HCTeams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/HCTeams.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/commands/TeamCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/commands/TeamCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/scoreboard/ScoreboardProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/scoreboard/ScoreboardProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/TeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/TeamController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/claim/Claim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/claim/Claim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/claim/ClaimPriority.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/claim/ClaimPriority.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/claim/ClaimTeamData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/claim/ClaimTeamData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/command/CustomCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/command/CustomCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/scoreboard/ScoreboardProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/scoreboard/BoardProviderHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/claim/selection/ClaimSelection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/claim/selection/ClaimSelection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +66,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="ToolWindowRun.ShowToolbar" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Blueberry" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Practice" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -149,13 +147,45 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1590514024413">
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1590862638049">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590514024413" />
-    <state x="440" y="94" key="SettingsEditor" timestamp="1590512561241">
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590862638049" />
+    <state x="606" y="444" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1590862567549">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590512561241" />
+    <state x="606" y="444" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590862567549" />
+    <state x="229" y="148" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1590860742107">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="229" y="148" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590860742107" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1590528575633">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590528575633" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1590531616206">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590531616206" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1590531616205">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590531616205" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1590531616205">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590531616205" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1590531616205">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590531616205" />
+    <state x="440" y="94" key="SettingsEditor" timestamp="1590860508407">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590860508407" />
+    <state x="342" y="140" key="new project wizard" timestamp="1590525446976">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="342" y="140" key="new project wizard/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590525446976" />
   </component>
 </project>

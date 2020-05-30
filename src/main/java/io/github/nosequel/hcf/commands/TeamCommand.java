@@ -42,26 +42,26 @@ public class TeamCommand implements Controllable<TeamController> {
     public void help(Player player) {
         player.sendMessage(new String[]{
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
-                ChatColor.BLUE + ChatColor.BOLD.toString() + "General Faction Help",
-                ChatColor.YELLOW + ChatColor.ITALIC.toString() + "General command for helping with faction commands",
+                ChatColor.DARK_PURPLE + ChatColor.BOLD.toString() + "General Faction Help",
+                ChatColor.GRAY + ChatColor.ITALIC.toString() + "General command for helping with faction commands",
                 "",
-                ChatColor.BLUE + "General Commands: ",
-                ChatColor.YELLOW + "/t help" + ChatColor.GRAY + " - Shows you this page",
-                ChatColor.YELLOW + "/t create <name> [acronym]" + ChatColor.GRAY + " - Create a new team",
-                ChatColor.YELLOW + "/t disband" + ChatColor.GRAY + " - Disband your current team",
-                ChatColor.YELLOW + "/t invite <target>" + ChatColor.GRAY + " - Invite someone to your team",
-                ChatColor.YELLOW + "/t accept <team>" + ChatColor.GRAY + " - Accept an invite",
+                ChatColor.DARK_PURPLE + "General Commands: ",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team help" + ChatColor.WHITE + " - Shows you this page",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team create <name> [acronym]" + ChatColor.WHITE + " - Create a new team",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team disband" + ChatColor.WHITE + " - Disband your current team",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team invite <target>" + ChatColor.WHITE + " - Invite someone to your team",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team accept <team>" + ChatColor.WHITE + " - Accept an invite",
                 "",
-                ChatColor.BLUE + "Captain Commands: ",
-                ChatColor.YELLOW + "/t rename <newName>" + ChatColor.GRAY + " - Rename your team's name",
-                ChatColor.YELLOW + "/t acronym <new acronym>" + ChatColor.GRAY + " - Set the new acronym of your team.",
-                ChatColor.YELLOW + "/t sethome" + ChatColor.GRAY + " - Set the team's HQ",
-                ChatColor.YELLOW + "/t home" + ChatColor.GRAY + " - Teleport to the team's HQ",
+                ChatColor.DARK_PURPLE + "Captain Commands: ",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team rename <newName>" + ChatColor.WHITE + " - Rename your team's name",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team acronym <new acronym>" + ChatColor.WHITE + " - Set the new acronym of your team.",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team sethome" + ChatColor.WHITE + " - Set the team's HQ",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team home" + ChatColor.WHITE + " - Teleport to the team's HQ",
                 "",
-                ChatColor.BLUE + "Leader Commands: ",
-                ChatColor.YELLOW + "/t promote <player>" + ChatColor.GRAY + " - Promote a player to a higher role",
-                ChatColor.YELLOW + "/t demote <player>" + ChatColor.GRAY + " - Demote a player to a lower role",
-                ChatColor.YELLOW + "/t leader <player>" + ChatColor.GRAY + " - Transfer leadership to someone else",
+                ChatColor.DARK_PURPLE + "Leader Commands: ",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team promote <player>" + ChatColor.WHITE + " - Promote a player to a higher role",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team demote <player>" + ChatColor.WHITE + " - Demote a player to a lower role",
+                ChatColor.GRAY + "* " + ChatColor.GRAY + "/team leader <player>" + ChatColor.WHITE + " - Transfer leadership to someone else",
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56)
         });
     }
@@ -202,7 +202,7 @@ public class TeamCommand implements Controllable<TeamController> {
 
             final List<String> messages = new ArrayList<>(Arrays.asList(
                     ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
-                    ChatColor.BLUE + team.getName() + ChatColor.GRAY + " (" + data.getAbbreviatedName() + ")",
+                    ChatColor.BLUE + team.getName() + ChatColor.GRAY + "[" + data.getOnlineMembers().size() + "/" + data.getAllMembers().size() + "]" + ChatColor.DARK_AQUA + " - " + ChatColor.WHITE + data.getAbbreviatedName(),
                     "",
 
                     ChatColor.YELLOW + "Leader: " + (leader.getPlayer() == null ? ChatColor.GRAY : ChatColor.GREEN) + leader.getName() + (leader.getPlayer() == null ? "" : ChatColor.YELLOW + "[" + ChatColor.GREEN + player.getPlayer().getStatistic(Statistic.PLAYER_KILLS) + ChatColor.YELLOW + "]")
@@ -309,7 +309,7 @@ public class TeamCommand implements Controllable<TeamController> {
                 ""
         });
 
-        if (team.findData(ClaimTeamData.class) != null && team.findData(ClaimTeamData.class).getHome() != null) {
+        if (team.hasData(ClaimTeamData.class) && team.findData(ClaimTeamData.class).getHome() != null) {
             player.sendMessage(ChatColor.RED + "Note: " + ChatColor.YELLOW + "Your team's HQ will be removed if you make a new claim.");
         }
     }
