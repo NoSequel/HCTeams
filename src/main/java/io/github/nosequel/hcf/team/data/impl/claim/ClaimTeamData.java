@@ -5,6 +5,7 @@ import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.data.impl.SaveableTeamData;
 import io.github.nosequel.hcf.util.JsonBuilder;
+import io.github.nosequel.hcf.util.StringUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -26,6 +27,10 @@ public class ClaimTeamData extends SaveableTeamData {
 
     public ClaimTeamData(JsonObject object) {
         this.claim = new Claim(object);
+
+        if(object.get("home") != null) {
+            this.home = StringUtils.locationFromString(object.get("home").getAsString());
+        }
     }
 
     /**
@@ -44,6 +49,12 @@ public class ClaimTeamData extends SaveableTeamData {
 
     @Override
     public JsonObject toJson() {
-        return claim.toJson();
+        final JsonBuilder builder = new JsonBuilder(this.claim.toJson());
+
+        if (this.home != null) {
+            builder.addProperty("home", StringUtils.toString(home));
+        }
+
+        return builder.get();
     }
 }

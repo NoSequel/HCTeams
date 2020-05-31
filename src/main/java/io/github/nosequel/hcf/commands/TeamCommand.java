@@ -77,7 +77,6 @@ public class TeamCommand implements Controllable<TeamController> {
             return;
         }
 
-
         if (teamName.length() > 16) {
             player.sendMessage(ChatColor.RED + "Maximum team name length is 16 characters!");
             return;

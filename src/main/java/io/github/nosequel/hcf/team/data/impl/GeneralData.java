@@ -8,19 +8,15 @@ import io.github.nosequel.hcf.util.JsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 public class GeneralData extends SaveableTeamData {
 
-    private final TeamType type;
-
+    private TeamType type;
     private long createTime;
     private String name;
 
     public GeneralData() {
-        type = null;
     }
 
     public GeneralData(String name, TeamType type) {

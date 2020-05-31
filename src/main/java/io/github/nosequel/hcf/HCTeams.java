@@ -1,5 +1,6 @@
 package io.github.nosequel.hcf;
 
+import io.github.nosequel.hcf.commands.SystemTeamCommand;
 import io.github.nosequel.hcf.commands.TeamCommand;
 import io.github.nosequel.hcf.controller.Controller;
 import io.github.nosequel.hcf.controller.ControllerHandler;
@@ -57,7 +58,7 @@ public class HCTeams extends JavaPlugin {
 
         // register commands
         final CommandController commandController = handler.registerController(new CommandController("hcteams"));
-        commandController.registerCommand(new TeamCommand());
+        commandController.registerCommand(new TeamCommand(), new SystemTeamCommand());
 
         // register listeners
         final PluginManager pluginManager = Bukkit.getPluginManager();

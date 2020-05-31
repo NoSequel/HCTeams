@@ -4,6 +4,7 @@ import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.controller.Controller;
 import io.github.nosequel.hcf.timers.impl.CombatTimer;
 import io.github.nosequel.hcf.timers.impl.EnderpearlTimer;
+import io.github.nosequel.hcf.timers.impl.SpawnProtectionTimer;
 import io.github.nosequel.hcf.timers.impl.TeleportTimer;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ public class TimerController implements Controller {
         this.registerTimer(new EnderpearlTimer());
         this.registerTimer(new CombatTimer());
         this.registerTimer(new TeleportTimer());
+        this.registerTimer(new SpawnProtectionTimer());
     }
 
     /**

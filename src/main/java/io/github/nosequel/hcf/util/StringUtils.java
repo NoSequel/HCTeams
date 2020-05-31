@@ -1,7 +1,9 @@
 package io.github.nosequel.hcf.util;
 
 import lombok.experimental.UtilityClass;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -77,6 +79,38 @@ public class StringUtils {
     }
 
     /**
+     * Serialize a Location to a String
+     *
+     * @param location the location
+     * @return the string
+     */
+    public String toString(Location location) {
+        return String.join(",", new String[] {
+                location.getWorld().getName(),
+                String.valueOf(location.getBlockX()),
+                String.valueOf(location.getBlockY()),
+                String.valueOf(location.getBlockZ())
+        });
+    }
+
+    /**
+     * Deserialize a Location from a String
+     *
+     * @param string the string
+     * @return the location
+     */
+    public Location locationFromString(String string) {
+        final String[] strings = string.split(",");
+
+        return new Location(
+                Bukkit.getWorld(strings[0]),
+                Integer.parseInt(strings[1]),
+                Integer.parseInt(strings[2]),
+                Integer.parseInt(strings[3])
+        );
+    }
+
+    /**
      * Get the formatted string of an epoch time
      *
      * @param time the epoch time
@@ -90,6 +124,6 @@ public class StringUtils {
         trailingFormat = trailingFormat.substring(trailingFormat.toCharArray()[0] == '0' ? 1 : 0, trailingFormat.length()-4);
         trailingFormat = trailingFormat.length() == 0 ? "0.0" : trailingFormat.length() == 1 ? "0." + trailingFormat.toCharArray()[0] : (trailingFormat.length() == 2 ? trailingFormat.toCharArray()[0] + "." + trailingFormat.toCharArray()[1] : trailingFormat.toCharArray()[0] + "" + trailingFormat.toCharArray()[1] + "." + trailingFormat.toCharArray()[2]);
 
-        return trailing && time < 60000 ?  trailingFormat + "s":  (time > 600000 ? new SimpleDateFormat("hh:mm:ss").format(time) : new SimpleDateFormat("mm:ss").format(time));
+        return trailing && time < 60*1000 ?  trailingFormat + "s":  (time > 3600*1000 ? new SimpleDateFormat("hh:mm:ss").format(time) : new SimpleDateFormat("mm:ss").format(time));
     }
 }
