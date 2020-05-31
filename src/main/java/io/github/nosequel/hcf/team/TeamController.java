@@ -1,15 +1,20 @@
 package io.github.nosequel.hcf.team;
 
+import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.data.DataController;
 import io.github.nosequel.hcf.controller.Controller;
 import io.github.nosequel.hcf.data.Loadable;
 import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.claim.ClaimPriority;
 import io.github.nosequel.hcf.team.data.TeamData;
+import io.github.nosequel.hcf.team.data.impl.GeneralData;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
+import io.github.nosequel.hcf.team.data.impl.player.DTRData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
+import io.github.nosequel.hcf.team.data.impl.player.invites.InviteTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
 import io.github.nosequel.hcf.util.Cuboid;
+import io.github.nosequel.hcf.util.database.DatabaseController;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -18,29 +23,55 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.logging.Level;
 
 @Getter
 @Setter
 public class TeamController implements Controller, DataController<Team, TeamData> {
 
     private final List<Team> teams = new ArrayList<>();
-    private final List<Class<? extends TeamData>> registeredData = new ArrayList<>();
 
+    private final List<Class<? extends TeamData>> registeredData = new ArrayList<>(Arrays.asList(
+            PlayerTeamData.class,
+            ClaimTeamData.class,
+            DTRData.class,
+            InviteTeamData.class,
+            GeneralData.class
+    ));
+
+    @Override
     public void enable() {
-        final Claim spawnClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 100, 100, 100), new Location(Bukkit.getWorlds().get(0), -100, -100, -100)), ClaimPriority.NORMAL);
-        final Claim warzoneClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 750, 750, 750), new Location(Bukkit.getWorlds().get(0), -750, -750, -750)), ClaimPriority.NORMAL);
-        final Claim wildernessClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), -1, -1, -1), new Location(Bukkit.getWorlds().get(0), -1, -1, -1)), ClaimPriority.LOW);
+        this.loadAll();
 
-        spawnClaim.setDeathban(false);
+        if (!this.teams.isEmpty()) {
+            this.teams.forEach(team -> team.setGeneralData(team.findData(GeneralData.class)));
+        } else {
+            HCTeams.getInstance().getLogger().log(Level.INFO, "Setting up default teams.");
 
-        new Team(null, "Spawn", TeamType.SAFEZONE_TEAM, spawnClaim);
-        new Team(null, "Wilderness", TeamType.WILDERNESS_TEAM, wildernessClaim);
-        new Team(null, "Warzone", TeamType.SYSTEM_TEAM, warzoneClaim).setColor(ChatColor.DARK_RED);
+            final Claim spawnClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 100, 100, 100), new Location(Bukkit.getWorlds().get(0), -100, -100, -100)), ClaimPriority.NORMAL);
+            final Claim warzoneClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), 750, 750, 750), new Location(Bukkit.getWorlds().get(0), -750, -750, -750)), ClaimPriority.NORMAL);
+            final Claim wildernessClaim = new Claim(new Cuboid(new Location(Bukkit.getWorlds().get(0), -1, -1, -1), new Location(Bukkit.getWorlds().get(0), -1, -1, -1)), ClaimPriority.LOW);
+
+            spawnClaim.setDeathban(false);
+
+            new Team(null, "Spawn", TeamType.SAFEZONE_TEAM, spawnClaim);
+            new Team(null, "Wilderness", TeamType.WILDERNESS_TEAM, wildernessClaim);
+            new Team(null, "Warzone", TeamType.SYSTEM_TEAM, warzoneClaim).setColor(ChatColor.DARK_RED);
+        }
     }
 
     @Override
-    public void load(Team loadable) {
+    public void disable() {
+        final DatabaseController controller = HCTeams.getInstance().getHandler().findController(DatabaseController.class);
 
+        teams.forEach(loadable -> controller.save(loadable, "teams"));
+    }
+
+    @Override
+    public void loadAll() {
+        final DatabaseController controller = HCTeams.getInstance().getHandler().findController(DatabaseController.class);
+
+        controller.loadAll(this,"teams", Team.class);
     }
 
     /**
@@ -67,7 +98,7 @@ public class TeamController implements Controller, DataController<Team, TeamData
 
     public Team findTeamByName(String name) {
         return this.teams.stream()
-                .filter(team -> team.getName().equalsIgnoreCase(name))
+                .filter(team -> team.getGeneralData().getName().equalsIgnoreCase(name))
                 .findFirst().orElse(null);
     }
 
@@ -94,13 +125,12 @@ public class TeamController implements Controller, DataController<Team, TeamData
      * @return the team
      */
     public Team findTeam(Player player) {
-        final Optional<PlayerTeamData> team = this.teams.stream()
-                .filter($team -> $team.findData(PlayerTeamData.class) != null)
-                .map($team -> $team.findData(PlayerTeamData.class))
-                .filter(data -> data.contains(player))
+        final Optional<Team> team = this.teams.stream()
+                .filter($team -> $team.hasData(PlayerTeamData.class))
+                .filter($team -> $team.findData(PlayerTeamData.class).contains(player))
                 .findFirst();
 
-        return team.map(PlayerTeamData::getTeam).orElse(null);
+        return team.orElse(null);
     }
 
     /**

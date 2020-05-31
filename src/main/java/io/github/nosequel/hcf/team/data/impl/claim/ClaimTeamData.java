@@ -4,22 +4,28 @@ import com.google.gson.JsonObject;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.data.impl.SaveableTeamData;
+import io.github.nosequel.hcf.util.JsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 
 @Getter
 @Setter
-public class ClaimTeamData implements SaveableTeamData {
+public class ClaimTeamData extends SaveableTeamData {
 
-    private final Team team;
     private final Claim claim;
     private Location home;
 
+    public ClaimTeamData() {
+        this.claim = null;
+    }
 
-    public ClaimTeamData(Team team, Claim claim) {
-        this.team = team;
+    public ClaimTeamData(Claim claim) {
         this.claim = claim;
+    }
+
+    public ClaimTeamData(JsonObject object) {
+        this.claim = new Claim(object);
     }
 
     /**
@@ -38,6 +44,6 @@ public class ClaimTeamData implements SaveableTeamData {
 
     @Override
     public JsonObject toJson() {
-        return claim.getCuboid().toJson();
+        return claim.toJson();
     }
 }

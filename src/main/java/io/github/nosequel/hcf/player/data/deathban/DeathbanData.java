@@ -14,6 +14,8 @@ public abstract class DeathbanData implements SaveableData {
 
     private final long expiration;
 
+    public DeathbanData() { this.expiration = 0L; }
+
     /**
      * Constructor for creating a new DeathbanData for a user
      *
@@ -21,6 +23,10 @@ public abstract class DeathbanData implements SaveableData {
      */
     public DeathbanData(long duration) {
         this.expiration = System.currentTimeMillis()+duration;
+    }
+
+    public DeathbanData(JsonObject object) {
+        this.expiration = Long.parseLong(object.get("expiration").getAsString());
     }
 
     /**

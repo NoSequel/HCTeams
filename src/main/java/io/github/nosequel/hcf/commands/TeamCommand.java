@@ -9,7 +9,6 @@ import io.github.nosequel.hcf.player.data.ClaimSelectionData;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
 import io.github.nosequel.hcf.team.claim.selection.ClaimSelection;
-import io.github.nosequel.hcf.team.data.impl.CosmeticTeamData;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.DTRData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerRole;
@@ -41,6 +40,10 @@ public class TeamCommand implements Controllable<TeamController> {
     @Command(label = "faction", aliases = {"f", "team", "t"})
     @Subcommand(label = "help", parentLabel = "faction")
     public void help(Player player) {
+        controller.getTeams().stream()
+                .map(team -> String.join(", ", new String[] { team.getFormattedName(), team.getData().stream().map(data -> data.getClass().getSimpleName()).collect(Collectors.joining(", "))}))
+                .forEach(System.out::println);
+
         player.sendMessage(new String[]{
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
                 ChatColor.DARK_PURPLE + ChatColor.BOLD.toString() + "General Faction Help",
@@ -124,7 +127,7 @@ public class TeamCommand implements Controllable<TeamController> {
         final Team team = controller.findTeam(player);
         final PlayerTeamData data = team.findData(PlayerTeamData.class);
 
-        Bukkit.broadcastMessage(ChatColor.YELLOW + "Team " + ChatColor.BLUE + team.getName() + ChatColor.YELLOW + " has been " + ChatColor.RED + "disbanded" + ChatColor.YELLOW + " by " + ChatColor.WHITE + player.getName());
+        Bukkit.broadcastMessage(ChatColor.YELLOW + "Team " + ChatColor.BLUE + team.getGeneralData().getName() + ChatColor.YELLOW + " has been " + ChatColor.RED + "disbanded" + ChatColor.YELLOW + " by " + ChatColor.WHITE + player.getName());
 
         if (data != null) {
             data.broadcast(ChatColor.GRAY + "The team you were previously in has been disbanded.");
@@ -156,7 +159,7 @@ public class TeamCommand implements Controllable<TeamController> {
             return;
         }
 
-        team.setName(name);
+        team.getGeneralData().setName(name);
         data.broadcast(ChatColor.GRAY + "Your team's has been renamed to " + ChatColor.WHITE + name);
     }
 
@@ -189,13 +192,12 @@ public class TeamCommand implements Controllable<TeamController> {
             return;
         }
 
-        if (team.getType().equals(TeamType.PLAYER_TEAM)) {
+        if (team.getGeneralData().getType().equals(TeamType.PLAYER_TEAM)) {
             final PlayerTeamData data = team.findData(PlayerTeamData.class);
-            final CosmeticTeamData cosmeticTeamData = team.findData(CosmeticTeamData.class);
             final ClaimTeamData claimTeamData = team.findData(ClaimTeamData.class);
 
             final OfflinePlayer leader = Bukkit.getOfflinePlayer(data.getLeader());
-            final Date currentDate = new Date(cosmeticTeamData.getCreateTime());
+            final Date currentDate = new Date(team.getGeneralData().getCreateTime());
 
             final String captains = data.getCaptains().stream().map(Bukkit::getOfflinePlayer).filter(Objects::nonNull).map(target -> (target.getPlayer() == null ? ChatColor.GRAY.toString() : ChatColor.GREEN.toString()) + target.getName() + (target.getPlayer() == null ? "" : ChatColor.YELLOW + "[" + ChatColor.GREEN + target.getPlayer().getStatistic(Statistic.PLAYER_KILLS) + ChatColor.YELLOW + "]")).collect(Collectors.joining(ChatColor.YELLOW + ", "));
             final String members = data.getMembers().stream().map(Bukkit::getOfflinePlayer).filter(Objects::nonNull).map(target -> (target.getPlayer() == null ? ChatColor.GRAY.toString() : ChatColor.GREEN.toString()) + target.getName() + (target.getPlayer() == null ? "" : ChatColor.YELLOW + "[" + ChatColor.GREEN + target.getPlayer().getStatistic(Statistic.PLAYER_KILLS) + ChatColor.YELLOW + "]")).collect(Collectors.joining(ChatColor.YELLOW + ", "));
@@ -203,7 +205,7 @@ public class TeamCommand implements Controllable<TeamController> {
 
             final List<String> messages = new ArrayList<>(Arrays.asList(
                     ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
-                    ChatColor.BLUE + team.getName() + ChatColor.GRAY + "[" + data.getOnlineMembers().size() + "/" + data.getAllMembers().size() + "]" + ChatColor.DARK_AQUA + " - " + ChatColor.WHITE + data.getAbbreviatedName(),
+                    ChatColor.BLUE + team.getGeneralData().getName() + ChatColor.GRAY + "[" + data.getOnlineMembers().size() + "/" + data.getAllMembers().size() + "]" + ChatColor.DARK_AQUA + " - " + ChatColor.WHITE + data.getAbbreviatedName(),
                     "",
 
                     ChatColor.YELLOW + "Leader: " + (leader.getPlayer() == null ? ChatColor.GRAY : ChatColor.GREEN) + leader.getName() + (leader.getPlayer() == null ? "" : ChatColor.YELLOW + "[" + ChatColor.GREEN + player.getPlayer().getStatistic(Statistic.PLAYER_KILLS) + ChatColor.YELLOW + "]")
@@ -336,8 +338,8 @@ public class TeamCommand implements Controllable<TeamController> {
             inviteTeamData.invite(target);
             player.sendMessage(ChatColor.GRAY + "You have invited " + target.getName() + " to your team.");
             target.sendMessage(new String[]{
-                    ChatColor.GRAY + "You have been invited to join " + ChatColor.WHITE + team.getName(),
-                    ChatColor.GRAY + "Type /team accept " + team.getName() + " to accept the invite."
+                    ChatColor.GRAY + "You have been invited to join " + ChatColor.WHITE + team.getGeneralData().getName(),
+                    ChatColor.GRAY + "Type /team accept " + team.getGeneralData().getName() + " to accept the invite."
             });
         }
     }
@@ -441,6 +443,54 @@ public class TeamCommand implements Controllable<TeamController> {
         data.setLeader(target.getUniqueId());
         data.getCoLeaders().add(player.getUniqueId());
         data.broadcast(ChatColor.WHITE + player.getName() + ChatColor.GRAY + " has transferred the team's ownership to " + ChatColor.WHITE + target.getName());
+    }
+
+    @Subcommand(label = "kick", parentLabel = "faction")
+    public void kick(Player player, UUID targetUuid) {
+        if (!this.shouldProceed(player, PlayerRole.CO_LEADER)) {
+            return;
+        }
+
+        final Team team = this.controller.findTeam(player);
+        final PlayerTeamData data = team.findData(PlayerTeamData.class);
+        final OfflinePlayer target = Bukkit.getOfflinePlayer(targetUuid);
+
+        if (target == null) {
+            player.sendMessage(ChatColor.RED + "That player does not exist.");
+            return;
+        }
+
+        if (data != null) {
+            if (!data.contains(targetUuid)) {
+                player.sendMessage(ChatColor.RED + "That player is not in your team.");
+                return;
+            } else if (data.getRole(targetUuid).priority > data.getRole(player.getUniqueId()).priority) {
+                player.sendMessage(ChatColor.RED + "That player has a higher role than you.");
+                return;
+            }
+
+            data.kick(targetUuid);
+            data.broadcast(ChatColor.DARK_GREEN + target.getName() + ChatColor.YELLOW + " has been kicked from the team.");
+        }
+    }
+
+    @Subcommand(label = "leave", parentLabel = "faction")
+    public void leave(Player player) {
+        final Team team = this.controller.findTeam(player);
+
+        if (team != null) {
+            final PlayerTeamData data = team.findData(PlayerTeamData.class);
+
+            if (data.getRole(player.getUniqueId()).equals(PlayerRole.LEADER)) {
+                player.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + "You cannot leave your own team...");
+                player.sendMessage(ChatColor.RED + "Disband your team or transfer your team's leadership.");
+
+                return;
+            }
+
+            data.kick(player.getUniqueId());
+            data.broadcast(ChatColor.DARK_GREEN + player.getName() + ChatColor.YELLOW + " has left the team.");
+        }
     }
 
     /**

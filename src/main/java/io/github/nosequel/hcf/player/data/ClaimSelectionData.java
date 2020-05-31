@@ -12,6 +12,8 @@ public class ClaimSelectionData implements Data {
 
     private final ClaimSelection claimSelection;
 
+    public ClaimSelectionData() { this.claimSelection = null; }
+
     /**
      * Constructor for creating a new ClaimSelectionData class instance
      *

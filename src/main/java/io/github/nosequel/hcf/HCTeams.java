@@ -14,12 +14,17 @@ import io.github.nosequel.hcf.tasks.TaskController;
 import io.github.nosequel.hcf.team.TeamController;
 import io.github.nosequel.hcf.timers.TimerController;
 import io.github.nosequel.hcf.util.command.CommandController;
+import io.github.nosequel.hcf.util.database.DatabaseController;
+import io.github.nosequel.hcf.util.database.options.impl.MongoDatabaseOption;
+import io.github.nosequel.hcf.util.database.type.mongo.MongoDataType;
 import io.github.thatkawaiisam.assemble.Assemble;
 import io.github.thatkawaiisam.assemble.AssembleStyle;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Logger;
 
 @Getter
 public class HCTeams extends JavaPlugin {
@@ -35,6 +40,16 @@ public class HCTeams extends JavaPlugin {
         instance = this;
 
         // register controllers
+        this.handler.registerController(new DatabaseController(
+                new MongoDatabaseOption(
+                        "127.0.0.1",
+                        "",
+                        "",
+                        "hcteams",
+                        27017
+                ),
+                new MongoDataType()
+        ));
         this.handler.registerController(new TeamController());
         this.handler.registerController(new PlayerDataController());
         this.handler.registerController(new TimerController());

@@ -15,8 +15,9 @@ import java.util.UUID;
 @Setter
 public class PlayerData implements Loadable<Data> {
 
-    private final UUID uniqueId;
-    private final List<Data> data = new ArrayList<>();
+    private UUID uniqueId;
+    private List<Data> data = new ArrayList<>();
+
     private final PlayerDataController controller = HCTeams.getInstance().getHandler().findController(PlayerDataController.class);
 
     /**
@@ -29,5 +30,6 @@ public class PlayerData implements Loadable<Data> {
         this.uniqueId = uniqueId;
 
         controller.getPlayerData().add(this);
+        controller.load(this);
     }
 }

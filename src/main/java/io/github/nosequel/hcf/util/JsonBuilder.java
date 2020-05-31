@@ -4,11 +4,13 @@ import com.google.gson.JsonObject;
 
 public class JsonBuilder {
 
-    private JsonObject object;
+    private final JsonObject object;
 
     public JsonBuilder() {
         object = new JsonObject();
     }
+
+    public JsonBuilder(JsonObject object) { this.object = object; }
 
     /**
      * adds a property to the JsonObject

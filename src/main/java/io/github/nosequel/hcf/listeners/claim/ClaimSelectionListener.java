@@ -59,7 +59,7 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
                             return;
                         }
 
-                        if (!teamController.findTeam(claimSelection.getLocation1()).getType().equals(TeamType.WILDERNESS_TEAM) || !teamController.findTeam(claimSelection.getLocation1()).getType().equals(TeamType.WILDERNESS_TEAM)) {
+                        if (!teamController.findTeam(claimSelection.getLocation1()).getGeneralData().getType().equals(TeamType.WILDERNESS_TEAM) || !teamController.findTeam(claimSelection.getLocation1()).getGeneralData().getType().equals(TeamType.WILDERNESS_TEAM)) {
                             player.sendMessage(ChatColor.GRAY + "The current selection contains non-wilderness regions.");
                             return;
                         }
@@ -70,7 +70,7 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
                     claimSelection.apply();
                     playerData.getData().remove(data);
 
-                    if (team.getType().equals(TeamType.PLAYER_TEAM)) {
+                    if (team.getGeneralData().getType().equals(TeamType.PLAYER_TEAM)) {
                         final PlayerTeamData playerTeamData = team.findData(PlayerTeamData.class);
                         final ClaimTeamData claimTeamData = team.findData(ClaimTeamData.class);
 

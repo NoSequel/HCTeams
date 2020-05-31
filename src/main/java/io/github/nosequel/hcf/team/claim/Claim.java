@@ -1,10 +1,13 @@
 package io.github.nosequel.hcf.team.claim;
 
+import com.google.gson.JsonObject;
 import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.util.Cuboid;
+import io.github.nosequel.hcf.util.JsonBuilder;
+import io.github.nosequel.hcf.util.JsonUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,6 +39,20 @@ public class Claim {
      */
     public Claim(Cuboid cuboid) {
         this(cuboid, ClaimPriority.NORMAL);
+    }
+
+    public Claim(JsonObject object) {
+        System.out.println(object.toString());
+
+        this.cuboid = new Cuboid(JsonUtils.getParser().parse(object.get("cuboid").getAsString()).getAsJsonObject());
+        this.priority = ClaimPriority.valueOf(object.get("priority").getAsString());
+
+    }
+
+    public JsonObject toJson() {
+        return new JsonBuilder()
+                .addProperty("cuboid", this.getCuboid().toJson().toString())
+                .addProperty("priority", this.priority.name()).get();
     }
 
     /**

@@ -10,11 +10,13 @@ import org.bukkit.ChatColor;
 
 @Getter
 @Setter
-public class DTRData implements SaveableTeamData {
+public class DTRData extends SaveableTeamData {
 
     private double dtr;
     private double maxDtr;
     private long lastRegen;
+
+    public DTRData() {}
 
     /**
      * Constructor for generating a new DTRData object
@@ -60,8 +62,9 @@ public class DTRData implements SaveableTeamData {
      * @return the formatted dtr strin
      */
     public String formatDtr() {
+
         final String dtrSymbol = this.getDtr() == maxDtr ? "⯈" : "⯅";
-        final ChatColor dtrColor = this.getDtr() > 0.1 ? ChatColor.GREEN : this.getDtr() == 0.1 ? ChatColor.GOLD : ChatColor.RED;
+        final ChatColor dtrColor = this.getDtr() >= 1.1 ? ChatColor.GREEN : this.getDtr() < 1.1 ? ChatColor.YELLOW : ChatColor.DARK_RED;
 
         return dtrColor + String.valueOf(this.getDtr()) + dtrSymbol;
     }

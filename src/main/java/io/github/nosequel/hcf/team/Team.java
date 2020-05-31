@@ -1,11 +1,11 @@
 package io.github.nosequel.hcf.team;
 
+import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.controller.Controllable;
-import io.github.nosequel.hcf.data.Data;
 import io.github.nosequel.hcf.data.Loadable;
 import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.data.TeamData;
-import io.github.nosequel.hcf.team.data.impl.CosmeticTeamData;
+import io.github.nosequel.hcf.team.data.impl.GeneralData;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.DTRData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
@@ -20,19 +20,24 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 @Getter
 @Setter
 public class Team implements Controllable<TeamController>, Loadable<TeamData> {
 
     private final TeamController teamController = this.getController();
-    private final TeamType type;
-    private final List<TeamData> data = new ArrayList<>();
 
+    private List<TeamData> data = new ArrayList<>();
+    private GeneralData generalData;
     private ChatColor color;
-
     private UUID uniqueId;
-    private String name;
+
+    public Team(UUID uuid) {
+        this.uniqueId = uuid == null ? UUID.randomUUID() : uuid;
+
+        this.teamController.getTeams().add(this);
+    }
 
     /**
      * Constructor for creating a new Team object
@@ -42,12 +47,13 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
      * @param type the team type
      */
     public Team(UUID uuid, String name, TeamType type) {
-        this.uniqueId = uuid == null ? UUID.randomUUID() : uuid;
-        this.name = name;
-        this.type = type;
+        this(uuid);
 
-        setupData();
-        teamController.getTeams().add(this);
+        this.generalData = new GeneralData(name, type);
+
+        this.setupData();
+
+        HCTeams.getInstance().getLogger().log(Level.INFO, "Creating new team" + (this.hasData(GeneralData.class) ? " called " + this.findData(GeneralData.class).getName() : ""));
     }
 
     /**
@@ -61,7 +67,7 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
     public Team(UUID uuid, String name, UUID leaderUuid) {
         this(uuid, name, TeamType.PLAYER_TEAM);
 
-        this.addData(new PlayerTeamData(this, leaderUuid));
+        this.addData(new PlayerTeamData(leaderUuid));
     }
 
     /**
@@ -76,13 +82,13 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
     public Team(UUID uuid, String name, TeamType type, Claim claim) {
         this(uuid, name, type);
 
-        this.addData(new ClaimTeamData(this, claim));
+        this.addData(new ClaimTeamData(claim));
     }
 
     private void setupData() {
-        this.addData(new CosmeticTeamData(this));
+        this.addData(generalData);
 
-        if(this.type.equals(TeamType.PLAYER_TEAM)) {
+        if (this.generalData.getType().equals(TeamType.PLAYER_TEAM)) {
             this.addData(new InviteTeamData());
             this.addData(new DTRData(1.1D));
         }
@@ -94,11 +100,11 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
      * @param claim the claim
      */
     public void addClaim(Claim claim) {
-        if(this.findData(ClaimTeamData.class) != null) {
+        if (this.findData(ClaimTeamData.class) != null) {
             this.getData().remove(this.findData(ClaimTeamData.class));
         }
 
-        this.addData(new ClaimTeamData(this, claim));
+        this.addData(new ClaimTeamData(claim));
     }
 
     /**
@@ -112,18 +118,18 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
             return true;
         }
 
-        if (this.getType().equals(TeamType.PLAYER_TEAM)) {
+        if (this.getGeneralData().getType().equals(TeamType.PLAYER_TEAM)) {
             return this.findData(PlayerTeamData.class).contains(player) || this.findData(DTRData.class).isRaidable();
         }
 
-        return this.type.canInteract;
+        return this.getGeneralData().getType().canInteract;
     }
 
     /**
      * Disband the current team
      */
     public void disband() {
-        if(this.type.equals(TeamType.PLAYER_TEAM)) {
+        if (this.getGeneralData().getType().equals(TeamType.PLAYER_TEAM)) {
             final PlayerTeamData playerTeamData = this.findData(PlayerTeamData.class);
             playerTeamData.broadcast(ChatColor.RED + "Your current team has been disbanded.");
         }
@@ -137,7 +143,7 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
      * @return the display name
      */
     public String getDisplayName(Player player) {
-        return this.type.formatName(this, player);
+        return this.getGeneralData().getType().formatName(this, player);
     }
 
     /**
@@ -146,6 +152,6 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
      * @return the formatted name
      */
     public String getFormattedName() {
-        return this.name.replace("_", " ");
+        return this.getGeneralData().getName().replace("_", " ");
     }
 }

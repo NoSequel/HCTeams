@@ -46,6 +46,7 @@ public class DeathListeners implements Listener {
             dtrData.setDtr(dtrData.getDtr()-1.0D);
         }
 
+        player.getInventory().clear();
         playerData.addData(data);
         data.kickPlayer(player);
         event.setDeathMessage(null);

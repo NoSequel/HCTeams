@@ -3,7 +3,9 @@ package io.github.nosequel.hcf.team.data.impl.player;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.github.nosequel.hcf.HCTeams;
 import io.github.nosequel.hcf.team.Team;
+import io.github.nosequel.hcf.team.TeamController;
 import io.github.nosequel.hcf.team.data.impl.SaveableTeamData;
 import io.github.nosequel.hcf.util.JsonBuilder;
 import io.github.nosequel.hcf.util.JsonUtils;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public class PlayerTeamData implements SaveableTeamData {
+public class PlayerTeamData extends SaveableTeamData {
 
     private UUID leader;
 
@@ -27,29 +29,29 @@ public class PlayerTeamData implements SaveableTeamData {
     private final Set<UUID> coLeaders = new HashSet<>();
 
     private final int balance = 0;
-
-    private final Team team;
+    private final Team team = HCTeams.getInstance().getHandler().findController(TeamController.class).getTeams().stream()
+            .filter($team -> $team.getData().contains(this))
+            .findFirst().orElse(null);
 
     private String abbreviatedName;
+
+    public PlayerTeamData() { }
 
     /**
      * Constructor for creating a new PlayerTeamData object
      *
-     * @param team the team it's assigned to
+     * @param leaderUuid the leader of the team
      */
-    public PlayerTeamData(Team team, UUID leaderUuid) {
-        this.team = team;
+    public PlayerTeamData(UUID leaderUuid) {
         this.leader = leaderUuid;
     }
 
     /**
      * Constructor for loading a PlayerTeamData object from a JsonObject
      *
-     * @param team   the team it's assigned to
      * @param object the object it has to read the data from
      */
-    public PlayerTeamData(Team team, JsonObject object) {
-        this.team = team;
+    public PlayerTeamData(JsonObject object) {
         this.leader = UUID.fromString(object.get("leader").getAsString());
 
         ImmutableMap.of(
@@ -57,8 +59,8 @@ public class PlayerTeamData implements SaveableTeamData {
                 "captains", this.captains,
                 "coLeaders", this.coLeaders
         ).forEach((key, value) -> {
-            final String $key = object.get("key").getAsString();
-            final JsonArray jsonArray = JsonUtils.getParser().parse($key).getAsJsonArray();
+            final String string = object.get(key).getAsString();
+            final JsonArray jsonArray = JsonUtils.getParser().parse(string).getAsJsonArray();
 
             jsonArray.forEach(element -> value.add(UUID.fromString(element.getAsString())));
         });
@@ -74,6 +76,26 @@ public class PlayerTeamData implements SaveableTeamData {
 
         final DTRData data = team.findData(DTRData.class);
         data.setMaxDtr(data.getMaxDtr()+1.1D);
+    }
+
+    /**
+     * Kick a player from the team
+     *
+     * @param uuid the uuid of the player
+     */
+    public void kick(UUID uuid) {
+        this.demotePlayer(uuid);
+        this.demotePlayer(uuid);
+        this.demotePlayer(uuid);
+
+        this.members.remove(uuid);
+
+        final DTRData data = team.findData(DTRData.class);
+        data.setMaxDtr(data.getMaxDtr() - 1.1D);
+
+        if (data.getDtr() > data.getMaxDtr()) {
+            data.setDtr(data.getMaxDtr());
+        }
     }
 
     /**
@@ -132,10 +154,6 @@ public class PlayerTeamData implements SaveableTeamData {
      * @param uuid the new leader
      */
     public void setLeader(UUID uuid) {
-        while (true) {
-            break;
-        }
-
         this.demotePlayer(uuid);
         this.demotePlayer(uuid);
         this.demotePlayer(uuid);
@@ -188,9 +206,9 @@ public class PlayerTeamData implements SaveableTeamData {
     @Override
     public JsonObject toJson() {
         return new JsonBuilder()
-                .addProperty("members", StringUtils.fromList((List<?>) members))
-                .addProperty("captains", StringUtils.fromList((List<?>) captains))
-                .addProperty("coLeaders", StringUtils.fromList((List<?>) coLeaders))
+                .addProperty("members", StringUtils.fromSet(members))
+                .addProperty("captains", StringUtils.fromSet(captains))
+                .addProperty("coLeaders", StringUtils.fromSet(coLeaders))
                 .addProperty("leader", leader.toString())
                 .get();
     }
@@ -202,6 +220,18 @@ public class PlayerTeamData implements SaveableTeamData {
      * @return whether he's in the team
      */
     public boolean contains(Player player) {
-        return this.members.contains(player.getUniqueId()) || this.captains.contains(player.getUniqueId()) || this.coLeaders.contains(player.getUniqueId()) || this.leader.equals(player.getUniqueId());
+        return this.contains(player.getUniqueId());
     }
+
+    /**
+     * Check if a player is in a team
+     *
+     * @param uuid the uuid of the player
+     * @return whether he's in the team
+     */
+    public boolean contains(UUID uuid) {
+        return this.members.contains(uuid) || this.captains.contains(uuid) || this.coLeaders.contains(uuid) || this.leader.equals(uuid);
+
+    }
+
 }

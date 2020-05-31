@@ -9,10 +9,21 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-public class InviteTeamData implements SaveableTeamData {
+public class InviteTeamData extends SaveableTeamData {
 
-    private final List<UUID> invites = new ArrayList<>();
+    private List<UUID> invites;
+
+    public InviteTeamData() {
+        this.invites = new ArrayList<>();
+    }
+
+    public InviteTeamData(JsonObject object) {
+        this.invites = StringUtils.listFromString(object.get("invites").getAsString()).stream()
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+    }
 
     /**
      * Invite a player to a team

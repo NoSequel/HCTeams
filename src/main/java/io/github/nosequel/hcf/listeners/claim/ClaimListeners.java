@@ -12,6 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class ClaimListeners implements Listener, Controllable<TeamController> {
@@ -57,6 +59,19 @@ public class ClaimListeners implements Listener, Controllable<TeamController> {
 
         if (team != null && !team.canInteract(player)) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        if(event.getClickedBlock() != null) {
+            final Player player = event.getPlayer();
+            final Location blockLocation = event.getClickedBlock().getLocation();
+            final Team team = controller.findTeam(blockLocation);
+
+            if (team != null && !team.canInteract(player)) {
+                event.setCancelled(true);
+            }
         }
     }
 }

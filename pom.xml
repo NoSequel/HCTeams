@@ -88,8 +88,15 @@
 
         <dependency>
             <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.12.4</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
             <artifactId>bson</artifactId>
-            <version>4.0.1</version>
+            <version>3.6.0</version>
         </dependency>
 
         <dependency>

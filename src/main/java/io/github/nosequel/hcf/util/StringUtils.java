@@ -5,8 +5,10 @@ import org.bukkit.ChatColor;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @UtilityClass
@@ -44,6 +46,31 @@ public class StringUtils {
      * @return the string
      */
     public String fromList(List<?> list) {
+        return list.stream()
+                .map(Object::toString)
+                .collect(Collectors.toList()).toString();
+    }
+
+    /**
+     * Get a list from a string
+     *
+     * @param string the string
+     * @return the list
+     */
+    public List<String> listFromString(String string) {
+        final List<String> list = new ArrayList<>();
+        JsonUtils.getParser().parse(string).getAsJsonArray().forEach(element -> list.add(element.getAsString()));
+
+        return list;
+    }
+
+    /**
+     * Get a String from a Set<T>
+     *
+     * @param list the set
+     * @return the string
+     */
+    public String fromSet(Set<?> list) {
         return list.stream()
                 .map(Object::toString)
                 .collect(Collectors.toList()).toString();
