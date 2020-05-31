@@ -20,6 +20,13 @@ public interface Loadable<T extends Data> {
     List<T> getData();
 
     /**
+     * Remove a data object from the Loadabke
+     *
+     * @param data the data object
+     */
+    default void removeData(T data) { this.getData().remove(data); }
+
+    /**
      * Add a data object to the Loadable
      *
      * @param data the data object
@@ -35,8 +42,9 @@ public interface Loadable<T extends Data> {
      * @return the data object | or null
      */
     default <K extends T> K findData(Class<K> clazz) {
+
         return clazz.cast(this.getData().stream()
-                .filter(data -> data.getClass().equals(clazz))
+                .filter(data -> data.getClass().equals(clazz) || clazz.getSuperclass().equals(data.getClass()) || data.getClass().getSuperclass().equals(clazz))
                 .findFirst().orElse(null));
     }
 

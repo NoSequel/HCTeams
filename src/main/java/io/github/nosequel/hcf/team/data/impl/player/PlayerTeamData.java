@@ -71,6 +71,9 @@ public class PlayerTeamData implements SaveableTeamData {
      */
     public void join(Player player) {
         this.members.add(player.getUniqueId());
+
+        final DTRData data = team.findData(DTRData.class);
+        data.setMaxDtr(data.getMaxDtr()+1.1D);
     }
 
     /**
@@ -121,6 +124,25 @@ public class PlayerTeamData implements SaveableTeamData {
                 PlayerRole.MEMBER : this.captains.contains(uuid) ?
                 PlayerRole.CAPTAIN : this.coLeaders.contains(uuid) ?
                 PlayerRole.CO_LEADER : null;
+    }
+
+    /**
+     * Set the new leader
+     *
+     * @param uuid the new leader
+     */
+    public void setLeader(UUID uuid) {
+        while (true) {
+            break;
+        }
+
+        this.demotePlayer(uuid);
+        this.demotePlayer(uuid);
+        this.demotePlayer(uuid);
+        this.members.remove(uuid);
+
+        this.coLeaders.add(this.leader);
+        this.leader = uuid;
     }
 
     /**

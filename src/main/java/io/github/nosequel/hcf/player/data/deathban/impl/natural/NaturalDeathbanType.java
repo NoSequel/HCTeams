@@ -3,7 +3,8 @@ package io.github.nosequel.hcf.player.data.deathban.impl.natural;
 public enum NaturalDeathbanType {
 
     FALL_DAMAGE("died by fall damage"),
-    MONSTER("have been killed by a monster");
+    MONSTER("have been killed by a monster"),
+    UNDEFINED("have died because of a natural cause");
 
     public String reason;
 

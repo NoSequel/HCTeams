@@ -7,8 +7,10 @@ import io.github.nosequel.hcf.listeners.PlayerListeners;
 import io.github.nosequel.hcf.listeners.claim.ClaimListeners;
 import io.github.nosequel.hcf.listeners.claim.ClaimSelectionListener;
 import io.github.nosequel.hcf.listeners.team.DamageListeners;
+import io.github.nosequel.hcf.listeners.team.DeathListeners;
 import io.github.nosequel.hcf.player.PlayerDataController;
 import io.github.nosequel.hcf.scoreboard.BoardProviderHandler;
+import io.github.nosequel.hcf.tasks.TaskController;
 import io.github.nosequel.hcf.team.TeamController;
 import io.github.nosequel.hcf.timers.TimerController;
 import io.github.nosequel.hcf.util.command.CommandController;
@@ -25,19 +27,18 @@ public class HCTeams extends JavaPlugin {
     @Getter
     private static HCTeams instance;
 
-    private Thread mainThread;
-    private ControllerHandler handler = new ControllerHandler();
+    private final ControllerHandler handler = new ControllerHandler();
 
     @Override
     public void onEnable() {
         // register the instance
         instance = this;
-        this.mainThread = Thread.currentThread();
 
         // register controllers
         this.handler.registerController(new TeamController());
         this.handler.registerController(new PlayerDataController());
         this.handler.registerController(new TimerController());
+        this.handler.registerController(new TaskController());
 
         // register commands
         final CommandController commandController = handler.registerController(new CommandController("hcteams"));
@@ -50,6 +51,7 @@ public class HCTeams extends JavaPlugin {
         pluginManager.registerEvents(new ClaimSelectionListener(), this);
         pluginManager.registerEvents(new PlayerListeners(), this);
         pluginManager.registerEvents(new DamageListeners(), this);
+        pluginManager.registerEvents(new DeathListeners(), this);
 
         // setup scoreboard
         new Assemble(this, new BoardProviderHandler()).setAssembleStyle(AssembleStyle.MODERN);

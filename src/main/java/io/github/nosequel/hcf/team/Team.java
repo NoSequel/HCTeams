@@ -7,6 +7,7 @@ import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.data.TeamData;
 import io.github.nosequel.hcf.team.data.impl.CosmeticTeamData;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
+import io.github.nosequel.hcf.team.data.impl.player.DTRData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.invites.InviteTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
@@ -83,6 +84,7 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
 
         if(this.type.equals(TeamType.PLAYER_TEAM)) {
             this.addData(new InviteTeamData());
+            this.addData(new DTRData(1.1D));
         }
     }
 
@@ -106,12 +108,12 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
      * @return whether he can interact
      */
     public boolean canInteract(Player player) {
-        if (player.hasPermission("hcteams.bypass.interact") || player.getGameMode().equals(GameMode.CREATIVE)) {
+        if (player.hasPermission("hcteams.bypass.interact") && player.getGameMode().equals(GameMode.CREATIVE)) {
             return true;
         }
 
         if (this.getType().equals(TeamType.PLAYER_TEAM)) {
-            return this.findData(PlayerTeamData.class).contains(player);
+            return this.findData(PlayerTeamData.class).contains(player) || this.findData(DTRData.class).isRaidable();
         }
 
         return this.type.canInteract;

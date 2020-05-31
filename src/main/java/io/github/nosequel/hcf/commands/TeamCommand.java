@@ -11,6 +11,7 @@ import io.github.nosequel.hcf.team.TeamController;
 import io.github.nosequel.hcf.team.claim.selection.ClaimSelection;
 import io.github.nosequel.hcf.team.data.impl.CosmeticTeamData;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
+import io.github.nosequel.hcf.team.data.impl.player.DTRData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerRole;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.invites.InviteTeamData;
@@ -123,7 +124,7 @@ public class TeamCommand implements Controllable<TeamController> {
         final Team team = controller.findTeam(player);
         final PlayerTeamData data = team.findData(PlayerTeamData.class);
 
-        Bukkit.broadcastMessage(ChatColor.YELLOW + "Team " + ChatColor.BLACK + team.getName() + ChatColor.YELLOW + " has been " + ChatColor.RED + "disbanded" + ChatColor.YELLOW + " by " + ChatColor.WHITE + player.getName());
+        Bukkit.broadcastMessage(ChatColor.YELLOW + "Team " + ChatColor.BLUE + team.getName() + ChatColor.YELLOW + " has been " + ChatColor.RED + "disbanded" + ChatColor.YELLOW + " by " + ChatColor.WHITE + player.getName());
 
         if (data != null) {
             data.broadcast(ChatColor.GRAY + "The team you were previously in has been disbanded.");
@@ -220,6 +221,7 @@ public class TeamCommand implements Controllable<TeamController> {
 
             messages.addAll(Arrays.asList(
                     ChatColor.YELLOW + "Balance: " + ChatColor.RED + "$" + data.getBalance(),
+                    ChatColor.YELLOW + "DTR: " + team.findData(DTRData.class).formatDtr(),
                     ChatColor.YELLOW + "Claim: " + ChatColor.RED + (claimTeamData != null ? claimTeamData.getClaim().getCuboid().getChunks() : "0") + " chunks" + ChatColor.YELLOW + ", " + "Home: " + ChatColor.RED + (claimTeamData == null ? "Not Set" : claimTeamData.getHomeAsString()),
                     "",
                     ChatColor.GRAY + ChatColor.ITALIC.toString() + "Founded on " + new SimpleDateFormat("MM/dd/yyyy").format(currentDate) + " at " + new SimpleDateFormat("hh:mm:ss").format(currentDate),
@@ -356,7 +358,7 @@ public class TeamCommand implements Controllable<TeamController> {
                 return;
             }
 
-            playerTeamData.promotePlayer(player.getUniqueId());
+            playerTeamData.join(player);
             playerTeamData.broadcast(ChatColor.WHITE + player.getName() + ChatColor.GRAY + " has joined your team.");
         }
     }
