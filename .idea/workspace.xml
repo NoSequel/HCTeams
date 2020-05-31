@@ -20,38 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9794bd8-a79a-4b78-a6c5-bc3ea623b1c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/GeneralData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/database/DatabaseController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/database/options/DatabaseOption.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/database/options/impl/MongoDatabaseOption.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/database/type/DataType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/database/type/mongo/MongoDataType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/HCTeams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/HCTeams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/commands/TeamCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/commands/TeamCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/data/DataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/data/DataController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/data/Loadable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/data/Loadable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/listeners/claim/ClaimListeners.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/listeners/claim/ClaimListeners.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/listeners/claim/ClaimSelectionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/listeners/claim/ClaimSelectionListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/listeners/team/DeathListeners.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/listeners/team/DeathListeners.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/PlayerData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/PlayerData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/PlayerDataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/PlayerDataController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/data/ClaimSelectionData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/data/ClaimSelectionData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/data/deathban/DeathbanData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/data/deathban/DeathbanData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/data/deathban/impl/PlayerDeathbanData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/data/deathban/impl/PlayerDeathbanData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/data/deathban/impl/natural/NaturalDeathbanData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/player/data/deathban/impl/natural/NaturalDeathbanData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/Team.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/TeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/TeamController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/claim/Claim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/claim/Claim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/CosmeticTeamData.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/SaveableTeamData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/SaveableTeamData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/claim/ClaimTeamData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/claim/ClaimTeamData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/DTRData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/DTRData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/GeneralData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/GeneralData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/PlayerTeamData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/PlayerTeamData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/invites/InviteTeamData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/invites/InviteTeamData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/JsonBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/JsonBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/database/DatabaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/database/DatabaseController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,22 +162,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590528575633" />
-    <state width="1877" height="314" key="GridCell.Tab.0.bottom" timestamp="1590945874139">
+    <state width="1877" height="314" key="GridCell.Tab.0.bottom" timestamp="1590946775081">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="314" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590945874139" />
-    <state width="1877" height="314" key="GridCell.Tab.0.center" timestamp="1590945874138">
+    <state width="1877" height="314" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590946775081" />
+    <state width="1877" height="314" key="GridCell.Tab.0.center" timestamp="1590946775080">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="314" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590945874138" />
-    <state width="1877" height="314" key="GridCell.Tab.0.left" timestamp="1590945874138">
+    <state width="1877" height="314" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590946775080" />
+    <state width="1877" height="314" key="GridCell.Tab.0.left" timestamp="1590946775080">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="314" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590945874138" />
-    <state width="1877" height="314" key="GridCell.Tab.0.right" timestamp="1590945874139">
+    <state width="1877" height="314" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590946775080" />
+    <state width="1877" height="314" key="GridCell.Tab.0.right" timestamp="1590946775081">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="314" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590945874139" />
+    <state width="1877" height="314" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590946775081" />
     <state x="440" y="94" key="SettingsEditor" timestamp="1590860508407">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

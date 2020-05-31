@@ -32,7 +32,7 @@ public class GeneralData extends SaveableTeamData {
     public GeneralData(JsonObject object) {
         this(object.get("name").getAsString(), TeamType.valueOf(object.get("type").getAsString()));
 
-        this.createTime = object.get("createTime").getAsInt();
+        this.createTime = object.get("createTime").getAsLong();
     }
 
     @Override

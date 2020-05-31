@@ -64,6 +64,8 @@ public class PlayerTeamData extends SaveableTeamData {
 
             jsonArray.forEach(element -> value.add(UUID.fromString(element.getAsString())));
         });
+
+        this.abbreviatedName = object.get("acronym").getAsString();
     }
 
     /**
@@ -210,6 +212,7 @@ public class PlayerTeamData extends SaveableTeamData {
                 .addProperty("captains", StringUtils.fromSet(captains))
                 .addProperty("coLeaders", StringUtils.fromSet(coLeaders))
                 .addProperty("leader", leader.toString())
+                .addProperty("acronym", this.abbreviatedName)
                 .get();
     }
 

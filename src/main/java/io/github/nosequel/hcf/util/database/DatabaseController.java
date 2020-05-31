@@ -69,8 +69,9 @@ public class DatabaseController implements Controller {
     public void save(Loadable<?> loadable, String collection) {
         if (this.type.getClass().equals(MongoDataType.class)) {
             final MongoDataType type = (MongoDataType) this.type;
+            final Document document = database.getCollection(collection).find(Filters.eq("uuid", loadable.getUniqueId().toString())).first();
 
-            type.save(database.getCollection(collection), new Document(), loadable);
+            type.save(database.getCollection(collection), document == null ? new Document() : document, loadable);
         }
     }
 
