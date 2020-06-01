@@ -8,6 +8,7 @@ import io.github.nosequel.hcf.player.PlayerDataController;
 import io.github.nosequel.hcf.player.data.ClaimSelectionData;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
+import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.claim.selection.ClaimSelection;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.DTRData;
@@ -191,12 +192,13 @@ public class TeamCommand implements Controllable<TeamController> {
             return;
         }
 
+        final Date currentDate = new Date(team.getGeneralData().getCreateTime());
+        final ClaimTeamData claimTeamData = team.findData(ClaimTeamData.class);
+
         if (team.getGeneralData().getType().equals(TeamType.PLAYER_TEAM)) {
             final PlayerTeamData data = team.findData(PlayerTeamData.class);
-            final ClaimTeamData claimTeamData = team.findData(ClaimTeamData.class);
 
             final OfflinePlayer leader = Bukkit.getOfflinePlayer(data.getLeader());
-            final Date currentDate = new Date(team.getGeneralData().getCreateTime());
 
             final String captains = data.getCaptains().stream().map(Bukkit::getOfflinePlayer).filter(Objects::nonNull).map(target -> (target.getPlayer() == null ? ChatColor.GRAY.toString() : ChatColor.GREEN.toString()) + target.getName() + (target.getPlayer() == null ? "" : ChatColor.YELLOW + "[" + ChatColor.GREEN + target.getPlayer().getStatistic(Statistic.PLAYER_KILLS) + ChatColor.YELLOW + "]")).collect(Collectors.joining(ChatColor.YELLOW + ", "));
             final String members = data.getMembers().stream().map(Bukkit::getOfflinePlayer).filter(Objects::nonNull).map(target -> (target.getPlayer() == null ? ChatColor.GRAY.toString() : ChatColor.GREEN.toString()) + target.getName() + (target.getPlayer() == null ? "" : ChatColor.YELLOW + "[" + ChatColor.GREEN + target.getPlayer().getStatistic(Statistic.PLAYER_KILLS) + ChatColor.YELLOW + "]")).collect(Collectors.joining(ChatColor.YELLOW + ", "));
@@ -230,6 +232,34 @@ public class TeamCommand implements Controllable<TeamController> {
             ));
 
             messages.forEach(player::sendMessage);
+        } else {
+            if(claimTeamData != null) {
+                final Claim claim = claimTeamData.getClaim();
+
+                player.sendMessage(new String[] {
+                        ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
+                        ChatColor.BLUE + team.getFormattedName() + ChatColor.YELLOW + "(" + (claim.isDeathban() ? ChatColor.RED + "Deathban" : ChatColor.GREEN + "Non-Deathban") + ChatColor.YELLOW + ")",
+                        "",
+                        ChatColor.YELLOW + "Claim: " + ChatColor.RED + claim.getCuboid().toXYZ(),
+                });
+            } else {
+                player.sendMessage(new String[] {
+                        ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
+                        ChatColor.BLUE + team.getFormattedName() + ChatColor.YELLOW + "(" + ChatColor.RED + "Deathban" + ChatColor.YELLOW + ")",
+                        ""
+                });
+            }
+
+            player.sendMessage(new String[] {
+                    ChatColor.YELLOW + "Color: " + team.getGeneralData().getColor() + team.getGeneralData().getColor().name(),
+                    ChatColor.YELLOW + "Type: " + ChatColor.WHITE + team.getGeneralData().getType().name(),
+                    "",
+                    ChatColor.GRAY + ChatColor.ITALIC.toString() + "Founded on " + new SimpleDateFormat("MM/dd/yyyy").format(currentDate) + " at " + new SimpleDateFormat("hh:mm:ss").format(currentDate),
+                    ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
+            });
+
+
+
         }
     }
 

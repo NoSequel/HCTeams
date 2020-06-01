@@ -80,6 +80,18 @@ public class Cuboid {
         return (this.maxX - minX) + (this.maxZ - minZ);
     }
 
+    public String toXYZ() {
+        return String.join(", ", new String[] {
+                "(" + minX,
+                String.valueOf(minY),
+                minZ + ")",
+
+                "(" + maxX,
+                String.valueOf(maxY),
+                maxZ + ")",
+        });
+    }
+
     public String toString() {
         return new Location(Bukkit.getWorld(worldName), minX, minY, minZ).toString() + ", " + new Location(Bukkit.getWorld(worldName), maxX, maxY, maxZ).toString();
     }

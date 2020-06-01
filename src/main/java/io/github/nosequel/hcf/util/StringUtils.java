@@ -110,6 +110,10 @@ public class StringUtils {
         );
     }
 
+    public String locationToXYZ(Location location) {
+        return location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
+    }
+
     /**
      * Get the formatted string of an epoch time
      *
