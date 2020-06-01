@@ -56,7 +56,7 @@ public class TeamController implements Controller, DataController<Team, TeamData
 
             new Team(null, "Spawn", TeamType.SAFEZONE_TEAM, spawnClaim);
             new Team(null, "Wilderness", TeamType.WILDERNESS_TEAM, wildernessClaim);
-            new Team(null, "Warzone", TeamType.SYSTEM_TEAM, warzoneClaim).setColor(ChatColor.DARK_RED);
+            new Team(null, "Warzone", TeamType.SYSTEM_TEAM, warzoneClaim).getGeneralData().setColor(ChatColor.DARK_RED);
         }
     }
 

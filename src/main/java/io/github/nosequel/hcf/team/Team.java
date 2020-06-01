@@ -30,7 +30,6 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
 
     private List<TeamData> data = new ArrayList<>();
     private GeneralData generalData;
-    private ChatColor color;
     private UUID uniqueId;
 
     public Team(UUID uuid) {
@@ -49,8 +48,7 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
     public Team(UUID uuid, String name, TeamType type) {
         this(uuid);
 
-        this.generalData = new GeneralData(name, type);
-
+        this.generalData = new GeneralData(name, type, ChatColor.WHITE);
         this.setupData();
 
         HCTeams.getInstance().getLogger().log(Level.INFO, "Creating new team" + (this.hasData(GeneralData.class) ? " called " + this.findData(GeneralData.class).getName() : ""));

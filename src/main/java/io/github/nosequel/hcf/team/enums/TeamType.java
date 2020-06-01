@@ -18,35 +18,35 @@ public enum TeamType {
     SAFEZONE_TEAM(false) {
         @Override
         public String formatName(Team team, Player player) {
-            return (team.getColor() == null ? ChatColor.GREEN : team.getColor()) + team.getFormattedName();
+            return (team.getGeneralData().getColor() == null ? ChatColor.GREEN : team.getGeneralData().getColor()) + team.getFormattedName();
         }
     },
 
     WILDERNESS_TEAM(true) {
         @Override
         public String formatName(Team team, Player player) {
-            return (team.getColor() == null ? ChatColor.GRAY : team.getColor()) + "The " + team.getFormattedName();
+            return (team.getGeneralData().getColor() == null ? ChatColor.GRAY : team.getGeneralData().getColor()) + "The " + team.getFormattedName();
         }
     },
 
     KOTH_TEAM(false) {
         @Override
         public String formatName(Team team, Player player) {
-            return (team.getColor() == null ? ChatColor.AQUA : team.getColor()) + team.getFormattedName() + ChatColor.GOLD + " KOTH";
+            return (team.getGeneralData().getColor() == null ? ChatColor.AQUA : team.getGeneralData().getColor()) + team.getFormattedName() + ChatColor.GOLD + " KOTH";
         }
     },
 
     ROAD_TEAM(false) {
         @Override
         public String formatName(Team team, Player player) {
-            return (team.getColor() == null ? ChatColor.GOLD : team.getColor()) + team.getFormattedName().replace("Road", " Road");
+            return (team.getGeneralData().getColor() == null ? ChatColor.GOLD : team.getGeneralData().getColor()) + team.getFormattedName().replace("Road", " Road");
         }
     },
 
     SYSTEM_TEAM(false) {
         @Override
         public String formatName(Team team, Player player) {
-            return (team.getColor() == null ? ChatColor.WHITE : team.getColor()) + team.getFormattedName();
+            return (team.getGeneralData().getColor() == null ? ChatColor.WHITE : team.getGeneralData().getColor()) + team.getFormattedName();
         }
     };
 

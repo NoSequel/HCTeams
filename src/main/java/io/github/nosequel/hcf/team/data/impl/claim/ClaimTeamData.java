@@ -49,7 +49,8 @@ public class ClaimTeamData extends SaveableTeamData {
 
     @Override
     public JsonObject toJson() {
-        final JsonBuilder builder = new JsonBuilder(this.claim.toJson());
+        final JsonBuilder builder = new JsonBuilder(this.claim.toJson())
+                .addProperty("deathban", this.getClaim().isDeathban());
 
         if (this.home != null) {
             builder.addProperty("home", StringUtils.toString(home));

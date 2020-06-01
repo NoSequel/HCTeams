@@ -16,7 +16,8 @@ public class DTRData extends SaveableTeamData {
     private double maxDtr;
     private long lastRegen;
 
-    public DTRData() {}
+    public DTRData() {
+    }
 
     /**
      * Constructor for generating a new DTRData object
@@ -81,6 +82,7 @@ public class DTRData extends SaveableTeamData {
     @Override
     public JsonObject toJson() {
         return new JsonBuilder()
-                .addProperty("dtr", dtr).get();
+                .addProperty("dtr", dtr)
+                .addProperty("maxDtr", maxDtr).get();
     }
 }
