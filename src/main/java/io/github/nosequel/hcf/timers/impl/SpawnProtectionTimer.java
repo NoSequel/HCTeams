@@ -7,7 +7,11 @@ import io.github.nosequel.hcf.player.data.SpawnProtectionData;
 import io.github.nosequel.hcf.timers.Timer;
 import io.github.nosequel.hcf.util.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +23,16 @@ public class SpawnProtectionTimer extends Timer {
 
     public SpawnProtectionTimer() {
         super("SpawnProt", ChatColor.GREEN + ChatColor.BOLD.toString() + "Invincibility", false, 60000*30);
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent event) {
+        final Entity entity = event.getEntity();
+        final Entity damager = event.getDamager();
+
+        if ((entity instanceof Player && this.isOnCooldown((Player) entity)) || (damager instanceof Player && this.isOnCooldown((Player) damager)) || (damager instanceof Projectile && ((Projectile) damager).getShooter() instanceof Player && this.isOnCooldown((Player) ((Projectile) damager).getShooter()))) {
+            event.setCancelled(true);
+        }
     }
 
     @Override
