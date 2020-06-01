@@ -15,9 +15,10 @@ import lombok.Setter;
 @Setter
 public class Claim {
 
-    private final ClaimPriority priority;
+
     private final Cuboid cuboid;
 
+    private ClaimPriority priority;
     private boolean deathban = true;
 
     /**

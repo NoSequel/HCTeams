@@ -41,13 +41,13 @@ public class PlayerDataController implements Controller, DataController<PlayerDa
     public void disable() {
         final DatabaseController controller = HCTeams.getInstance().getHandler().findController(DatabaseController.class);
 
-        playerData.forEach(loadable -> controller.save(loadable, "profiles"));
+        playerData.forEach(loadable -> controller.getDataHandler().save(loadable, "profiles"));
     }
 
     @Override
     public void load(PlayerData loadable) {
         final DatabaseController controller = HCTeams.getInstance().getHandler().findController(DatabaseController.class);
 
-        controller.load(this, loadable, "profiles");
+        controller.getDataHandler().load(this, loadable, "profiles");
     }
 }

@@ -7,6 +7,7 @@ import io.github.nosequel.hcf.player.PlayerDataController;
 import io.github.nosequel.hcf.player.data.ClaimSelectionData;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
+import io.github.nosequel.hcf.team.claim.Claim;
 import io.github.nosequel.hcf.team.claim.selection.ClaimSelection;
 import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
@@ -59,7 +60,7 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
                             return;
                         }
 
-                        if (!teamController.findTeam(claimSelection.getLocation1()).getGeneralData().getType().equals(TeamType.WILDERNESS_TEAM) || !teamController.findTeam(claimSelection.getLocation1()).getGeneralData().getType().equals(TeamType.WILDERNESS_TEAM)) {
+                        if ((!teamController.findTeam(claimSelection.getLocation1()).getGeneralData().getType().equals(TeamType.WILDERNESS_TEAM) || !teamController.findTeam(claimSelection.getLocation1()).getGeneralData().getType().equals(TeamType.WILDERNESS_TEAM)) && claimSelection.getTeam().getGeneralData().getType().equals(TeamType.PLAYER_TEAM)) {
                             player.sendMessage(ChatColor.GRAY + "The current selection contains non-wilderness regions.");
                             return;
                         }
@@ -67,6 +68,8 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
                     }
 
                     final Team team = claimSelection.getTeam();
+                    final ClaimTeamData oldClaimData = team.findData(ClaimTeamData.class);
+
                     claimSelection.apply();
                     playerData.getData().remove(data);
 
@@ -76,6 +79,15 @@ public class ClaimSelectionListener implements Listener, Controllable<PlayerData
 
                         playerTeamData.broadcast(ChatColor.GRAY + "Your team now has a claim of " + claimTeamData.getClaim().getCuboid().getChunks() + " chunks.");
                     }
+
+                    if(oldClaimData != null) {
+                        final Claim oldClaim = oldClaimData.getClaim();
+                        final Claim newClaim = team.findData(ClaimTeamData.class).getClaim();
+
+                        newClaim.setPriority(oldClaim.getPriority());
+                    }
+
+                    player.sendMessage(ChatColor.YELLOW + "You have claimed for " + team.getDisplayName(player));
                 }
                 break;
             }

@@ -16,6 +16,7 @@ import io.github.nosequel.hcf.team.TeamController;
 import io.github.nosequel.hcf.timers.TimerController;
 import io.github.nosequel.hcf.util.command.CommandController;
 import io.github.nosequel.hcf.util.database.DatabaseController;
+import io.github.nosequel.hcf.util.database.handler.data.MongoDataHandler;
 import io.github.nosequel.hcf.util.database.options.impl.MongoDatabaseOption;
 import io.github.nosequel.hcf.util.database.type.mongo.MongoDataType;
 import io.github.thatkawaiisam.assemble.Assemble;
@@ -40,8 +41,10 @@ public class HCTeams extends JavaPlugin {
         // register the instance
         instance = this;
 
-        // register controllers
-        this.handler.registerController(new DatabaseController(
+
+
+        // setup database controller
+        final DatabaseController controller = new DatabaseController(
                 new MongoDatabaseOption(
                         "127.0.0.1",
                         "",
@@ -50,7 +53,12 @@ public class HCTeams extends JavaPlugin {
                         27017
                 ),
                 new MongoDataType()
-        ));
+        );
+
+        controller.setDataHandler(new MongoDataHandler(controller));
+
+        // register controllers
+        this.handler.registerController(controller);
         this.handler.registerController(new TeamController());
         this.handler.registerController(new PlayerDataController());
         this.handler.registerController(new TimerController());

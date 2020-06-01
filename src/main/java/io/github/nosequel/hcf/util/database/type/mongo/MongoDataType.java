@@ -22,7 +22,7 @@ public class MongoDataType implements DataType<Document, MongoCollection<Documen
     @Override
     public void load(Document document, DataController<?, ?> controller, Loadable<?> loadable) {
         document.forEach((key, string) -> {
-            if(key.equals("_id")) {
+            if(!(string instanceof String)) {
                 return;
             }
 

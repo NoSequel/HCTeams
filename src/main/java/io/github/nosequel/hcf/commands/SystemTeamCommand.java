@@ -7,7 +7,9 @@ import io.github.nosequel.hcf.player.PlayerDataController;
 import io.github.nosequel.hcf.player.data.ClaimSelectionData;
 import io.github.nosequel.hcf.team.Team;
 import io.github.nosequel.hcf.team.TeamController;
+import io.github.nosequel.hcf.team.claim.ClaimPriority;
 import io.github.nosequel.hcf.team.claim.selection.ClaimSelection;
+import io.github.nosequel.hcf.team.data.impl.claim.ClaimTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
 import io.github.nosequel.hcf.util.command.annotation.Command;
 import io.github.nosequel.hcf.util.command.annotation.Subcommand;
@@ -39,8 +41,10 @@ public class SystemTeamCommand implements Controllable<TeamController> {
                 "",
                 ChatColor.DARK_AQUA + "Setup Commands:",
                 ChatColor.AQUA + "* /systemteam type <name> <type>" + ChatColor.WHITE + " - Set the type of a system team",
-                ChatColor.AQUA + "* /systemteam claimfor <name>" + ChatColor.WHITE + " - Claim for a system team",
                 ChatColor.AQUA + "* /systemteam color <name> <color>" + ChatColor.WHITE + " - Set the color of a team",
+                ChatColor.AQUA + "* /systemteam claimfor <name>" + ChatColor.WHITE + " - Claim for a system team",
+                ChatColor.AQUA + "* /systemteam priority <name> <priority>" + ChatColor.WHITE + " - Set the claim priority of a system team",
+
                 ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
         });
     }
@@ -58,9 +62,6 @@ public class SystemTeamCommand implements Controllable<TeamController> {
             return;
         } else if (!StringUtils.isAlphanumeric(name)) {
             player.sendMessage(ChatColor.RED + "Your team name has to be alphanumeric.");
-            return;
-        } else if (controller.findTeam(player) != null) {
-            player.sendMessage(ChatColor.RED + "You are already in a team!");
             return;
         }
 
@@ -119,5 +120,17 @@ public class SystemTeamCommand implements Controllable<TeamController> {
                 ChatColor.YELLOW + "To cancel claiming, sneak while you press " + Action.RIGHT_CLICK_AIR.name(),
                 ""
         });
+    }
+
+    @Subcommand(label="priority", parentLabel = "systemteam")
+    public void priority(Player player, Team team, String priority) {
+        if (Arrays.stream(ClaimPriority.values()).noneMatch($type -> $type.name().equals(priority.toUpperCase()))) {
+            player.sendMessage(ChatColor.RED + ChatColor.BOLD.toString() + "Priority by '" + priority + "' not found.");
+            player.sendMessage(ChatColor.RED + "Choose between: " + Arrays.stream(ClaimPriority.values()).map(ClaimPriority::name).collect(Collectors.joining(", ")));
+            return;
+        }
+
+        team.findData(ClaimTeamData.class).getClaim().setPriority(ClaimPriority.valueOf(priority.toUpperCase()));
+        Bukkit.broadcastMessage(ChatColor.YELLOW + "Priority of " + ChatColor.BLUE + team.getDisplayName(player) + ChatColor.YELLOW + " has been changed to " + ChatColor.WHITE + priority.toUpperCase());
     }
 }

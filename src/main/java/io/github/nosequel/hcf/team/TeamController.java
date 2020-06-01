@@ -64,14 +64,14 @@ public class TeamController implements Controller, DataController<Team, TeamData
     public void disable() {
         final DatabaseController controller = HCTeams.getInstance().getHandler().findController(DatabaseController.class);
 
-        teams.forEach(loadable -> controller.save(loadable, "teams"));
+        teams.forEach(loadable -> controller.getDataHandler().save(loadable, "teams"));
     }
 
     @Override
     public void loadAll() {
         final DatabaseController controller = HCTeams.getInstance().getHandler().findController(DatabaseController.class);
 
-        controller.loadAll(this,"teams", Team.class);
+        controller.getDataHandler().loadAll(this,"teams", Team.class);
     }
 
     /**
