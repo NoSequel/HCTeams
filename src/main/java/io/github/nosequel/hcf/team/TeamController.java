@@ -31,12 +31,12 @@ public class TeamController implements Controller, DataController<Team, TeamData
 
     private final List<Team> teams = new ArrayList<>();
 
-    private final List<Class<? extends TeamData>> registeredData = new ArrayList<>(Arrays.asList(
-            PlayerTeamData.class,
-            ClaimTeamData.class,
-            DTRData.class,
-            InviteTeamData.class,
-            GeneralData.class
+    private final List<? extends TeamData> registeredData = new ArrayList<>(Arrays.asList(
+            new PlayerTeamData(),
+            new ClaimTeamData(),
+            new DTRData(),
+            new InviteTeamData(),
+            new GeneralData()
     ));
 
     @Override

@@ -28,6 +28,13 @@ public class NaturalDeathbanData extends DeathbanData {
 
         this.type = NaturalDeathbanType.valueOf(object.get("type").getAsString());
     }
+
+    @Override
+    public String getSavePath() {
+        return "natural_deathban";
+    }
+
+
     @Override
     public JsonObject toJson() {
         return new JsonBuilder(super.toJson())

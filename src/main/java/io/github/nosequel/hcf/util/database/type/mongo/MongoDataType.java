@@ -22,43 +22,27 @@ public class MongoDataType implements DataType<Document, MongoCollection<Documen
     @Override
     public void load(Document document, DataController<?, ?> controller, Loadable<?> loadable) {
         document.forEach((key, string) -> {
-            if(!(string instanceof String)) {
+            if (!(string instanceof String)) {
                 return;
             }
 
-            if(key.equals("uuid")) {
+            if (key.equals("uuid")) {
                 loadable.setUniqueId(UUID.fromString((String) string));
                 return;
             }
 
-            if(loadable.getData() == null) {
+            if (loadable.getData() == null) {
                 loadable.setData(new ArrayList<>());
             }
 
             final SaveableData data = controller.getRegisteredData().stream()
-                    .filter($data -> {
-                        try {
-                            String $str = $data.getMethod("toJson", (Class<?>[]) null).getName();
-                        } catch (NoSuchMethodException e) {
-                            return false;
-                        }
-
-                        return true;
-                    })
-                    .filter($data -> {
-                        try {
-                            return ((SaveableData) $data.newInstance()).getSavePath().equals(key);
-                        } catch (InstantiationException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-
-                        return false;
-                    })
+                    .filter($data -> $data instanceof SaveableData)
+                    .filter($data -> ((SaveableData) $data).getSavePath().equals(key))
                     .map(clazz -> {
                         Data $data = null;
 
                         try {
-                            $data = clazz.getConstructor(JsonObject.class).newInstance(JsonUtils.getParser().parse((String) string).getAsJsonObject());
+                            $data = ((SaveableData) clazz).getClass().getConstructor(JsonObject.class).newInstance(JsonUtils.getParser().parse((String) string).getAsJsonObject());
                         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                             e.printStackTrace();
                         }

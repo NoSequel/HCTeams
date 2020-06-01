@@ -9,7 +9,7 @@ public interface DataController<L extends Loadable<?>, D extends Data> {
      *
      * @return the list
      */
-    List<Class<? extends D>> getRegisteredData();
+    List<? extends D> getRegisteredData();
 
     /**
      * Load a loadable

@@ -9,9 +9,9 @@ public class MongoDatabaseOption extends DatabaseOption {
     private final String hostname;
     private final int port;
 
-    private String username;
+    private final String username;
     private String password;
-    private String authenticateDatabase;
+    private final String authenticateDatabase;
     private boolean authenticate;
 
     /**

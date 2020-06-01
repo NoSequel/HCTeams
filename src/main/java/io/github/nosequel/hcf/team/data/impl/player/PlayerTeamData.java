@@ -29,13 +29,13 @@ public class PlayerTeamData extends SaveableTeamData {
     private final Set<UUID> coLeaders = new HashSet<>();
 
     private final int balance = 0;
-    private final Team team = HCTeams.getInstance().getHandler().findController(TeamController.class).getTeams().stream()
-            .filter($team -> $team.getData().contains(this))
-            .findFirst().orElse(null);
+    private final Team team;
 
     private String abbreviatedName;
 
-    public PlayerTeamData() { }
+    public PlayerTeamData() {
+        this.team = null;
+    }
 
     /**
      * Constructor for creating a new PlayerTeamData object
@@ -44,6 +44,9 @@ public class PlayerTeamData extends SaveableTeamData {
      */
     public PlayerTeamData(UUID leaderUuid) {
         this.leader = leaderUuid;
+        this.team = HCTeams.getInstance().getHandler().findController(TeamController.class).getTeams().stream()
+                .filter($team -> $team.getData().contains(this))
+                .findFirst().orElse(null);
     }
 
     /**
@@ -53,6 +56,9 @@ public class PlayerTeamData extends SaveableTeamData {
      */
     public PlayerTeamData(JsonObject object) {
         this.leader = UUID.fromString(object.get("leader").getAsString());
+        this.team = HCTeams.getInstance().getHandler().findController(TeamController.class).getTeams().stream()
+                .filter($team -> $team.getData().contains(this))
+                .findFirst().orElse(null);
 
         ImmutableMap.of(
                 "members", this.members,

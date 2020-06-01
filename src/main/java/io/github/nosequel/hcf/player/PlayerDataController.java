@@ -7,6 +7,8 @@ import io.github.nosequel.hcf.data.DataController;
 import io.github.nosequel.hcf.player.data.ClaimSelectionData;
 import io.github.nosequel.hcf.player.data.SpawnProtectionData;
 import io.github.nosequel.hcf.player.data.deathban.DeathbanData;
+import io.github.nosequel.hcf.player.data.deathban.impl.PlayerDeathbanData;
+import io.github.nosequel.hcf.player.data.deathban.impl.natural.NaturalDeathbanData;
 import io.github.nosequel.hcf.util.database.DatabaseController;
 import lombok.Getter;
 
@@ -19,10 +21,11 @@ import java.util.UUID;
 public class PlayerDataController implements Controller, DataController<PlayerData, Data> {
 
     private final List<PlayerData> playerData = new ArrayList<>();
-    private final List<Class<? extends Data>> registeredData = new ArrayList<>(Arrays.asList(
-            ClaimSelectionData.class,
-            DeathbanData.class,
-            SpawnProtectionData.class
+    private final List<? extends Data> registeredData = new ArrayList<>(Arrays.asList(
+            new ClaimSelectionData(),
+            new PlayerDeathbanData(),
+            new NaturalDeathbanData(),
+            new SpawnProtectionData()
     ));
 
     /**

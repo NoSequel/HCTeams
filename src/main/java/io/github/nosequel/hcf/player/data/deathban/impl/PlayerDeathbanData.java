@@ -41,6 +41,12 @@ public class PlayerDeathbanData extends DeathbanData {
     }
 
     @Override
+    public String getSavePath() {
+        return "player_deathban";
+    }
+
+
+    @Override
     public String getReason() {
         return "has been killed by " + Bukkit.getOfflinePlayer(killer).getName();
     }
