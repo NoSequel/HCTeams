@@ -20,6 +20,7 @@ import io.github.nosequel.hcf.timers.TimerController;
 import io.github.nosequel.hcf.timers.impl.CombatTimer;
 import io.github.nosequel.hcf.timers.impl.EnderpearlTimer;
 import io.github.nosequel.hcf.timers.impl.TeleportTimer;
+import io.github.nosequel.hcf.util.NumberUtil;
 import io.github.nosequel.hcf.util.command.annotation.Command;
 import io.github.nosequel.hcf.util.command.annotation.Parameter;
 import io.github.nosequel.hcf.util.command.annotation.Subcommand;
@@ -42,7 +43,7 @@ public class TeamCommand implements Controllable<TeamController> {
     @Subcommand(label = "help", parentLabel = "faction")
     public void help(Player player) {
         controller.getTeams().stream()
-                .map(team -> String.join(", ", new String[] { team.getFormattedName(), team.getData().stream().map(data -> data.getClass().getSimpleName()).collect(Collectors.joining(", "))}))
+                .map(team -> String.join(", ", new String[]{team.getFormattedName(), team.getData().stream().map(data -> data.getClass().getSimpleName()).collect(Collectors.joining(", "))}))
                 .forEach(System.out::println);
 
         player.sendMessage(new String[]{
@@ -222,9 +223,11 @@ public class TeamCommand implements Controllable<TeamController> {
                 }
             });
 
+            final DTRData dtrData = team.findData(DTRData.class);
+
             messages.addAll(Arrays.asList(
                     ChatColor.YELLOW + "Balance: " + ChatColor.RED + "$" + data.getBalance(),
-                    ChatColor.YELLOW + "DTR: " + team.findData(DTRData.class).formatDtr(),
+                    ChatColor.YELLOW + "DTR: " + dtrData.formatDtr() + ChatColor.GRAY + " (" + NumberUtil.round(dtrData.getMaxDtr(), 1) + ")",
                     ChatColor.YELLOW + "Claim: " + ChatColor.RED + (claimTeamData != null ? claimTeamData.getClaim().getCuboid().getChunks() : "0") + " chunks" + ChatColor.YELLOW + ", " + "Home: " + ChatColor.RED + (claimTeamData == null ? "Not Set" : claimTeamData.getHomeAsString()),
                     "",
                     ChatColor.GRAY + ChatColor.ITALIC.toString() + "Founded on " + new SimpleDateFormat("MM/dd/yyyy").format(currentDate) + " at " + new SimpleDateFormat("hh:mm:ss").format(currentDate),
@@ -233,31 +236,30 @@ public class TeamCommand implements Controllable<TeamController> {
 
             messages.forEach(player::sendMessage);
         } else {
-            if(claimTeamData != null) {
+            if (claimTeamData != null) {
                 final Claim claim = claimTeamData.getClaim();
 
-                player.sendMessage(new String[] {
+                player.sendMessage(new String[]{
                         ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
                         ChatColor.BLUE + team.getFormattedName() + ChatColor.YELLOW + "(" + (claim.isDeathban() ? ChatColor.RED + "Deathban" : ChatColor.GREEN + "Non-Deathban") + ChatColor.YELLOW + ")",
                         "",
                         ChatColor.YELLOW + "Claim: " + ChatColor.RED + claim.getCuboid().toXYZ(),
                 });
             } else {
-                player.sendMessage(new String[] {
+                player.sendMessage(new String[]{
                         ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
                         ChatColor.BLUE + team.getFormattedName() + ChatColor.YELLOW + "(" + ChatColor.RED + "Deathban" + ChatColor.YELLOW + ")",
                         ""
                 });
             }
 
-            player.sendMessage(new String[] {
+            player.sendMessage(new String[]{
                     ChatColor.YELLOW + "Color: " + team.getGeneralData().getColor() + team.getGeneralData().getColor().name(),
                     ChatColor.YELLOW + "Type: " + ChatColor.WHITE + team.getGeneralData().getType().name(),
                     "",
                     ChatColor.GRAY + ChatColor.ITALIC.toString() + "Founded on " + new SimpleDateFormat("MM/dd/yyyy").format(currentDate) + " at " + new SimpleDateFormat("hh:mm:ss").format(currentDate),
                     ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + StringUtils.repeat("-", 56),
             });
-
 
 
         }
@@ -475,14 +477,13 @@ public class TeamCommand implements Controllable<TeamController> {
     }
 
     @Subcommand(label = "kick", parentLabel = "faction")
-    public void kick(Player player, UUID targetUuid) {
+    public void kick(Player player, OfflinePlayer target) {
         if (!this.shouldProceed(player, PlayerRole.CO_LEADER)) {
             return;
         }
 
         final Team team = this.controller.findTeam(player);
         final PlayerTeamData data = team.findData(PlayerTeamData.class);
-        final OfflinePlayer target = Bukkit.getOfflinePlayer(targetUuid);
 
         if (target == null) {
             player.sendMessage(ChatColor.RED + "That player does not exist.");
@@ -490,15 +491,15 @@ public class TeamCommand implements Controllable<TeamController> {
         }
 
         if (data != null) {
-            if (!data.contains(targetUuid)) {
+            if (!data.contains(target.getUniqueId())) {
                 player.sendMessage(ChatColor.RED + "That player is not in your team.");
                 return;
-            } else if (data.getRole(targetUuid).priority > data.getRole(player.getUniqueId()).priority) {
+            } else if (data.getRole(target.getUniqueId()).priority > data.getRole(player.getUniqueId()).priority) {
                 player.sendMessage(ChatColor.RED + "That player has a higher role than you.");
                 return;
             }
 
-            data.kick(targetUuid);
+            data.kick(target.getUniqueId());
             data.broadcast(ChatColor.DARK_GREEN + target.getName() + ChatColor.YELLOW + " has been kicked from the team.");
         }
     }

@@ -37,6 +37,7 @@ public class DTRData extends SaveableTeamData {
      */
     public DTRData(JsonObject object) {
         this.dtr = object.get("dtr").getAsDouble();
+        this.maxDtr = object.get("maxDtr").getAsDouble();
     }
 
     /**

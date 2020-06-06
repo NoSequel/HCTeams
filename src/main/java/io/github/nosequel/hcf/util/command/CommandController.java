@@ -40,7 +40,15 @@ public class CommandController implements Controller {
         instance = this;
 
         this.fallbackPrefix = fallbackPrefix;
-        this.typeAdapters.addAll(Arrays.asList(new UUIDTypeAdapter(), new LongTypeAdapter(), new IntegerTypeAdapter(), new TeamTypeAdapter(), new PlayerTypeAdapter()));
+        this.typeAdapters.addAll(Arrays.asList(
+                new UUIDTypeAdapter(),
+                new OfflinePlayerTypeAdapter(),
+                new LongTypeAdapter(),
+                new IntegerTypeAdapter(),
+                new TeamTypeAdapter(),
+                new PlayerTypeAdapter(),
+                new TimerTypeAdapter()
+        ));
     }
 
     /**

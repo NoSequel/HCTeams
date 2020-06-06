@@ -5,7 +5,6 @@ import io.github.nosequel.hcf.player.PlayerData;
 import io.github.nosequel.hcf.player.PlayerDataController;
 import io.github.nosequel.hcf.player.data.SpawnProtectionData;
 import io.github.nosequel.hcf.timers.Timer;
-import io.github.nosequel.hcf.util.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -76,7 +75,7 @@ public class SpawnProtectionTimer extends Timer {
      */
     private PlayerData findData(Player player) {
         Map.Entry<Player, PlayerData> $entry = data.entrySet().stream().filter(entry -> entry.getKey().equals(player)).findFirst().orElse(null);
-        PlayerData playerData = null;
+        PlayerData playerData;
 
         if ($entry == null) {
             final PlayerData foundData = controller.findPlayerData(player.getUniqueId());

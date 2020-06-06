@@ -10,7 +10,34 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9794bd8-a79a-4b78-a6c5-bc3ea623b1c8" name="Default Changelist" comment="" />
+    <list default="true" id="c9794bd8-a79a-4b78-a6c5-bc3ea623b1c8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/classes/Class.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/classes/ClassController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/classes/ClassData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/classes/ability/Ability.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/classes/bard/BardClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/classes/bard/BardClassData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/classes/bard/abilities/BowDamageReduceAbility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/classes/bard/abilities/StrengthAbility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/classes/bard/task/BardClassTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/listeners/team/ChatListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/timers/commands/PvPCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/timers/commands/TimerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/timers/impl/BardItemCooldownTimer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/command/adapter/defaults/OfflinePlayerTypeAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/command/adapter/defaults/TimerTypeAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/HCTeams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/HCTeams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/commands/TeamCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/commands/TeamCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/tasks/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/tasks/TaskController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/tasks/impl/DTRTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/tasks/impl/DTRTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/DTRData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/data/impl/player/DTRData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/enums/TeamType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/team/enums/TeamType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/timers/impl/SpawnProtectionTimer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/timers/impl/SpawnProtectionTimer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/command/CommandController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/nosequel/hcf/util/command/CommandController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -128,10 +155,14 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1590972265178">
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1591480714815">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590972265178" />
+    <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591480714815" />
+    <state x="640" y="255" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1591449392617">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="640" y="255" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591449392617" />
     <state x="606" y="444" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1590939035276">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -144,38 +175,42 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590935988775" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1590528575633">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1591045466782">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590528575633" />
-    <state width="1877" height="315" key="GridCell.Tab.0.bottom" timestamp="1591009553492">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591045466782" />
+    <state width="1877" height="315" key="GridCell.Tab.0.bottom" timestamp="1591461350518">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="315" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591009553492" />
+    <state width="1877" height="315" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591461350518" />
     <state width="1877" height="314" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590964437251" />
-    <state width="1877" height="315" key="GridCell.Tab.0.center" timestamp="1591009553491">
+    <state width="1877" height="315" key="GridCell.Tab.0.center" timestamp="1591461350518">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="315" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591009553491" />
+    <state width="1877" height="315" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591461350518" />
     <state width="1877" height="314" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590964437251" />
-    <state width="1877" height="315" key="GridCell.Tab.0.left" timestamp="1591009553489">
+    <state width="1877" height="315" key="GridCell.Tab.0.left" timestamp="1591461350518">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="315" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591009553489" />
+    <state width="1877" height="315" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591461350518" />
     <state width="1877" height="314" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590964437251" />
-    <state width="1877" height="315" key="GridCell.Tab.0.right" timestamp="1591009553491">
+    <state width="1877" height="315" key="GridCell.Tab.0.right" timestamp="1591461350518">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="315" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591009553491" />
+    <state width="1877" height="315" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591461350518" />
     <state width="1877" height="314" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590964437251" />
     <state x="440" y="94" key="SettingsEditor" timestamp="1590860508407">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590860508407" />
-    <state x="342" y="140" key="new project wizard" timestamp="1590525446976">
+    <state x="769" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591450120101">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="342" y="140" key="new project wizard/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590525446976" />
+    <state x="769" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591450120101" />
+    <state x="342" y="140" key="new project wizard" timestamp="1591263174703">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="342" y="140" key="new project wizard/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591263174703" />
     <state x="736" y="278" key="refactoring.ChangeSignatureDialog" timestamp="1590932998125">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

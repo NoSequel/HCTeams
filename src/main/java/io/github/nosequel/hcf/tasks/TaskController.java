@@ -1,5 +1,6 @@
 package io.github.nosequel.hcf.tasks;
 
+import io.github.nosequel.hcf.classes.bard.task.BardClassTask;
 import io.github.nosequel.hcf.controller.Controller;
 import io.github.nosequel.hcf.tasks.impl.DTRTask;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,7 +16,8 @@ public class TaskController implements Controller {
     @Override
     public void enable() {
         tasks.addAll(Arrays.asList(
-                new DTRTask()
+                new DTRTask(),
+                new BardClassTask()
         ));
     }
 

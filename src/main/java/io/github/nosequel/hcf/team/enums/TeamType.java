@@ -11,7 +11,7 @@ public enum TeamType {
     PLAYER_TEAM(false) {
         @Override
         public String formatName(Team team, Player player) {
-            return (HCTeams.getInstance().getHandler().findController(TeamController.class).findTeam(player).equals(team) ? ChatColor.GREEN : ChatColor.RED) + team.getFormattedName();
+            return (HCTeams.getInstance().getHandler().findController(TeamController.class).findTeam(player).equals(team) ? ChatColor.DARK_GREEN : ChatColor.YELLOW) + team.getFormattedName();
         }
     },
 
