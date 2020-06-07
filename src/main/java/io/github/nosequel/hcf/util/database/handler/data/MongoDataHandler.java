@@ -44,6 +44,13 @@ public class MongoDataHandler implements DataHandler {
     }
 
     @Override
+    public void delete(Loadable<?> loadable, String $collection) {
+        final MongoCollection<Document> collection = database.getCollection($collection);
+
+        collection.deleteOne(Filters.eq("uuid", loadable.getUniqueId().toString()));
+    }
+
+    @Override
     public void save(Loadable<?> loadable, String collection) {
         final MongoDataType type = (MongoDataType) this.controller.getType();
         final Document document = database.getCollection(collection).find(Filters.eq("uuid", loadable.getUniqueId().toString())).first();

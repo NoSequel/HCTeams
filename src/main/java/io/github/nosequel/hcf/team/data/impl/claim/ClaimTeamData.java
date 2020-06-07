@@ -28,7 +28,7 @@ public class ClaimTeamData extends SaveableTeamData {
     public ClaimTeamData(JsonObject object) {
         this.claim = new Claim(object);
 
-        if(object.get("home") != null) {
+        if (object.get("home") != null) {
             this.home = StringUtils.locationFromString(object.get("home").getAsString());
         }
     }
@@ -49,13 +49,13 @@ public class ClaimTeamData extends SaveableTeamData {
 
     @Override
     public JsonObject toJson() {
-        final JsonBuilder builder = new JsonBuilder(this.claim.toJson())
-                .addProperty("deathban", this.getClaim().isDeathban());
+        final JsonObject object = new JsonBuilder(this.claim.toJson())
+                .addProperty("deathban", this.getClaim().isDeathban()).get();
 
         if (this.home != null) {
-            builder.addProperty("home", StringUtils.toString(home));
+            object.addProperty("home", StringUtils.toString(home));
         }
 
-        return builder.get();
+        return object;
     }
 }

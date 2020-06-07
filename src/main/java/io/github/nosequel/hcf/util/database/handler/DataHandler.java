@@ -6,6 +6,14 @@ import io.github.nosequel.hcf.data.Loadable;
 public interface DataHandler {
 
     /**
+     * Delete a Loadable from a Collection
+     *
+     * @param loadable   the loadable
+     * @param collection the collection
+     */
+    void delete(Loadable<?> loadable, String collection);
+
+    /**
      * Save a Loadable inside of a Collection
      *
      * @param loadable   the loadable

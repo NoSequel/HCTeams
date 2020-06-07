@@ -11,6 +11,7 @@ import io.github.nosequel.hcf.team.data.impl.player.DTRData;
 import io.github.nosequel.hcf.team.data.impl.player.PlayerTeamData;
 import io.github.nosequel.hcf.team.data.impl.player.invites.InviteTeamData;
 import io.github.nosequel.hcf.team.enums.TeamType;
+import io.github.nosequel.hcf.util.database.DatabaseController;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.ChatColor;
@@ -27,10 +28,12 @@ import java.util.logging.Level;
 public class Team implements Controllable<TeamController>, Loadable<TeamData> {
 
     private final TeamController teamController = this.getController();
+    private final DatabaseController databaseController = HCTeams.getInstance().getHandler().findController(DatabaseController.class);
 
-    private List<TeamData> data = new ArrayList<>();
     private GeneralData generalData;
     private UUID uniqueId;
+
+    private List<TeamData> data = new ArrayList<>();
 
     public Team(UUID uuid) {
         this.uniqueId = uuid == null ? UUID.randomUUID() : uuid;
@@ -133,6 +136,7 @@ public class Team implements Controllable<TeamController>, Loadable<TeamData> {
         }
 
         teamController.getTeams().remove(this);
+        databaseController.getDataHandler().delete(this, "teams");
     }
 
     /**

@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 public class ClassController implements Controller {
 
-    private final List<Class> classes = new ArrayList<>();
+    private final List<Class<?>> classes = new ArrayList<>();
 
     public ClassController() {
         classes.addAll(Arrays.asList(
@@ -25,7 +25,7 @@ public class ClassController implements Controller {
      * @param className the name
      * @return the class | or null
      */
-    public Class findClass(String className) {
+    public Class<?> findClass(String className) {
         return this.classes.stream()
                 .filter(clazz -> clazz.getClassName().equalsIgnoreCase(className))
                 .findFirst().orElse(null);
@@ -38,7 +38,7 @@ public class ClassController implements Controller {
      * @param <T>   the type of the class
      * @return the found class | or null
      */
-    public <T extends Class> T findClass(java.lang.Class<T> clazz) {
+    public <T extends Class<?>> T findClass(java.lang.Class<T> clazz) {
         return clazz.cast(this.classes.stream()
                 .filter($clazz -> $clazz.getClass().equals(clazz))
                 .findFirst().orElse(null));

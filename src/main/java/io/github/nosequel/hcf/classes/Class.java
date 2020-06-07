@@ -5,6 +5,7 @@ import io.github.nosequel.hcf.classes.ability.Ability;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -45,6 +46,7 @@ public abstract class Class<T extends ClassData> implements Listener {
      * @param player the player
      */
     public void onEquip(Player player) {
+        player.sendMessage(ChatColor.AQUA + "Class: " + ChatColor.AQUA + ChatColor.BOLD.toString() + this.getClassName() + ChatColor.GRAY + " --> " + ChatColor.GREEN + "Enabled!");
         this.equipped.add(player);
     }
 
@@ -54,7 +56,7 @@ public abstract class Class<T extends ClassData> implements Listener {
      * @param player the player
      */
     public void onUnequip(Player player) {
+        player.sendMessage(ChatColor.AQUA + "Class: " + ChatColor.AQUA + ChatColor.BOLD.toString() + this.getClassName() + ChatColor.GRAY + " --> " + ChatColor.RED + "Disabled!");
         this.equipped.remove(player);
     }
-
 }
