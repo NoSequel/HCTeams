@@ -1,4 +1,4 @@
 name: HCTeams
 version: '1.0-SNAPSHOT'
-author: 'NoSQL, NV6'
+author: NoSQL
 main: io.github.nosequel.hcf.HCTeams

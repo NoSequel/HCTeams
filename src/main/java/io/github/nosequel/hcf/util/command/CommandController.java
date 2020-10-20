@@ -13,11 +13,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.SimplePluginManager;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -58,33 +60,36 @@ public class CommandController implements Controller {
      */
     public void registerCommand(Object... objects) {
         Arrays.stream(objects).forEach(object -> {
-            final List<Method> parentCommandMethods = Arrays.stream(object.getClass().getMethods())
-                    .filter(command -> command.getAnnotation(Command.class) != null)
-                    .collect(Collectors.toList());
+            final Set<Method> parentCommandMethods = this.getMethodsByAnnotation(object.getClass(), Command.class);
+            final Set<Method> subCommandMethods = this.getMethodsByAnnotation(object.getClass(), Subcommand.class);
 
-            final List<Method> subCommands = Arrays.stream(object.getClass().getMethods())
-                    .filter(command -> command.getAnnotation(Subcommand.class) != null && !parentCommandMethods.contains(command))
-                    .collect(Collectors.toList());
-
-
-            parentCommandMethods.forEach(command -> {
-                final CommandData commandData = new CommandData(object, command);
-
-                this.commands.add(commandData);
-                this.getCommandMap().register(fallbackPrefix, new CustomCommand(commandData));
-            });
-
-            subCommands.stream()
-                    .filter(command -> commands.stream().anyMatch(commandData -> commandData.isParentOfSubCommand(command.getAnnotation(Subcommand.class))))
-                    .forEach(command -> {
-                        final CommandData parentCommand = commands.stream()
-                                .filter(data -> data.isParentOfSubCommand(command.getAnnotation(Subcommand.class)))
-                                .findFirst().orElse(null);
-
-                        assert parentCommand != null;
-                        parentCommand.getSubcommands().add(new SubcommandData(object, command));
+            parentCommandMethods.stream()
+                    .map(command -> new CommandData(object, command))
+                    .forEach(commandData -> {
+                        this.commands.add(commandData);
+                        this.getCommandMap().register(fallbackPrefix, new CustomCommand(commandData));
                     });
+
+            subCommandMethods.stream()
+                    .filter(command -> commands.stream()
+                            .anyMatch(commandData -> commandData.isParentOfSubCommand(command.getAnnotation(Subcommand.class)))
+                    ).forEach(command -> commands.stream()
+                    .filter(data -> data.isParentOfSubCommand(command.getAnnotation(Subcommand.class)))
+                    .findFirst().ifPresent(parentCommand -> parentCommand.getSubcommands().add(new SubcommandData(object, command))));
         });
+    }
+
+    /**
+     * Get all methods which have an annotation
+     *
+     * @param clazz      the class to find the methods in
+     * @param annotation the annotation the methods must have
+     * @return the list of methods
+     */
+    private Set<Method> getMethodsByAnnotation(Class<?> clazz, Class<? extends Annotation> annotation) {
+        return Arrays.stream(clazz.getMethods())
+                .filter(method -> method.getAnnotation(annotation) != null)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -111,9 +116,9 @@ public class CommandController implements Controller {
 
         try {
             if (Bukkit.getPluginManager() instanceof SimplePluginManager) {
-                Field f = SimplePluginManager.class.getDeclaredField("commandMap");
-                f.setAccessible(true);
+                final Field f = SimplePluginManager.class.getDeclaredField("commandMap");
 
+                f.setAccessible(true);
                 commandMap = (CommandMap) f.get(Bukkit.getPluginManager());
             }
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {

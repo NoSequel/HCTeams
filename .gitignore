@@ -1,3 +1,9 @@
-idea/
-target/
+# Custom .gitignore generated with https://github.com/NoSequel/gitignore-script
+
+# Maven
+dependency-reduced-pom.xml
+
+# JetBrains
+.idea/
 *.iml
+target/

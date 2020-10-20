@@ -39,7 +39,7 @@ public interface Loadable<T extends Data> {
      *
      * @param data the data object
      */
-    default void removeData(T data) { this.getData().remove(data); }
+    default void removeData(T data) { this.getData().add(data); }
 
     /**
      * Add a data object to the Loadable

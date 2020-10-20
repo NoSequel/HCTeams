@@ -19,27 +19,30 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onAsyncChat(AsyncPlayerChatEvent event) {
-        event.setCancelled(true);
-        final Player player = event.getPlayer();
+        if (!event.isCancelled()) {
+            event.setCancelled(true);
+            final Player player = event.getPlayer();
 
-        try {
-            final String message = event.getMessage();
+            try {
+                final String message = event.getMessage();
 
-            if (!this.isAlphanumericSpace(message)) {
-                player.sendMessage(ChatColor.RED + "Messages may only contain English letters.");
-                return;
+                if (!this.isAlphanumericSpace(message)) {
+                    player.sendMessage(ChatColor.RED + "Messages may only contain English letters.");
+                    return;
+                }
+
+                final Team team = teamController.findTeam(player);
+
+                event.getRecipients().forEach(recipient -> {
+                    final String teamPrefix = team == null ? "" : ChatColor.GOLD + "[" + team.getDisplayName(recipient) + ChatColor.GOLD + "]";
+
+                    recipient.sendMessage(teamPrefix + ChatColor.WHITE + (player.getCustomName() == null ? player.getName() : player.getCustomName()) + ChatColor.WHITE + ": " + message);
+                });
+
+            } catch (Exception exception) {
+                player.sendMessage(ChatColor.RED + "Something has happend while processing your message");
+                exception.printStackTrace();
             }
-
-            final Team team = teamController.findTeam(player);
-
-            event.getRecipients().forEach(recipient -> {
-                final String teamPrefix = team == null ? "" : ChatColor.GOLD + "[" + team.getDisplayName(recipient) + ChatColor.GOLD + "]";
-
-                recipient.sendMessage(teamPrefix + ChatColor.WHITE + (player.getCustomName() == null ? player.getName() : player.getCustomName()) + ChatColor.WHITE + ": " + message);
-            });
-        } catch (Exception exception) {
-            player.sendMessage(ChatColor.RED + "Something has happend while processing your message");
-            exception.printStackTrace();
         }
     }
 

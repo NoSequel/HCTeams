@@ -26,8 +26,7 @@ public class CombatTimer extends Timer {
             final Player damager = (Player) event.getDamager();
             final TeleportTimer teleportTimer = timerController.findTimer(TeleportTimer.class);
 
-            Arrays
-                    .asList(player, damager)
+            Arrays.asList(player, damager)
                     .forEach(target -> {
                         this.start(target);
 

@@ -72,39 +72,33 @@ public class CustomCommand extends Command {
             for (int i = 0; i < parameters.length; i++) {
                 final Parameter parameter = parameters[i];
                 final io.github.nosequel.hcf.util.command.annotation.Parameter param = parameter.getAnnotation(io.github.nosequel.hcf.util.command.annotation.Parameter.class);
+                String value;
 
                 if (i >= args.length && (param == null || param.value().isEmpty())) {
                     sender.sendMessage(ChatColor.RED + "Usage: /" + label + " " + Arrays.stream(parameters).map(parameter1 -> "<" + parameter1.getName() + ">").collect(Collectors.joining(" ")));
                     return true;
-                } else if (param != null && !param.value().isEmpty() && i >= args.length) {
-                    final TypeAdapter<?> typeAdapter = CommandController.getInstance().findConverter(parameter.getType());
-
-                    if (typeAdapter != null) {
-                        try {
-                            objects[i] = typeAdapter.convert(sender, param.value());
-                        } catch (Exception exception) {
-                            typeAdapter.handleException(sender, param.value());
-                        }
-                    } else {
-                        objects[i] = param.value();
-                    }
-
                 } else {
-                    final TypeAdapter<?> typeAdapter = CommandController.getInstance().findConverter(parameter.getType());
+                    value = param != null && !param.value().isEmpty() && i >= args.length ? param.value() : args[i];
+                }
 
-                    if (typeAdapter == null) {
-                        objects[i] = args[i];
-                    } else {
+                final TypeAdapter<?> typeAdapter = CommandController.getInstance().findConverter(parameter.getType());
 
-                        try {
-                            objects[i] = typeAdapter.convert(sender, args[i]);
-                        } catch (Exception exception) {
-                            typeAdapter.handleException(sender, args[i]);
-                            return true;
+                if (typeAdapter == null) {
+                    objects[i] = value;
+                } else {
+                    try {
+                        objects[i] = typeAdapter.convert(sender, value);
+
+                        if (objects[i] == null) {
+                            throw new NullPointerException("Error while converting argument to object");
                         }
+                    } catch (Exception exception) {
+                        typeAdapter.handleException(sender, value);
+                        return true;
                     }
                 }
             }
+
 
             objects = ArrayUtils.add(objects, 0, method.getParameters()[0].getType().cast(sender));
 
