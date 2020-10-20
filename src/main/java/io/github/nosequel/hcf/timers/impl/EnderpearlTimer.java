@@ -29,13 +29,12 @@ public class EnderpearlTimer extends Timer {
             if (this.isOnCooldown(player)) {
                 player.sendMessage(ChatColor.RED + "You are currently still on an enderpearl cooldown.");
                 event.setCancelled(true);
-                return;
-            }
+            } else {
+                this.start(player);
 
-            this.start(player);
-
-            if (teleportTimer.isOnCooldown(player)) {
-                teleportTimer.cancel(player);
+                if (teleportTimer.isOnCooldown(player)) {
+                    teleportTimer.cancel(player);
+                }
             }
         }
     }
